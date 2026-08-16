@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime Movies — Cinevora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="module" src="/js/ads.js"></script>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="site-header scrolled">
+    <div class="container header-inner">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/anime.html">Anime</a></li>
+        <li><a href="/movies.html" class="active">Movies</a></li>
+        <li><a href="/series.html">Series</a></li>
+        <li><a href="/search.html">Search</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <button class="search-trigger">Search...</button>
+        <div id="header-user-actions"></div>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 7rem; margin-bottom: 4rem;">
+    <!-- Ad Slot MOVIE_TOP -->
+    <div data-ad-slot="MOVIE_TOP"></div>
+
+    <div class="section-header">
+      <h1 class="section-title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Anime Feature Films
+      </h1>
+      <span style="color: var(--text-muted); font-size: 0.9rem;" id="movies-count">Loading films...</span>
+    </div>
+
+    <!-- Ad Slot MOVIE_MIDDLE -->
+    <div data-ad-slot="MOVIE_MIDDLE"></div>
+
+    <div class="anime-grid" id="movies-grid">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Ad Slot MOVIE_BOTTOM -->
+    <div data-ad-slot="MOVIE_BOTTOM"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Cinevora. Legal Anime Streaming.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { API } from '/js/api.js?v=3';
+    import { createAnimeCard } from '/js/app.js';
+
+    async function loadMovies() {
+      const grid = document.getElementById('movies-grid');
+      try {
+        const data = await API.getAnime({ type: 'MOVIE' });
+        document.getElementById('movies-count').textContent = `${data.count} movies available`;
+        grid.innerHTML = data.anime.map(item => createAnimeCard(item)).join('');
+      } catch (err) {
+        grid.innerHTML = `<div class="state-box" style="grid-column: 1 / -1; color: #ef4444;">Failed to load movies.</div>`;
+      }
+    }
+
+    loadMovies();
+  </script>
+</body>
+</html>

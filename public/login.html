@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account — Cinevora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="site-header scrolled">
+    <div class="container header-inner">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/anime.html">Anime</a></li>
+        <li><a href="/movies.html">Movies</a></li>
+        <li><a href="/series.html">Series</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <div id="header-user-actions"></div>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 6rem; margin-bottom: 4rem;" id="account-page-view">
+    <div class="state-box"><div class="spinner"></div></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Cinevora. Secure Authentication.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+    import { createAnimeCard } from '/js/app.js';
+
+    async function initAccountPage() {
+      const container = document.getElementById('account-page-view');
+      try {
+        const me = await API.me();
+
+        if (me.authenticated && me.user) {
+          // Logged In -> Show Profile Dashboard
+          const watchlistData = await API.getWatchlist();
+          const favoritesData = await API.getFavorites();
+          const historyData = await API.getHistory();
+
+          container.innerHTML = `
+            <div class="glass-panel" style="padding: 2.5rem; border-radius: 20px; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+              <img src="${me.user.avatar}" alt="${me.user.username}" style="width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--accent-purple); object-fit: cover;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <h1 style="font-size: 1.8rem; font-weight: 800;">${me.user.username}</h1>
+                  <span class="badge badge-purple">${me.user.role}</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.25rem;">${me.user.email}</div>
+                <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.5rem;">Member since ${new Date(me.user.created_at).toLocaleDateString()}</div>
+              </div>
+              <div style="margin-left: auto;">
+                <button id="account-logout-btn" class="btn btn-glass" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.4);">Sign Out</button>
+              </div>
+            </div>
+
+            <!-- Tabbed Saved Content -->
+            <div style="margin-bottom: 3rem;">
+              <div class="section-header">
+                <h2 class="section-title">My Saved Watchlist (${watchlistData.count || 0})</h2>
+              </div>
+              <div class="anime-grid">
+                ${watchlistData.watchlist && watchlistData.watchlist.length > 0
+                  ? watchlistData.watchlist.map(item => createAnimeCard(item)).join('')
+                  : `<div class="glass-panel state-box" style="grid-column: 1 / -1; padding:2rem;">Your watchlist is currently empty. Explore the library to save titles!</div>`
+                }
+              </div>
+            </div>
+
+            <div>
+              <div class="section-header">
+                <h2 class="section-title">Recently Watched History</h2>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                ${historyData.history && historyData.history.length > 0
+                  ? historyData.history.map(item => item.anime ? `
+                    <div class="glass-panel" style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 12px;">
+                      <img src="${item.anime.poster}" alt="${item.anime.title}" style="width: 60px; height: 80px; object-fit: cover; border-radius: 8px;">
+                      <div style="flex-grow: 1;">
+                        <h4 style="font-size: 1.1rem; font-weight: 700;">${item.anime.title}</h4>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                          Watched on ${new Date(item.watched_at).toLocaleString()}
+                        </div>
+                      </div>
+                      <a href="/watch.html?id=${item.anime.id}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Continue Watching</a>
+                    </div>
+                  ` : '').join('')
+                  : `<div class="glass-panel state-box" style="padding: 2rem;">No watch history recorded yet.</div>`
+                }
+              </div>
+            </div>
+          `;
+
+          document.getElementById('account-logout-btn').addEventListener('click', async () => {
+            await API.logout();
+            window.location.reload();
+          });
+
+        } else {
+          // Not Logged In -> Render Login / Register Form
+          const isRegisterMode = window.location.hash === '#register';
+
+          container.innerHTML = `
+            <div class="glass-panel auth-box">
+              <div style="text-align: center;">
+                <h2 id="auth-title" style="font-size: 1.8rem; font-weight: 800;">${isRegisterMode ? 'Create Account' : 'Welcome Back'}</h2>
+                <p id="auth-subtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+                  ${isRegisterMode ? 'Sign up to build your watchlist and save progress' : 'Sign in to access your Cinevora account'}
+                </p>
+              </div>
+
+              <form id="auth-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                <div class="form-group" id="username-group" style="${isRegisterMode ? 'display:flex;' : 'display:none;'}">
+                  <label class="form-label" id="username-label">Username</label>
+                  <input type="text" id="auth-username" class="form-control" placeholder="Choose a unique username">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" id="email-label">${isRegisterMode ? 'Email Address' : 'Email or Username'}</label>
+                  <input type="${isRegisterMode ? 'email' : 'text'}" id="auth-email" class="form-control" placeholder="${isRegisterMode ? 'yourname@example.com' : 'user@cinevora.com or username'}" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Password</label>
+                  <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <div id="auth-error-msg" style="display: none; color: #ef4444; font-size: 0.85rem; text-align: center; background: rgba(239, 68, 68, 0.1); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);"></div>
+
+                <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">
+                  ${isRegisterMode ? 'Create Account' : 'Sign In'}
+                </button>
+              </form>
+
+              <div style="text-align: center; font-size: 0.875rem; color: var(--text-muted);">
+                <span id="auth-toggle-text">${isRegisterMode ? 'Already have an account?' : "Don't have an account?"}</span>
+                <button id="auth-toggle-btn" style="background: none; border: none; color: var(--accent-blue); font-weight: 700; cursor: pointer; margin-left: 0.35rem;">
+                  ${isRegisterMode ? 'Sign In' : 'Register'}
+                </button>
+              </div>
+            </div>
+          `;
+
+          let currentRegisterState = isRegisterMode;
+          const toggleBtn = document.getElementById('auth-toggle-btn');
+          const title = document.getElementById('auth-title');
+          const subtitle = document.getElementById('auth-subtitle');
+          const submitBtn = document.getElementById('auth-submit-btn');
+          const userGroup = document.getElementById('username-group');
+          const emailInput = document.getElementById('auth-email');
+          const emailLabel = document.getElementById('email-label');
+          const usernameInput = document.getElementById('auth-username');
+          const toggleText = document.getElementById('auth-toggle-text');
+          const form = document.getElementById('auth-form');
+          const errorMsg = document.getElementById('auth-error-msg');
+
+          toggleBtn.addEventListener('click', () => {
+            currentRegisterState = !currentRegisterState;
+            window.location.hash = currentRegisterState ? 'register' : '';
+            userGroup.style.display = currentRegisterState ? 'flex' : 'none';
+            emailLabel.textContent = currentRegisterState ? 'Email Address' : 'Email or Username';
+            emailInput.type = currentRegisterState ? 'email' : 'text';
+            emailInput.placeholder = currentRegisterState ? 'yourname@example.com' : 'user@cinevora.com or username';
+            title.textContent = currentRegisterState ? 'Create Account' : 'Welcome Back';
+            subtitle.textContent = currentRegisterState ? 'Sign up to build your watchlist and save progress' : 'Sign in to access your Cinevora account';
+            submitBtn.textContent = currentRegisterState ? 'Create Account' : 'Sign In';
+            toggleText.textContent = currentRegisterState ? 'Already have an account?' : "Don't have an account?";
+            errorMsg.style.display = 'none';
+          });
+
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            const emailOrUser = emailInput.value.trim();
+            const password = document.getElementById('auth-password').value;
+            const username = usernameInput.value.trim();
+
+            if (currentRegisterState) {
+              if (!username || username.length < 3) {
+                errorMsg.textContent = 'Please choose a username of at least 3 characters.';
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account';
+                return;
+              }
+              if (!emailOrUser || !emailOrUser.includes('@')) {
+                errorMsg.textContent = 'Please enter a valid email address.';
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account';
+                return;
+              }
+            }
+
+            try {
+              let res;
+              if (currentRegisterState) {
+                res = await API.register(username, emailOrUser, password);
+              } else {
+                res = await API.login(emailOrUser, password);
+              }
+
+              if (res.error) {
+                errorMsg.textContent = res.error;
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = currentRegisterState ? 'Create Account' : 'Sign In';
+              } else {
+                // Clear register hash and reload view as authenticated
+                if (window.location.hash === '#register') {
+                  history.replaceState(null, '', window.location.pathname);
+                }
+                initAccountPage();
+              }
+            } catch (err) {
+              errorMsg.textContent = 'Authentication error. Please try again.';
+              errorMsg.style.display = 'block';
+              submitBtn.disabled = false;
+              submitBtn.textContent = currentRegisterState ? 'Create Account' : 'Sign In';
+            }
+          });
+        }
+      } catch (err) {
+        container.innerHTML = `<div class="state-box glass-panel" style="color:#ef4444;">Failed to load profile.</div>`;
+      }
+    }
+
+    initAccountPage();
+  </script>
+</body>
+</html>

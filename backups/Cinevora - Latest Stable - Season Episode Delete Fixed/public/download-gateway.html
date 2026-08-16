@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Verification — Cinevora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="module" src="/js/ads.js"></script>
+  <style>
+    .interstitial-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .countdown-box {
+      background: rgba(147, 51, 234, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 16px;
+      padding: 1.75rem 1.25rem;
+      margin: 1.5rem 0;
+      transition: all 0.3s ease;
+    }
+    .timer-badge {
+      display: inline-block;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #a855f7;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.5rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      margin: 0.75rem 0;
+      letter-spacing: 0.05em;
+    }
+    .action-btn {
+      padding: 0.95rem 2rem;
+      font-size: 1rem;
+      font-weight: 800;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body id="gateway-body">
+  <div class="ambient-bg"></div>
+
+  <header class="site-header scrolled">
+    <div class="container header-inner" style="justify-content: center;">
+      <a href="/" class="brand-logo" style="margin: 0 auto;">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 5rem; margin-bottom: 4rem;">
+    <!-- Top Ad Placements -->
+    <div data-ad-slot="DOWNLOAD_PAGE_TOP"></div>
+
+    <div id="download-container" style="margin: 1.5rem auto;">
+      <div class="state-box"><div class="spinner"></div></div>
+    </div>
+
+    <!-- Bottom Ad Placements -->
+    <div data-ad-slot="DOWNLOAD_GATEWAY_BOTTOM"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="text-align: center;">
+      <div>&copy; 2026 Cinevora. Fast Secure Gateway.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+    import { CinevoraAds } from '/js/ads.js';
+
+        const urlParams = new URLSearchParams(window.location.search);
+    const animeId = urlParams.get('id');
+    const episodeId = urlParams.get('ep');
+    const qualityId = urlParams.get('q');
+    const mirrorId = urlParams.get('m');
+
+    async function loadGateway() {
+      const container = document.getElementById('download-container');
+      if (!animeId) {
+        container.innerHTML = `<div class="interstitial-card"><h3>No content specified.</h3><a href="/" class="btn btn-primary" style="margin-top:1rem;">Back to Home</a></div>`;
+        return;
+      }
+
+      try {
+        const { anime, episodes } = await API.getAnimeById(animeId);
+        const pageSettings = await API.getPageSettings();
+
+        const stg1 = pageSettings?.download_step1 || {
+          title: 'Download Verification Step 1',
+          heading: 'DOWNLOAD VERIFICATION',
+          description: 'Please wait for link verification to complete...',
+          button_text: 'CLICK HERE TO CONTINUE',
+          countdown_seconds: 10
+        };
+
+        const stg3 = pageSettings?.episode_download || {
+          heading: 'STEP 2: FINAL VERIFICATION',
+          description: 'Click below to proceed to fast download mirrors.',
+          button_text: 'DOWNLOAD NOW',
+          countdown_seconds: 10
+        };
+
+        let currentEpisode = null;
+        if (episodeId && episodes) {
+          currentEpisode = episodes.find(e => e.id === episodeId);
+        }
+
+        const titleText = currentEpisode 
+          ? `${anime.title} — ${currentEpisode.season_number ? `Season ${currentEpisode.season_number} ` : ''}Episode ${currentEpisode.episode_number}: ${currentEpisode.title}`
+          : anime.title;
+
+        document.title = `Download Verification — ${titleText} | Cinevora`;
+
+        container.innerHTML = `
+          <div class="interstitial-card">
+            <h1 style="font-size: 1.6rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.3rem;">
+              Downloading: ${titleText}
+            </h1>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem;">
+              Follow the verification steps below to generate high-speed download links.
+            </p>
+
+            <!-- Above Countdown Ad Slot -->
+            <div data-ad-slot="DOWNLOAD_ABOVE_BUTTON"></div>
+
+            <!-- STEP 1 COUNTDOWN BOX -->
+            <div id="step1-box" class="countdown-box">
+              <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #a855f7; font-weight: 800; margin-bottom: 0.4rem;">
+                STEP 1 VERIFICATION
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.4rem;">${stg1.heading}</h3>
+              <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 0.75rem;" id="step1-desc">
+                ${stg1.description}
+              </p>
+
+              <div id="step1-timer-display" class="timer-badge">${stg1.countdown_seconds || 10}</div>
+
+              <!-- Between Countdown and Button Ad Slot -->
+              <div data-ad-slot="DOWNLOAD_BETWEEN_COUNTDOWNS" style="margin: 1rem 0;"></div>
+
+              <button id="step1-btn" class="btn btn-primary action-btn" disabled style="display: block; margin: 1rem auto 0 auto;">
+                Please wait <span id="timer-count">${stg1.countdown_seconds || 10}</span> seconds...
+              </button>
+            </div>
+
+            <!-- Below Countdown / Button Ad Slot -->
+            <div data-ad-slot="DOWNLOAD_BELOW_BUTTON"></div>
+
+            <!-- Interstitial Ads between Step 1 and Step 2 -->
+            <div id="interstitial-ads-container" style="display: none; margin-top: 2rem;">
+              <div data-ad-slot="DOWNLOAD_INTERSTITIAL_TOP"></div>
+              <div style="height: 1.5rem;"></div>
+              <div data-ad-slot="DOWNLOAD_INTERSTITIAL_MIDDLE"></div>
+              <div style="height: 1.5rem;"></div>
+              <div data-ad-slot="DOWNLOAD_INTERSTITIAL_ABOVE_COUNTDOWN"></div>
+            </div>
+
+            <!-- STEP 2 / FINAL GATEWAY BOX -->
+            <div id="step2-box" class="countdown-box" style="display: none; border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); margin-top: 2rem;">
+              <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #38bdf8; font-weight: 800; margin-bottom: 0.4rem;">
+                STEP 2 VERIFICATION
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 800; color: #f8fafc; margin-bottom: 0.4rem;">${stg3.heading || 'FINAL STEP'}</h3>
+              <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 0.75rem;" id="step2-desc">
+                ${stg3.description}
+              </p>
+
+              <div id="step2-timer-display" class="timer-badge" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">${stg3.countdown_seconds || 10}</div>
+
+              <button id="step2-btn" class="btn btn-primary action-btn" disabled style="display: block; margin: 1rem auto 0 auto; background: #0284c7;">
+                Please wait <span id="timer2-count">${stg3.countdown_seconds || 10}</span> seconds...
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Render ads in newly created slots
+        if (CinevoraAds && typeof CinevoraAds.initAllSlots === 'function') {
+          CinevoraAds.initAllSlots();
+        }
+
+        // STEP 1 TIMER LOGIC
+        const step1Btn = document.getElementById('step1-btn');
+        const timerDisplay = document.getElementById('step1-timer-display');
+        const timerCountSpan = document.getElementById('timer-count');
+        const step2Box = document.getElementById('step2-box');
+
+        let seconds1 = stg1.countdown_seconds !== undefined ? Number(stg1.countdown_seconds) : 10;
+        if (seconds1 < 1) seconds1 = 1;
+
+        const interval1 = setInterval(() => {
+          seconds1--;
+          if (seconds1 > 0) {
+            timerDisplay.innerText = seconds1;
+            timerCountSpan.innerText = seconds1;
+          } else {
+            clearInterval(interval1);
+            timerDisplay.innerText = '✔';
+            step1Btn.disabled = false;
+            step1Btn.innerText = stg1.button_text || 'CLICK HERE TO CONTINUE';
+            step1Btn.style.background = '#22c55e';
+
+            let step2Triggered = false;
+            step1Btn.addEventListener('click', () => {
+              if (step2Triggered) return;
+              step2Triggered = true;
+              step1Btn.disabled = true;
+              step1Btn.style.opacity = '0.7';
+              
+              const interstitialAds = document.getElementById('interstitial-ads-container');
+              if (interstitialAds) {
+                interstitialAds.style.display = 'block';
+                // Initialize the new ad slots that are now visible
+                if (CinevoraAds && typeof CinevoraAds.initAllSlots === 'function') {
+                  CinevoraAds.initAllSlots();
+                }
+              }
+
+              step2Box.style.display = 'block';
+              
+              if (interstitialAds) {
+                interstitialAds.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              } else {
+                step2Box.scrollIntoView({ behavior: 'smooth' });
+              }
+
+              // START STEP 2 TIMER
+              startStep2Timer();
+            });
+          }
+        }, 1000);
+
+        function startStep2Timer() {
+          const step2Btn = document.getElementById('step2-btn');
+          const timer2Display = document.getElementById('step2-timer-display');
+          const timer2CountSpan = document.getElementById('timer2-count');
+
+          let seconds2 = stg3.countdown_seconds !== undefined ? Number(stg3.countdown_seconds) : 10;
+          if (seconds2 < 1) seconds2 = 1;
+
+          const interval2 = setInterval(() => {
+            seconds2--;
+            if (seconds2 > 0) {
+              timer2Display.innerText = seconds2;
+              timer2CountSpan.innerText = seconds2;
+            } else {
+              clearInterval(interval2);
+              timer2Display.innerText = '✔';
+              step2Btn.disabled = false;
+              step2Btn.innerText = stg3.button_text || 'DOWNLOAD NOW';
+              step2Btn.style.background = '#22c55e';
+
+              step2Btn.addEventListener('click', () => {
+                window.location.href = `/download-links.html?id=${animeId}${episodeId ? `&ep=${episodeId}` : ''}${qualityId ? `&q=${qualityId}` : ''}${mirrorId ? `&m=${mirrorId}` : ''}`;
+              });
+            }
+          }, 1000);
+        }
+
+      } catch (err) {
+        container.innerHTML = `<div class="interstitial-card" style="color:#ef4444;">Error loading gateway: ${err.message}</div>`;
+      }
+    }
+
+    loadGateway();
+  </script>
+</body>
+</html>

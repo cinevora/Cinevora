@@ -1,0 +1,49 @@
+{
+  "settings": {
+    "rateLimitEnabled": true,
+    "rateLimitRpm": 120,
+    "loginProtectionEnabled": true,
+    "maxFailedLoginAttempts": 5,
+    "loginCooldownMinutes": 10,
+    "suspiciousRequestThreshold": 10,
+    "uploadMaxMb": 5,
+    "securityAlertsEnabled": true
+  },
+  "failedLoginCount": 2,
+  "blockedRequestsCount": 0,
+  "rateLimitedRequestsCount": 0,
+  "suspiciousRequestsCount": 0,
+  "uploadSecurityEventsCount": 0,
+  "apiAbuseEventsCount": 0,
+  "lastSecurityCheckTime": "2026-08-13T17:50:31.856Z",
+  "incidents": [],
+  "blockedSources": [],
+  "securityLogs": [
+    {
+      "id": "sec_log_1786644296542_py2wn",
+      "timestamp": "2026-08-13T18:04:56.542Z",
+      "eventType": "FAILED_LOGIN",
+      "severity": "WARNING",
+      "endpoint": "/api/auth/login",
+      "feature": "Admin Auth",
+      "status": 401,
+      "reason": "Failed admin login attempt #2 for user/IP",
+      "clientIdentifier": "127.0.0.1",
+      "userAgent": "node",
+      "actionTaken": "Log & Delay Cooldown"
+    },
+    {
+      "id": "sec_log_1786644284761_hhfex",
+      "timestamp": "2026-08-13T18:04:44.761Z",
+      "eventType": "FAILED_LOGIN",
+      "severity": "WARNING",
+      "endpoint": "/api/auth/login",
+      "feature": "Admin Auth",
+      "status": 401,
+      "reason": "Failed admin login attempt #1 for user/IP",
+      "clientIdentifier": "127.0.0.1",
+      "userAgent": "node",
+      "actionTaken": "Log & Delay Cooldown"
+    }
+  ]
+}

@@ -1,0 +1,2070 @@
+{
+  "users": [
+    {
+      "id": "usr-admin",
+      "username": "superadmin",
+      "email": "deepseek7772@gmail.com",
+      "password_hash": "$2b$10$xZr8eyC819vkrwObLeQu7OqHdxBjbW0vPC8/7Dfvr14Ko5EKCb6oy",
+      "role": "SUPER_ADMIN",
+      "status": "ACTIVE",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "created_at": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "usr-editor",
+      "username": "editor_anime",
+      "email": "editor@cinevora.com",
+      "password_hash": "$2b$10$.Dat9g.Jwc/KGgElAERoTOUhr4Cc2udHz0LZXqEo6WX1hh4GeYUz2",
+      "role": "EDITOR",
+      "status": "ACTIVE",
+      "avatar": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80",
+      "created_at": "2026-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "usr-demo",
+      "username": "otaku_master",
+      "email": "user@cinevora.com",
+      "password_hash": "$2b$10$9P8eXz7kQh7LeCtH7VTypOVQjVWYlUSTN.kJIS4cISStOO.N0e7pC",
+      "role": "USER",
+      "status": "ACTIVE",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      "created_at": "2026-01-10T00:00:00.000Z"
+    },
+    {
+      "username": "Bilal",
+      "email": "shariquebilal1@gmail.com",
+      "password_hash": "$2b$10$0lfq9KGQd/09.iDThO0JwO5QNOE1LzIv4GM6h4i2x8QqACRhdD1gu",
+      "role": "USER",
+      "status": "ACTIVE",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "id": "usr-1786422243400-8wq7",
+      "created_at": "2026-08-11T04:24:03.400Z"
+    },
+    {
+      "username": "testotaku",
+      "email": "testotaku@cinevora.com",
+      "password_hash": "$2b$10$1l9RsGv4O4jlE.1xWpc1O.J/iyLKAwcyRvHw.lUy0j/6.7aVqIPqO",
+      "role": "USER",
+      "status": "ACTIVE",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "id": "usr-1786422613048-02do",
+      "created_at": "2026-08-11T04:30:13.048Z"
+    }
+  ],
+  "anime": [
+    {
+      "title": "Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download",
+      "slug": "Undercover behind enemy lines, Jooheon’s newest plan to torment TKBM will involve taking them down from the inside! Stealing their relics and causing infighting is just the tip of the iceberg on what he’ll do to make the group pay for their sins. But with the appearance of the Tower of Pride, Jooheon’s skills in rage-baiting will truly be tested as he must pit the most fearsome warlords against each other! Will Jooheon Suh come out on top in the battle of the greatest conquerors of history?",
+      "description": "Updated test description without poster URL",
+      "poster": "/uploads/poster-1786628004873-s8z1i.png",
+      "backdrop": "https://lh3.googleusercontent.com/d/10UdjvnUl5PHt--E5XiMpnhxJbaoofydM",
+      "banner": "/uploads/banner-1786465653305-5si77.png",
+      "genres": [
+        "Sci-Fi",
+        "Action"
+      ],
+      "year": 2026,
+      "rating": 70,
+      "type": "ANIME",
+      "status": "ONGOING",
+      "language": "(Multi Audio)",
+      "trailer_url": "",
+      "video_url": "https://drive.google.com/file/d/1NHZw_1y-jbzJ0kVFLFA94macIZzuqCle/view?usp=drivesdk",
+      "is_featured": true,
+      "is_trending": false,
+      "id": "ani-1786426691127",
+      "created_at": "2026-08-11T05:38:11.127Z",
+      "download_links": [
+        {
+          "id": "dl-1786644039768-sl94",
+          "anime_id": "ani-1786426691127",
+          "host_name": "Server 3 (Dropbox)",
+          "label": "Storage Box",
+          "url": "https://dropbox.com/s/sample",
+          "enabled": true,
+          "order": 1,
+          "updated_at": "2026-08-13T18:00:39.768Z"
+        }
+      ],
+      "duration": "",
+      "thumbnail": "https://lh3.googleusercontent.com/d/10UdjvnUl5PHt--E5XiMpnhxJbaoofydM",
+      "seo_title": "",
+      "seo_description": "",
+      "seo_keywords": "",
+      "banner_image_url": "/uploads/banner-1786465653305-5si77.png",
+      "poster_image_url": "/uploads/poster-1786628004873-s8z1i.png"
+    },
+    {
+      "id": "ani-1",
+      "title": "Cyberpulse: Neon Genesis 2088",
+      "slug": "cyberpulse-neon-genesis-2088",
+      "description": "In Neo-Tokyo 2088, a rogue cyber-detective unlocks a hidden AI core that holds the key to human consciousness and orbital space megastructures.",
+      "poster": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1563089145-599997674d42?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Sci-Fi",
+        "Action",
+        "Cyberpunk",
+        "Mecha"
+      ],
+      "year": 2026,
+      "rating": 9.4,
+      "type": "SERIES",
+      "status": "ONGOING",
+      "language": "Japanese (Sub / Dub)",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "is_featured": true,
+      "is_trending": true,
+      "created_at": "2026-01-15T00:00:00.000Z",
+      "download_links": [
+        {
+          "id": "dl-ani-1-1",
+          "anime_id": "ani-1",
+          "host_name": "Server 1 (Primary Cloud)",
+          "label": "Direct Fast Mirror Node #1",
+          "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+          "enabled": true,
+          "order": 1
+        },
+        {
+          "id": "dl-ani-1-2",
+          "anime_id": "ani-1",
+          "host_name": "Server 2 (Google Drive)",
+          "label": "Backup Authorized Cloud Link",
+          "url": "https://drive.google.com",
+          "enabled": true,
+          "order": 2
+        },
+        {
+          "id": "dl-ani-1-3",
+          "anime_id": "ani-1",
+          "host_name": "Server 3 (Mega Mirror)",
+          "label": "High Speed Storage Node",
+          "url": "https://mega.nz",
+          "enabled": true,
+          "order": 3
+        }
+      ]
+    },
+    {
+      "id": "ani-2",
+      "title": "Solaris: Blade of the Eclipse",
+      "slug": "solaris-blade-of-the-eclipse",
+      "description": "A legendary swordswoman born under a dying celestial star must journey across nine floating realms to seal the abyss before total eternal night.",
+      "poster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Fantasy",
+        "Action",
+        "Adventure",
+        "Supernatural"
+      ],
+      "year": 2025,
+      "rating": 9.1,
+      "type": "SERIES",
+      "status": "COMPLETED",
+      "language": "Japanese (Sub)",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "is_featured": true,
+      "is_trending": true,
+      "created_at": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "ani-3",
+      "title": "Aetheria: Last Vanguard",
+      "slug": "aetheria-last-vanguard",
+      "description": "When alien leviathans emerge from sky rifts, an elite squad of mech pilots forms humanity’s last defensive line over metropolis spires.",
+      "poster": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Sci-Fi",
+        "Mecha",
+        "Action"
+      ],
+      "year": 2025,
+      "rating": 8.8,
+      "type": "MOVIE",
+      "status": "COMPLETED",
+      "language": "Japanese / English",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "is_featured": true,
+      "is_trending": false,
+      "created_at": "2026-02-10T00:00:00.000Z"
+    },
+    {
+      "id": "ani-4",
+      "title": "Chrono Horizon: Zero Hour",
+      "slug": "chrono-horizon-zero-hour",
+      "description": "A time-loop thriller where a quantum physicist tries to prevent a cataclysmic singularity while navigating alternate timeline realities.",
+      "poster": "https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Sci-Fi",
+        "Mystery",
+        "Psychological"
+      ],
+      "year": 2026,
+      "rating": 9.3,
+      "type": "SERIES",
+      "status": "ONGOING",
+      "language": "Japanese (Sub / Dub)",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "is_featured": false,
+      "is_trending": true,
+      "created_at": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "ani-5",
+      "title": "Phantom Resonance",
+      "slug": "phantom-resonance",
+      "description": "Musicians in an underground cyberpunk city channel soul vibrations to break free from totalitarian surveillance algorithms.",
+      "poster": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Music",
+        "Cyberpunk",
+        "Drama"
+      ],
+      "year": 2024,
+      "rating": 8.7,
+      "type": "MOVIE",
+      "status": "COMPLETED",
+      "language": "Japanese (Sub)",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "is_featured": false,
+      "is_trending": false,
+      "created_at": "2025-11-20T00:00:00.000Z"
+    },
+    {
+      "id": "ani-6",
+      "title": "Valkyrie Protocol: Rebirth",
+      "slug": "valkyrie-protocol-rebirth",
+      "description": "An android warrior reawakens 500 years after earth’s downfall and embarks on a quest to revive forgotten human culture.",
+      "poster": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1600&auto=format&fit=crop&q=80",
+      "banner": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1600&auto=format&fit=crop&q=80",
+      "genres": [
+        "Sci-Fi",
+        "Action",
+        "Adventure"
+      ],
+      "year": 2025,
+      "rating": 9,
+      "type": "SERIES",
+      "status": "COMPLETED",
+      "language": "Japanese / English",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "is_featured": false,
+      "is_trending": true,
+      "created_at": "2025-12-10T00:00:00.000Z"
+    }
+  ],
+  "episodes": [
+    {
+      "id": "ep-101",
+      "anime_id": "ani-1",
+      "season_number": 1,
+      "episode_number": 1,
+      "title": "Episode 1: Awakening in the Glass Spire",
+      "description": "Ren unlocks a encrypted neural node inside Neon Core, sparking a manhunt across Sector 7.",
+      "thumbnail": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80",
+      "duration": "24m",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "qualities": [
+        {
+          "id": "q-720",
+          "quality": "720p",
+          "codec": "x264",
+          "size": "190MB",
+          "video_url": "https://drive.google.com/file/d/watch_source_720/view",
+          "drive_file_id": "watch_source_720",
+          "status": "PUBLISHED",
+          "mirrors": [
+            {
+              "id": "m-1",
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/gd1/view",
+              "drive_file_id": "gd1"
+            },
+            {
+              "id": "m-2",
+              "name": "Google Drive 2",
+              "url": "https://drive.google.com/file/d/gd2/view",
+              "drive_file_id": "gd2"
+            },
+            {
+              "id": "m-3",
+              "name": "Backup Drive",
+              "url": "https://backup.drive/file"
+            }
+          ]
+        },
+        {
+          "id": "q-1080",
+          "quality": "1080p",
+          "codec": "x265",
+          "size": "336MB",
+          "video_url": "https://drive.google.com/file/d/watch_source_1080/view",
+          "drive_file_id": "watch_source_1080",
+          "status": "PUBLISHED",
+          "mirrors": [
+            {
+              "id": "m-4",
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/gd_1080/view",
+              "drive_file_id": "gd_1080"
+            },
+            {
+              "id": "m-5",
+              "name": "MEGA",
+              "url": "https://mega.nz/file"
+            }
+          ]
+        }
+      ],
+      "updated_at": "2026-08-13T07:08:24.029Z"
+    },
+    {
+      "id": "ep-102",
+      "anime_id": "ani-1",
+      "season_number": 1,
+      "episode_number": 2,
+      "title": "Episode 2: Quantum Echoes",
+      "description": "The squad investigates an abandoned orbital satellite broadcasting mysterious harmonic pulses.",
+      "thumbnail": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80",
+      "duration": "23m",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+    },
+    {
+      "id": "ep-103",
+      "anime_id": "ani-1",
+      "season_number": 1,
+      "episode_number": 3,
+      "title": "Episode 3: Orbital Overdrive",
+      "description": "An enemy mecha battalion ambushes the sky bridge during high solar flare radiation.",
+      "thumbnail": "https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80",
+      "duration": "25m",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    },
+    {
+      "id": "ep-201",
+      "anime_id": "ani-2",
+      "season_number": 1,
+      "episode_number": 1,
+      "title": "Episode 1: The Celestial Blade",
+      "description": "Lyra claims the Blade of the Eclipse as shadows engulf the northern kingdom of Aethelgard.",
+      "thumbnail": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80",
+      "duration": "24m",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+    },
+    {
+      "id": "ep-202",
+      "anime_id": "ani-2",
+      "season_number": 1,
+      "episode_number": 2,
+      "title": "Episode 2: Realm of Whispers",
+      "description": "Traversing the cloud bridge, Lyra confronts the guardian of the spectral winds.",
+      "thumbnail": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
+      "duration": "22m",
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+    },
+    {
+      "anime_id": "ani-1786426691127",
+      "season_number": 1,
+      "episode_number": 2,
+      "title": "Test Ep Title Updated",
+      "description": "",
+      "thumbnail": "",
+      "duration": "24m",
+      "video_url": "https://driveseed.org/file/5lt08b1tgNx9OuzfT05B",
+      "status": "PUBLISHED",
+      "is_published": true,
+      "id": "ep-1786524810670",
+      "created_at": "2026-08-12T08:53:30.670Z",
+      "download_links": [
+        {
+          "id": "dl-ep-1786524810670-1",
+          "anime_id": "ani-1786426691127",
+          "host_name": "Server 1 (High Speed)",
+          "label": "Direct Fast Mirror",
+          "url": "https://driveseed.org/file/5lt08b1tgNx9OuzfT05B",
+          "enabled": true,
+          "order": 1,
+          "updated_at": "2026-08-12T10:59:02.066Z"
+        },
+        {
+          "id": "dl-ep-1786524810670-2",
+          "anime_id": "ani-1786426691127",
+          "host_name": "Server 2 (Google Drive)",
+          "label": "Backup Authorized Cloud Link",
+          "url": "https://driveseed.org/file/5lt08b1tgNx9OuzfT05B",
+          "enabled": true,
+          "order": 2,
+          "updated_at": "2026-08-12T10:59:02.066Z"
+        }
+      ],
+      "updated_at": "2026-08-13T06:57:54.697Z",
+      "drive_file_id": "",
+      "qualities": [
+        {
+          "id": "q-1786602918122",
+          "quality": "720p",
+          "video_url": "https://new3.gdflix.io/file/L3BujceqnZGmVJ1",
+          "status": "PUBLISHED",
+          "mirrors": [
+            {
+              "id": "m-1786604039947",
+              "name": "Multi ",
+              "url": "https://pro.iqsmartgames.com/files/u0_ZHBPwa50FfcmuVEprkb00YuxOoy_Bq7bWyEw"
+            },
+            {
+              "id": "m-1786604176561",
+              "name": "MEGA",
+              "url": "https://mega.nz/file/vmQmRD4L#jLWHUTr9ctEdPsfW0VpDIgVCN0NpT_gzsHEG2h_Y5qI"
+            }
+          ],
+          "codec": "GDF"
+        },
+        {
+          "id": "q-1786603079089",
+          "quality": "480P x264 [Size: 107mb]",
+          "video_url": "https://new3.gdflix.io/file/L5v5YPabgMAJOoC",
+          "status": "PUBLISHED",
+          "mirrors": [],
+          "codec": "GDF"
+        }
+      ]
+    }
+  ],
+  "watch_history": [
+    {
+      "id": "hist-1786423863633",
+      "user_id": "usr-1786422243400-8wq7",
+      "anime_id": "ani-1",
+      "episode_id": "ep-101",
+      "progress_seconds": 0,
+      "watched_at": "2026-08-11T04:51:03.633Z"
+    },
+    {
+      "id": "hist-1786426734290",
+      "user_id": "usr-admin",
+      "anime_id": "ani-1786426691127",
+      "progress_seconds": 0,
+      "watched_at": "2026-08-13T18:43:42.639Z",
+      "episode_id": "ep-1786524810670"
+    }
+  ],
+  "watchlist": [
+    {
+      "id": "wl-1",
+      "user_id": "usr-demo",
+      "anime_id": "ani-1",
+      "added_at": "2026-08-11T04:08:01.954Z"
+    },
+    {
+      "id": "wl-2",
+      "user_id": "usr-demo",
+      "anime_id": "ani-2",
+      "added_at": "2026-08-11T04:08:01.954Z"
+    }
+  ],
+  "favorites": [
+    {
+      "id": "fav-1",
+      "user_id": "usr-demo",
+      "anime_id": "ani-1",
+      "added_at": "2026-08-11T04:08:01.954Z"
+    }
+  ],
+  "admin_activity": [
+    {
+      "id": "act-1786646161713",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Episode",
+      "details": "Deleted Episode 1 (ID: ep-1786524458562)",
+      "timestamp": "2026-08-13T18:36:01.713Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786646090722",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Season",
+      "details": "Deleted Season 99 (1 episodes) from \"Cyberpulse: Neon Genesis 2088\" (ID: ani-1)",
+      "timestamp": "2026-08-13T18:34:50.722Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786646090714",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 2 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:34:50.714Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786646090705",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Episode",
+      "details": "Deleted Episode 1 (ID: ep-1786646090697)",
+      "timestamp": "2026-08-13T18:34:50.705Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786646090698",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:34:50.698Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786646090678",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T18:34:50.678Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644404816",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Season",
+      "details": "Deleted Season 99 (1 episodes) from \"Cyberpulse: Neon Genesis 2088\" (ID: ani-1)",
+      "timestamp": "2026-08-13T18:06:44.816Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644404806",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Episode",
+      "details": "Deleted Episode 1 (ID: ep-1786644404777)",
+      "timestamp": "2026-08-13T18:06:44.806Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644404798",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 2 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:06:44.798Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644404778",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:06:44.778Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644326372",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Season",
+      "details": "Deleted Season 77 (2 episodes) from \"Cyberpulse: Neon Genesis 2088\" (ID: ani-1)",
+      "timestamp": "2026-08-13T18:05:26.372Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644326362",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 2 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:05:26.362Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644326352",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:05:26.352Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644326341",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Episode",
+      "details": "Deleted Episode 1 (ID: ep-1786644326314)",
+      "timestamp": "2026-08-13T18:05:26.341Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644326316",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:05:26.316Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644312455",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Season",
+      "details": "Deleted Season 77 (2 episodes) from \"Cyberpulse: Neon Genesis 2088\" (ID: ani-1)",
+      "timestamp": "2026-08-13T18:05:12.455Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644312444",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 2 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:05:12.444Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644312429",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1",
+      "timestamp": "2026-08-13T18:05:12.429Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786644039770",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 1 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T18:00:39.770Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786644039587",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T18:00:39.587Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786644037450",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\" (ID: scr-1786644037448-2kb7a)",
+      "timestamp": "2026-08-13T18:00:37.450Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786643570967",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786638907651-z8r5l for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T17:52:50.967Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786642584145",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786638893705-dnrlr for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T17:36:24.145Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786639486154",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T16:44:46.154Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786638918092",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 1 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T16:35:18.092Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786638917903",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T16:35:17.903Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786638907654",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\" (ID: scr-1786638907651-z8r5l)",
+      "timestamp": "2026-08-13T16:35:07.654Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786638893707",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\" (ID: scr-1786638893705-dnrlr)",
+      "timestamp": "2026-08-13T16:34:53.707Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786638060564",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T16:21:00.564Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786637257128",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T16:07:37.128Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786637235277",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T16:07:15.277Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786634906658",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T15:28:26.658Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633727710",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786519445968-vusdt for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T15:08:47.710Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786633716628",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786461249669-biqpe for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T15:08:36.628Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786633711759",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786461235444-d53gd for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T15:08:31.759Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786633498284",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Cyberpulse: Neon Genesis 2088\" (ID: scr-1786633498283-vxm36)",
+      "timestamp": "2026-08-13T15:04:58.284Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633493816",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Screenshot",
+      "details": "Deleted screenshot scr-1786633490342-f9mty for Anime ID ani-1",
+      "timestamp": "2026-08-13T15:04:53.816Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633492197",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Cyberpulse: Neon Genesis 2088\" (ID: scr-1786633492196-7qh4w)",
+      "timestamp": "2026-08-13T15:04:52.197Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633490343",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Cyberpulse: Neon Genesis 2088\" (ID: scr-1786633490342-f9mty)",
+      "timestamp": "2026-08-13T15:04:50.343Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633488520",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Screenshot",
+      "details": "Added screenshot for \"Cyberpulse: Neon Genesis 2088\" (ID: scr-1786633488520-flpus)",
+      "timestamp": "2026-08-13T15:04:48.520Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786633486760",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T15:04:46.760Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786631724799",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:35:24.799Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786631712654",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:35:12.654Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786631596197",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:33:16.197Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786631230076",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:27:10.076Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786631039895",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Logged in into admin portal from 127.0.0.1",
+      "timestamp": "2026-08-13T14:23:59.895Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786630984834",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:23:04.834Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786630974898",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:22:54.898Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786630342061",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:12:22.061Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786629938589",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T14:05:38.589Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786628320773",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-13T13:38:40.773Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786628005152",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T13:33:25.152Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786628004911",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T13:33:24.911Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786627977800",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T13:32:57.800Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786627977649",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T13:32:57.649Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786627961679",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Screenshot",
+      "details": "Updated screenshot scr-1786461235444-d53gd for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-13T13:32:41.679Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786625181405",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T12:46:21.405Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786625181231",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T12:46:21.231Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786604278025",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T06:57:58.025Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786604277849",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T06:57:57.849Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786604274698",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:57:54.698Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786603126324",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T06:38:46.324Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786603126137",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T06:38:46.137Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786603122659",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:38:42.659Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786602966246",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T06:36:06.246Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786602966064",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T06:36:06.064Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786602959202",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:35:59.202Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786602371837",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:26:11.837Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786602331503",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:25:31.503Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786601850565",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:17:30.565Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786601308385",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-13T06:08:28.385Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786601308200",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-13T06:08:28.200Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786601223236",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-13T06:07:03.236Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786593524812",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Advertisement",
+      "details": "Updated ad \"My Ad\" (ad-1786593460751-xr7q)",
+      "timestamp": "2026-08-13T03:58:44.812Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786593460754",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Created Advertisement",
+      "details": "Created ad \"My Ad\" (EXTERNAL_URL) for slot ANIME_TOP",
+      "timestamp": "2026-08-13T03:57:40.754Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786545614851",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Advertisement",
+      "details": "Updated ad \"TEST AD\" (ad-1786545614843-9mcc)",
+      "timestamp": "2026-08-12T14:40:14.851Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786545614843",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Created Advertisement",
+      "details": "Created ad \"TEST AD\" (HTML) for slot HOME_TOP",
+      "timestamp": "2026-08-12T14:40:14.843Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786545614830",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-12T14:40:14.830Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786545441941",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Created Advertisement",
+      "details": "Created ad \"TEST AD\" (HTML) for slot HOME_TOP",
+      "timestamp": "2026-08-12T14:37:21.941Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786545441933",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-12T14:37:21.933Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543873837",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Advertisement",
+      "details": "Deleted ad \"Updated HTTP E2E Test Global Ad\"",
+      "timestamp": "2026-08-12T14:11:13.837Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543873832",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Toggled Ad Status",
+      "details": "Changed ad \"Updated HTTP E2E Test Global Ad\" status to INACTIVE",
+      "timestamp": "2026-08-12T14:11:13.832Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543873829",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Advertisement",
+      "details": "Updated ad \"Updated HTTP E2E Test Global Ad\" (ad-1786543873823-ts0q)",
+      "timestamp": "2026-08-12T14:11:13.829Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543873823",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Created Advertisement",
+      "details": "Created ad \"HTTP E2E Test Global Ad\" (BANNER) for slot DOWNLOAD_PAGE_TOP",
+      "timestamp": "2026-08-12T14:11:13.823Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543873815",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-12T14:11:13.815Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543845961",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Deleted Advertisement",
+      "details": "Deleted ad \"Updated HTTP E2E Test Global Ad\"",
+      "timestamp": "2026-08-12T14:10:45.961Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543845955",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Advertisement",
+      "details": "Updated ad \"Updated HTTP E2E Test Global Ad\" (ad-1786543845948-pow4)",
+      "timestamp": "2026-08-12T14:10:45.955Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543845949",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Created Advertisement",
+      "details": "Created ad \"HTTP E2E Test Global Ad\" (BANNER) for slot DOWNLOAD_PAGE_TOP",
+      "timestamp": "2026-08-12T14:10:45.949Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786543845938",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Admin Login",
+      "details": "Authorized admin session initialized",
+      "timestamp": "2026-08-12T14:10:45.938Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "act-1786540111085",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode",
+      "details": "Updated Episode 2 (ID: ep-1786524810670)",
+      "timestamp": "2026-08-12T13:08:31.085Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786537714099",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode Download Links",
+      "details": "Updated 2 download links for Episode \"Solo leveling\"",
+      "timestamp": "2026-08-12T12:28:34.099Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786532342067",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode Download Links",
+      "details": "Updated 2 download links for Episode \"Solo leveling\"",
+      "timestamp": "2026-08-12T10:59:02.067Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786525231161",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Episode Download Links",
+      "details": "Updated 2 download links for Episode \"Solo leveling\"",
+      "timestamp": "2026-08-12T09:00:31.161Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786524810670",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 2 to Anime ID ani-1786426691127",
+      "timestamp": "2026-08-12T08:53:30.670Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786524458563",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Added Episode",
+      "details": "Added Episode 1 to Anime ID ani-1786426691127",
+      "timestamp": "2026-08-12T08:47:38.563Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786523054760",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Screenshot",
+      "details": "Updated screenshot scr-1786461235444-d53gd for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-12T08:24:14.760Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786523041862",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Download Links",
+      "details": "Updated 3 download links for \"Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download\"",
+      "timestamp": "2026-08-12T08:24:01.862Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786523041658",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Content",
+      "details": "Updated ANIME: Tomb Raider King Season 1 Hindi, Tamil, Telugu, English, Korean (Multi Audio) WEB-DL Episodes Download (ID: ani-1786426691127)",
+      "timestamp": "2026-08-12T08:24:01.658Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786523028228",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Screenshot",
+      "details": "Updated screenshot scr-1786461235444-d53gd for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-12T08:23:48.228Z",
+      "ip": "169.254.169.126"
+    },
+    {
+      "id": "act-1786523025276",
+      "admin_id": "usr-admin",
+      "admin_name": "superadmin",
+      "action": "Updated Screenshot",
+      "details": "Updated screenshot scr-1786461235444-d53gd for Anime ID ani-1786426691127",
+      "timestamp": "2026-08-12T08:23:45.276Z",
+      "ip": "169.254.169.126"
+    }
+  ],
+  "settings": {
+    "site_name": "Cinevora",
+    "logo_url": "/assets/logo.png",
+    "maintenance_mode": false,
+    "contact_email": "support@cinevora.com",
+    "featured_anime_id": "ani-1"
+  },
+  "ad_slots": [
+    {
+      "slot": "HOME_TOP",
+      "name": "Home Top Banner",
+      "enabled": true,
+      "section": "HOME"
+    },
+    {
+      "slot": "HOME_MIDDLE",
+      "name": "Home Middle Section",
+      "enabled": true,
+      "section": "HOME"
+    },
+    {
+      "slot": "HOME_BOTTOM",
+      "name": "Home Bottom Footer",
+      "enabled": true,
+      "section": "HOME"
+    },
+    {
+      "slot": "ANIME_TOP",
+      "name": "Anime Catalog Top",
+      "enabled": true,
+      "section": "ANIME"
+    },
+    {
+      "slot": "ANIME_MIDDLE",
+      "name": "Anime Catalog Middle",
+      "enabled": true,
+      "section": "ANIME"
+    },
+    {
+      "slot": "ANIME_BOTTOM",
+      "name": "Anime Catalog Bottom",
+      "enabled": true,
+      "section": "ANIME"
+    },
+    {
+      "slot": "MOVIE_TOP",
+      "name": "Movies Top Banner",
+      "enabled": true,
+      "section": "MOVIE"
+    },
+    {
+      "slot": "MOVIE_MIDDLE",
+      "name": "Movies Middle Grid",
+      "enabled": true,
+      "section": "MOVIE"
+    },
+    {
+      "slot": "MOVIE_BOTTOM",
+      "name": "Movies Bottom Banner",
+      "enabled": true,
+      "section": "MOVIE"
+    },
+    {
+      "slot": "SERIES_TOP",
+      "name": "Series Top Banner",
+      "enabled": true,
+      "section": "SERIES"
+    },
+    {
+      "slot": "SERIES_MIDDLE",
+      "name": "Series Middle Grid",
+      "enabled": true,
+      "section": "SERIES"
+    },
+    {
+      "slot": "SERIES_BOTTOM",
+      "name": "Series Bottom Banner",
+      "enabled": true,
+      "section": "SERIES"
+    },
+    {
+      "slot": "DETAILS_TOP",
+      "name": "Details Top Banner",
+      "enabled": true,
+      "section": "DETAILS"
+    },
+    {
+      "slot": "DETAILS_MIDDLE",
+      "name": "Details Middle Section",
+      "enabled": true,
+      "section": "DETAILS"
+    },
+    {
+      "slot": "DETAILS_BOTTOM",
+      "name": "Details Bottom Section",
+      "enabled": true,
+      "section": "DETAILS"
+    },
+    {
+      "slot": "WATCH_TOP",
+      "name": "Watch Player Top Banner",
+      "enabled": true,
+      "section": "WATCH"
+    },
+    {
+      "slot": "WATCH_MIDDLE",
+      "name": "Watch Player Below Video",
+      "enabled": true,
+      "section": "WATCH"
+    },
+    {
+      "slot": "WATCH_BOTTOM",
+      "name": "Watch Player Bottom Section",
+      "enabled": true,
+      "section": "WATCH"
+    },
+    {
+      "slot": "DOWNLOAD_GATEWAY_TOP",
+      "name": "Download Gateway Top Banner",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "name": "Download Gateway Timer/Button",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "DOWNLOAD_GATEWAY_BOTTOM",
+      "name": "Download Gateway Bottom Footer",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "SEARCH_TOP",
+      "name": "Search Results Top Banner",
+      "enabled": true,
+      "section": "SEARCH"
+    },
+    {
+      "slot": "SEARCH_BOTTOM",
+      "name": "Search Results Bottom Grid",
+      "enabled": true,
+      "section": "SEARCH"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_TOP",
+      "name": "Download Interstitial — Top",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_ABOVE_COUNTDOWN",
+      "name": "Download Interstitial — Above Countdown",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_BETWEEN_COUNTDOWN_BUTTON",
+      "name": "Download Interstitial — Between Countdown and Button",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_BELOW_COUNTDOWN",
+      "name": "Download Interstitial — Below Countdown",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_AFTER_CONTINUE_BUTTON",
+      "name": "Download Interstitial — After First Continue Button",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_MIDDLE",
+      "name": "Download Interstitial — Middle Section",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "DOWNLOAD_INTERSTITIAL_BOTTOM",
+      "name": "Download Interstitial — Bottom",
+      "enabled": true,
+      "section": "DOWNLOAD_INTERSTITIAL"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_TOP",
+      "name": "Episode Download — Top",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_BELOW_TITLE",
+      "name": "Episode Download — Below Title",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_ABOVE_COUNTDOWN",
+      "name": "Episode Download — Above Countdown",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_BELOW_COUNTDOWN",
+      "name": "Episode Download — Below Countdown",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_BEFORE_BUTTON",
+      "name": "Episode Download — Before Download Button",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "EPISODE_DOWNLOAD_BOTTOM",
+      "name": "Episode Download — Bottom",
+      "enabled": true,
+      "section": "EPISODE_DOWNLOAD_PAGE"
+    },
+    {
+      "slot": "HOSTING_LINKS_TOP",
+      "name": "Hosting Links — Top",
+      "enabled": true,
+      "section": "HOSTING_LINKS_PAGE"
+    },
+    {
+      "slot": "HOSTING_LINKS_BETWEEN",
+      "name": "Hosting Links — Between Hosting Links",
+      "enabled": true,
+      "section": "HOSTING_LINKS_PAGE"
+    },
+    {
+      "slot": "HOSTING_LINKS_ABOVE",
+      "name": "Hosting Links — Above Links",
+      "enabled": true,
+      "section": "HOSTING_LINKS_PAGE"
+    },
+    {
+      "slot": "HOSTING_LINKS_BELOW",
+      "name": "Hosting Links — Below Links",
+      "enabled": true,
+      "section": "HOSTING_LINKS_PAGE"
+    },
+    {
+      "slot": "HOSTING_LINKS_BOTTOM",
+      "name": "Hosting Links — Bottom",
+      "enabled": true,
+      "section": "HOSTING_LINKS_PAGE"
+    },
+    {
+      "slot": "DOWNLOAD_PAGE_TOP",
+      "name": "Download Page — Top",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "DOWNLOAD_BETWEEN_COUNTDOWNS",
+      "name": "Download Page — Between First and Second Countdown",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "DOWNLOAD_ABOVE_BUTTON",
+      "name": "Download Page — Above Download Now / Button",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    },
+    {
+      "slot": "DOWNLOAD_BELOW_BUTTON",
+      "name": "Download Page — Below Download Now / Button",
+      "enabled": true,
+      "section": "DOWNLOAD_GATEWAY"
+    }
+  ],
+  "ad_settings": {
+    "enabled": true,
+    "default_rotation": "RANDOM",
+    "default_frequency": "PAGE_VIEW",
+    "section_enabled": {
+      "HOME": true,
+      "ANIME": true,
+      "MOVIE": true,
+      "SERIES": true,
+      "DETAILS": true,
+      "WATCH": true,
+      "DOWNLOAD_GATEWAY": true,
+      "SEARCH": true
+    }
+  },
+  "ads": [
+    {
+      "id": "ad-1786599105937-njb3",
+      "name": "TEST AD FOR DOWNLOAD_INTERSTITIAL_ABOVE_COUNTDOWN",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"width:100%;height:250px;padding:20px;text-align:center;background:#111;color:#38bdf8;font-size:20px;font-weight:bold;border: 1px solid #38bdf8; display:flex; align-items:center; justify-content:center;\">ADVERTISEMENT<br/>DOWNLOAD_INTERSTITIAL_ABOVE_COUNTDOWN</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "",
+      "description": "",
+      "slot": "DOWNLOAD_INTERSTITIAL_ABOVE_COUNTDOWN",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 25,
+      "clicks": 0,
+      "created_at": "2026-08-13T05:31:45.937Z",
+      "updated_at": "2026-08-13T05:31:45.937Z",
+      "last_displayed": "2026-08-13T17:49:01.578Z"
+    },
+    {
+      "id": "ad-1786599105936-3jck",
+      "name": "TEST AD FOR DOWNLOAD_INTERSTITIAL_MIDDLE",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"width:100%;height:250px;padding:20px;text-align:center;background:#111;color:#38bdf8;font-size:20px;font-weight:bold;border: 1px solid #38bdf8; display:flex; align-items:center; justify-content:center;\">ADVERTISEMENT<br/>DOWNLOAD_INTERSTITIAL_MIDDLE</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "",
+      "description": "",
+      "slot": "DOWNLOAD_INTERSTITIAL_MIDDLE",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 11,
+      "clicks": 0,
+      "created_at": "2026-08-13T05:31:45.936Z",
+      "updated_at": "2026-08-13T05:31:45.936Z",
+      "last_displayed": "2026-08-13T17:49:01.437Z"
+    },
+    {
+      "id": "ad-details-top-test",
+      "name": "TEST AD DETAILS_TOP",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"width:100%;padding:15px;text-align:center;background:#111;color:#38bdf8;font-size:18px;font-weight:bold;\">TEST AD FOR DETAILS_TOP — WORKING</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "DETAILS TOP TEST",
+      "description": "Test ad for Details Top slot",
+      "slot": "DETAILS_TOP",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 76,
+      "clicks": 0,
+      "created_at": "2026-08-13T04:44:48.700Z",
+      "updated_at": "2026-08-13T04:44:48.700Z",
+      "last_displayed": "2026-08-13T18:43:35.700Z"
+    },
+    {
+      "id": "ad-watch-top-test",
+      "name": "TEST AD WATCH_TOP",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"width:100%;padding:15px;text-align:center;background:#111;color:#38bdf8;font-size:18px;font-weight:bold;\">TEST AD FOR WATCH_TOP — WORKING</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "WATCH TOP TEST",
+      "description": "Test ad for Watch Top slot",
+      "slot": "WATCH_TOP",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 14,
+      "clicks": 0,
+      "created_at": "2026-08-13T04:44:48.700Z",
+      "updated_at": "2026-08-13T04:44:48.700Z",
+      "last_displayed": "2026-08-13T06:39:00.449Z"
+    },
+    {
+      "id": "ad-1786595223742-me43",
+      "name": "FINAL ADS TEST",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"width:100%;padding:20px;text-align:center;background:#222;color:white;font-size:22px;font-weight:bold;\">FINAL ADS TEST — WORKING</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "",
+      "description": "",
+      "slot": "HOME_TOP",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 99,
+      "clicks": 0,
+      "created_at": "2026-08-13T04:27:03.742Z",
+      "updated_at": "2026-08-13T04:27:03.742Z",
+      "last_displayed": "2026-08-13T18:43:31.083Z"
+    },
+    {
+      "id": "ad-1786593460751-xr7q",
+      "name": "My Ad",
+      "type": "EXTERNAL_URL",
+      "scope": "GLOBAL",
+      "code": "",
+      "image_url": "",
+      "target_url": "https://www.effectivecpmnetwork.com/bjgmct2g?key=1a6b12934c61ecba9c0fe5161014c215",
+      "title": "",
+      "description": "",
+      "slot": "ANIME_TOP",
+      "status": "ACTIVE",
+      "priority": 20,
+      "frequency": "PAGE_VIEW",
+      "impressions": 5,
+      "clicks": 0,
+      "created_at": "2026-08-13T03:57:40.751Z",
+      "updated_at": "2026-08-13T03:58:44.811Z",
+      "last_displayed": "2026-08-13T04:45:02.956Z"
+    },
+    {
+      "id": "ad-1786545614843-9mcc",
+      "name": "TEST AD",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"padding:20px;text-align:center;font-size:24px;font-weight:bold;\">TEST AD DISPLAYED SUCCESSFULLY</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "TEST AD",
+      "description": "ADS SYSTEM TEST",
+      "slot": "DOWNLOAD_PAGE_TOP",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 33,
+      "clicks": 0,
+      "created_at": "2026-08-12T14:40:14.842Z",
+      "updated_at": "2026-08-12T14:40:14.851Z",
+      "last_displayed": "2026-08-13T17:49:01.446Z"
+    },
+    {
+      "id": "ad-1786545441940-p1sd",
+      "name": "TEST AD",
+      "type": "HTML",
+      "scope": "GLOBAL",
+      "code": "<div style=\"padding:20px;text-align:center;font-size:24px;font-weight:bold;\">TEST AD DISPLAYED SUCCESSFULLY</div>",
+      "image_url": "",
+      "target_url": "",
+      "title": "TEST AD",
+      "description": "ADS SYSTEM TEST",
+      "slot": "HOME_TOP",
+      "status": "ACTIVE",
+      "priority": 100,
+      "frequency": "PAGE_VIEW",
+      "impressions": 102,
+      "clicks": 1,
+      "created_at": "2026-08-12T14:37:21.940Z",
+      "updated_at": "2026-08-12T14:37:21.940Z",
+      "last_displayed": "2026-08-13T18:43:31.085Z",
+      "last_clicked": "2026-08-13T04:55:41.242Z"
+    },
+    {
+      "id": "ad-1",
+      "name": "Cyberpunk CyberDeck Cyber Sale",
+      "type": "BANNER",
+      "image_url": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&auto=format&fit=crop&q=80",
+      "target_url": "https://cinevora.com",
+      "title": "Upgrade Your Otaku Rig",
+      "description": "Get 40% off high performance streaming gear and RGB displays.",
+      "slot": "HOME_TOP",
+      "status": "ACTIVE",
+      "priority": 10,
+      "frequency": "PAGE_VIEW",
+      "impressions": 1607,
+      "clicks": 90,
+      "created_at": "2026-08-11T06:08:31.262Z",
+      "updated_at": "2026-08-11T06:08:31.262Z",
+      "last_displayed": "2026-08-13T18:43:31.080Z",
+      "last_clicked": "2026-08-13T14:16:30.759Z"
+    },
+    {
+      "id": "ad-2",
+      "name": "Aetheria Mech Collector Figure",
+      "type": "IMAGE",
+      "image_url": "https://images.unsplash.com/photo-1563089145-599997674d42?w=800&auto=format&fit=crop&q=80",
+      "target_url": "https://cinevora.com",
+      "title": "Limited Edition Mech Figurine",
+      "description": "Pre-order the 1/7 scale Diecast Mecha pilot edition today!",
+      "slot": "ANIME_TOP",
+      "status": "ACTIVE",
+      "priority": 5,
+      "frequency": "PAGE_VIEW",
+      "impressions": 855,
+      "clicks": 42,
+      "created_at": "2026-08-11T06:08:31.262Z",
+      "updated_at": "2026-08-11T06:08:31.262Z",
+      "last_displayed": "2026-08-13T04:45:02.958Z"
+    },
+    {
+      "id": "ad-3",
+      "name": "Custom HTML Sponsor Message",
+      "type": "HTML",
+      "code": "<div style=\"padding: 1rem; background: linear-gradient(135deg, rgba(147,51,234,0.2), rgba(59,130,246,0.2)); border: 1px solid rgba(147,51,234,0.4); border-radius: 12px; text-align: center; color: #fff; font-family: sans-serif;\">\n  <h4 style=\"margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: 700; color: #a855f7;\">✨ Cinevora VIP Supporter Banner</h4>\n  <p style=\"margin: 0; font-size: 0.9rem; color: #cbd5e1;\">Enjoy unlimited 4K anime streaming without buffering. Upgrade to VIP Pass!</p>\n</div>",
+      "slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "status": "ACTIVE",
+      "priority": 1,
+      "frequency": "PAGE_VIEW",
+      "impressions": 314,
+      "clicks": 20,
+      "created_at": "2026-08-11T06:08:31.262Z",
+      "updated_at": "2026-08-11T06:08:31.262Z",
+      "last_displayed": "2026-08-12T13:16:25.139Z",
+      "last_clicked": "2026-08-12T07:41:18.848Z"
+    }
+  ],
+  "page_settings": {
+    "download_step1": {
+      "title": "Download Step 1 — Cinevora",
+      "heading": "DOWNLOAD",
+      "description": "Click below to verify node availability and initialize secure link generation.",
+      "button_text": "CLICK HERE TO CONTINUE",
+      "custom_text": "Your request will be processed through encrypted CDN edge servers.",
+      "bg_image_url": "",
+      "bg_color": "#080a18",
+      "countdown_seconds": 10,
+      "ads_enabled": true,
+      "top_ad_slot": "DOWNLOAD_GATEWAY_TOP",
+      "middle_ad_slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "bottom_ad_slot": "DOWNLOAD_GATEWAY_BOTTOM"
+    },
+    "episode_selection": {
+      "title": "Select Episode — Cinevora",
+      "heading": "EPISODE SELECTION",
+      "description": "Select your desired episode to proceed to the secure download mirror gateway.",
+      "custom_text": "All episodes are updated immediately when published by administrators.",
+      "bg_image_url": "",
+      "bg_color": "#080a18",
+      "countdown_seconds": 10,
+      "ads_enabled": true,
+      "top_ad_slot": "ANIME_TOP",
+      "middle_ad_slot": "ANIME_MIDDLE",
+      "bottom_ad_slot": "ANIME_BOTTOM"
+    },
+    "episode_download": {
+      "title": "Episode Download Gateway — Cinevora",
+      "heading": "SECURE EPISODE DOWNLOAD",
+      "description": "Click below and complete the countdown sequence to unlock authorized download mirrors.",
+      "button_text": "CLICK HERE TO CONTINUE",
+      "custom_text": "Ensure popup blockers are paused if you encounter issues opening external hosts.",
+      "bg_image_url": "",
+      "bg_color": "#080a18",
+      "countdown_seconds": 10,
+      "ads_enabled": true,
+      "top_ad_slot": "DOWNLOAD_GATEWAY_TOP",
+      "before_timer_ad_slot": "DOWNLOAD_GATEWAY_TOP",
+      "middle_ad_slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "after_timer_ad_slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "bottom_ad_slot": "DOWNLOAD_GATEWAY_BOTTOM"
+    },
+    "final_download_links": {
+      "title": "Authorized Download Links — Cinevora",
+      "heading": "AUTHORIZED DOWNLOAD MIRRORS",
+      "description": "Choose your preferred cloud host below to open the authorized download link.",
+      "custom_text": "All mirrors are verified and encrypted for direct file delivery.",
+      "bg_image_url": "",
+      "bg_color": "#080a18",
+      "countdown_seconds": 0,
+      "ads_enabled": true,
+      "top_ad_slot": "DOWNLOAD_GATEWAY_TOP",
+      "middle_ad_slot": "DOWNLOAD_GATEWAY_MIDDLE",
+      "bottom_ad_slot": "DOWNLOAD_GATEWAY_BOTTOM"
+    }
+  },
+  "anime_screenshots": [
+    {
+      "id": "scr-101",
+      "anime_id": "ani-1",
+      "image_url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 2,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:24:49.657Z"
+    },
+    {
+      "id": "scr-102",
+      "anime_id": "ani-1",
+      "image_url": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 1,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:24:49.657Z"
+    },
+    {
+      "id": "scr-103",
+      "anime_id": "ani-1",
+      "image_url": "https://images.unsplash.com/photo-1563089145-599997674d42?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 3,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:24:49.657Z"
+    },
+    {
+      "id": "scr-104",
+      "anime_id": "ani-1",
+      "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 4,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:24:49.657Z"
+    },
+    {
+      "id": "scr-201",
+      "anime_id": "ani-2",
+      "image_url": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 1,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:04:57.687Z"
+    },
+    {
+      "id": "scr-202",
+      "anime_id": "ani-2",
+      "image_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 2,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:04:57.687Z"
+    },
+    {
+      "id": "scr-203",
+      "anime_id": "ani-2",
+      "image_url": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=1000&auto=format&fit=crop&q=80",
+      "display_order": 3,
+      "status": "ENABLED",
+      "created_at": "2026-08-11T13:04:57.687Z",
+      "updated_at": "2026-08-11T13:04:57.687Z"
+    },
+    {
+      "id": "scr-1786633488520-flpus",
+      "anime_id": "ani-1",
+      "image_url": "https://picsum.photos/300/200?random=1001_A",
+      "display_order": 5,
+      "status": "ENABLED",
+      "created_at": "2026-08-13T15:04:48.520Z",
+      "updated_at": "2026-08-13T15:04:48.520Z"
+    },
+    {
+      "id": "scr-1786633492196-7qh4w",
+      "anime_id": "ani-1",
+      "image_url": "https://picsum.photos/300/200?random=1003_C",
+      "display_order": 7,
+      "status": "ENABLED",
+      "created_at": "2026-08-13T15:04:52.196Z",
+      "updated_at": "2026-08-13T15:04:52.196Z"
+    },
+    {
+      "id": "scr-1786633498283-vxm36",
+      "anime_id": "ani-1",
+      "image_url": "https://picsum.photos/300/200?random=1004_D",
+      "display_order": 8,
+      "status": "ENABLED",
+      "created_at": "2026-08-13T15:04:58.283Z",
+      "updated_at": "2026-08-13T15:04:58.283Z"
+    },
+    {
+      "id": "scr-1786644037448-2kb7a",
+      "anime_id": "ani-1786426691127",
+      "image_url": "/uploads/scr-1786644037448-f15ky.jpg",
+      "display_order": 1,
+      "status": "ENABLED",
+      "created_at": "2026-08-13T18:00:37.448Z",
+      "updated_at": "2026-08-13T18:00:37.448Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "com-1786631231356-nyfy",
+      "anime_id": "ani-1",
+      "username": "User B",
+      "content": "Message B",
+      "created_at": "2026-08-13T14:27:11.356Z"
+    }
+  ]
+}

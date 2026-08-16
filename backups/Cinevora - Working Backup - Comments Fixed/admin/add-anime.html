@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add / Edit Content — Cinevora Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .admin-sidebar { background: rgba(10, 13, 26, 0.95); border-right: 1px solid var(--border-glass); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .admin-nav { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .admin-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; border-radius: var(--radius-sm); }
+    .admin-nav a:hover, .admin-nav a.active { background: rgba(147, 51, 234, 0.15); color: #fff; border-left: 3px solid var(--accent-purple); }
+    .admin-main { padding: 2.5rem; min-width: 0; }
+    .form-section-title { font-size: 1.1rem; font-weight: 700; color: #a855f7; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(168, 85, 247, 0.2); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @media (max-width: 768px) {
+      .admin-layout { display: flex; flex-direction: column; width: 100%; max-width: 100%; overflow-x: hidden; }
+      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-glass); padding: 1rem; gap: 0.75rem; }
+      .admin-nav { flex-direction: row; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+      .admin-nav a { padding: 0.4rem 0.75rem; font-size: 0.8rem; border-left: none; border-bottom: 2px solid transparent; }
+      .admin-nav a.active { border-left: none; border-bottom: 2px solid var(--accent-purple); }
+      .admin-main { padding: 1rem; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+      .admin-main > div:first-child { flex-direction: column; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem; }
+      .admin-main h1 { font-size: 1.5rem !important; }
+      .glass-panel { padding: 1rem !important; border-radius: 12px !important; width: 100% !important; box-sizing: border-box !important; }
+      .admin-main [style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 0.85rem !important; }
+      .form-section-title { font-size: 0.95rem; flex-direction: column; align-items: flex-start !important; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        CINE<span>VORA</span>
+      </a>
+      <ul class="admin-nav">
+        <li><a href="/admin/admin.html">📊 Dashboard Overview</a></li>
+        <li><a href="/admin/add-anime.html" class="active" id="nav-add-title">➕ Add / Edit Content</a></li>
+        <li><a href="/admin/manage-anime.html">🎬 Manage Content</a></li>
+        <li><a href="/admin/manage-users.html">👥 User Management</a></li>
+        <li><a href="/admin/ads.html">📢 Ads Manager</a></li>
+        <li><a href="/admin/activity.html">📜 Audit Logs</a></li>
+        <li><a href="/admin/comments.html">💬 Manage Comments</a></li>
+        <li><a href="/admin/settings.html">⚙️ Settings</a></li>
+      </ul>
+    </aside>
+
+    <main class="admin-main">
+      <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h1 id="page-heading" style="font-size: 2rem; font-weight: 800;">Add New Content Record</h1>
+          <p id="page-subheading" style="color: var(--text-muted); font-size: 0.9rem;">Fill metadata to publish or update anime, movie, or series in the database</p>
+        </div>
+        <a href="/admin/manage-anime.html" class="btn btn-glass" style="font-size: 0.85rem;">← Back to Content List</a>
+      </div>
+
+      <div class="glass-panel" style="padding: 2.5rem; border-radius: 20px; max-width: 920px;">
+        <form id="content-editor-form" style="display: flex; flex-direction: column; gap: 2rem;">
+          
+          <!-- Basic Metadata Section -->
+          <div>
+            <div class="form-section-title">CONTENT INFORMATION</div>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div class="form-group">
+                <label class="form-label">Content Title *</label>
+                <input type="text" id="anime-title" class="form-control" placeholder="e.g. Cyberpulse: Neon Genesis 2088" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Content Type *</label>
+                <select id="anime-type" class="form-control" required>
+                  <option value="ANIME">ANIME</option>
+                  <option value="SERIES">SERIES</option>
+                  <option value="MOVIE">MOVIE</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div class="form-group">
+                <label class="form-label">URL Slug (Auto-generated if empty)</label>
+                <input type="text" id="anime-slug" class="form-control" placeholder="cyberpulse-neon-genesis-2088">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Language / Audio *</label>
+                <input type="text" id="anime-language" class="form-control" placeholder="e.g. Japanese (Sub) or English (Dub)" value="Japanese (Sub)" required>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label">Description / Plot Summary *</label>
+              <textarea id="anime-description" class="form-control" rows="4" placeholder="Comprehensive storyline summary..." required></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+              <div class="form-group">
+                <label class="form-label">Release Year *</label>
+                <input type="number" id="anime-year" class="form-control" value="2026" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Rating (1.0 - 10.0)</label>
+                <input type="number" step="0.1" id="anime-rating" class="form-control" value="8.8" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <select id="anime-status" class="form-control">
+                  <option value="ONGOING">ONGOING</option>
+                  <option value="COMPLETED">COMPLETED</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Duration (e.g. 24m or 118m)</label>
+                <input type="text" id="anime-duration" class="form-control" placeholder="24m">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Genres (Comma separated) *</label>
+              <input type="text" id="anime-genres" class="form-control" placeholder="Sci-Fi, Cyberpunk, Action, Mecha" value="Sci-Fi, Action" required>
+            </div>
+          </div>
+
+          <!-- Anime Poster Management Section -->
+          <div>
+            <div class="form-section-title">ANIME POSTER</div>
+            <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.25rem; background: rgba(255,255,255,0.02);">
+              
+              <!-- Poster Preview Box -->
+              <div id="poster-preview-box" style="display: none; margin-bottom: 1.25rem; text-align: center; background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
+                <div style="font-size: 0.8rem; color: #a855f7; margin-bottom: 0.5rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">CURRENT POSTER PREVIEW</div>
+                <img id="poster-preview-img" src="" alt="Poster Preview" style="max-width: 100%; max-height: 280px; width: auto; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+                <div id="poster-preview-error" style="display: none; color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-top: 0.5rem;">Poster image could not be loaded.</div>
+              </div>
+
+              <!-- Poster Controls -->
+              <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <label class="btn btn-primary" style="cursor: pointer; padding: 0.65rem 1.4rem; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span id="poster-upload-text">+ UPLOAD POSTER</span>
+                  <input type="file" id="poster-file-input" accept="image/*" style="display: none;">
+                </label>
+
+                <button type="button" id="remove-poster-btn" class="btn btn-glass" style="display: none; color: #ef4444; border-color: rgba(239, 68, 68, 0.4); padding: 0.65rem 1.4rem; font-size: 0.9rem; font-weight: 700; border-radius: 8px;">
+                  🗑️ REMOVE POSTER
+                </button>
+              </div>
+
+              <!-- Saved Poster value -->
+              <input type="hidden" id="anime-poster" value="">
+            </div>
+          </div>
+
+          <!-- Anime Banner Management Section -->
+          <div>
+            <div class="form-section-title">ANIME BANNER</div>
+            <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.25rem; background: rgba(255,255,255,0.02);">
+              
+              <!-- Banner Preview Box -->
+              <div id="banner-preview-box" style="display: none; margin-bottom: 1.25rem; text-align: center; background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);">
+                <div style="font-size: 0.8rem; color: #a855f7; margin-bottom: 0.5rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">CURRENT BANNER PREVIEW</div>
+                <img id="banner-preview-img" src="" alt="Banner Preview" style="max-width: 100%; max-height: 280px; width: auto; height: auto; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+                <div id="banner-preview-error" style="display: none; color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-top: 0.5rem;">Banner image could not be loaded.</div>
+              </div>
+
+              <!-- Banner Controls -->
+              <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <label class="btn btn-primary" style="cursor: pointer; padding: 0.65rem 1.4rem; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span id="banner-upload-text">+ UPLOAD BANNER</span>
+                  <input type="file" id="banner-file-input" accept="image/*" style="display: none;">
+                </label>
+
+                <button type="button" id="remove-banner-btn" class="btn btn-glass" style="display: none; color: #ef4444; border-color: rgba(239, 68, 68, 0.4); padding: 0.65rem 1.4rem; font-size: 0.9rem; font-weight: 700; border-radius: 8px;">
+                  🗑️ REMOVE BANNER
+                </button>
+              </div>
+
+              <!-- Saved Banner value -->
+              <input type="hidden" id="anime-banner" value="">
+            </div>
+          </div>
+
+          <!-- Display & Featured Flags -->
+          <div>
+            <div class="form-section-title">DISPLAY FLAGS</div>
+            <div style="display: flex; gap: 2rem; align-items: center; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 10px;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="anime-featured" style="width: 18px; height: 18px;"> Feature on Home Banner
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600;">
+                <input type="checkbox" id="anime-trending" style="width: 18px; height: 18px;"> Mark as Trending
+              </label>
+            </div>
+          </div>
+
+          <!-- SEO Metadata Section -->
+          <div>
+            <div class="form-section-title">SEO CONFIGURATION</div>
+            
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label">SEO Meta Title</label>
+              <input type="text" id="anime-seo-title" class="form-control" placeholder="Watch Cyberpulse: Neon Genesis 2088 Full Episodes HD">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label">SEO Meta Description</label>
+              <textarea id="anime-seo-description" class="form-control" rows="2" placeholder="Stream or download Cyberpulse in high definition..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">SEO Meta Keywords (Comma separated)</label>
+              <input type="text" id="anime-seo-keywords" class="form-control" placeholder="watch anime, anime download, cyberpulse, subbed anime">
+            </div>
+          </div>
+
+          <!-- 5. SEASONS & EPISODES SECTION -->
+          <div id="seasons-episodes-section" style="margin-bottom: 2rem;">
+            <div class="form-section-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+              <span>5. SEASONS & EPISODES</span>
+              <button type="button" id="add-season-top-btn" class="btn btn-primary" style="font-size: 0.85rem; font-weight: 800; padding: 0.5rem 1.25rem;">
+                + Add Season
+              </button>
+            </div>
+
+            <div id="seasons-container" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+              <div class="glass-panel" style="padding: 1.5rem; text-align: center; color: #94a3b8; font-size: 0.9rem;">
+                Loading seasons & episodes...
+              </div>
+            </div>
+          </div>
+
+          <!-- Download Links Management Section -->
+          <div>
+            <div class="form-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>6. Download Links Gateway</span>
+              <button type="button" id="add-link-btn" class="btn btn-glass" style="font-size: 0.8rem; font-weight: 700; color: #a855f7; border-color: rgba(168, 85, 247, 0.4);">
+                + ADD ANOTHER MIRROR LINK
+              </button>
+            </div>
+
+            <div id="download-links-container" style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+              <!-- Dynamic link rows inserted here -->
+            </div>
+          </div>
+
+          <!-- Screenshots Gallery Section -->
+          <div>
+            <div class="form-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>7. Screenshots Gallery</span>
+            </div>
+
+            <div class="glass-panel" style="padding: 1.25rem; border-radius: 12px; margin-bottom: 1.25rem; background: rgba(255,255,255,0.02);">
+              <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; color: #f8fafc;">Add New Screenshot</div>
+              
+              <!-- Input Method Selector -->
+              <div style="display: flex; gap: 1.25rem; margin-bottom: 0.85rem;">
+                <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; color: #cbd5e1; font-weight:600;">
+                  <input type="radio" name="scr-method" value="url" checked id="scr-method-url" style="width:16px; height:16px;"> Image URL
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; color: #cbd5e1; font-weight:600;">
+                  <input type="radio" name="scr-method" value="file" id="scr-method-file" style="width:16px; height:16px;"> Upload Image File
+                </label>
+              </div>
+
+              <!-- URL Input Box -->
+              <div id="scr-url-box" class="form-group" style="margin-bottom: 0.85rem;">
+                <input type="url" id="screenshot-input-url" class="form-control" placeholder="https://example.com/screenshot.jpg">
+              </div>
+
+              <!-- File Input Box -->
+              <div id="scr-file-box" class="form-group" style="margin-bottom: 0.85rem; display: none;">
+                <input type="file" id="screenshot-input-file" accept="image/*" class="form-control" style="padding: 0.4rem;">
+              </div>
+
+              <!-- Preview & Validation -->
+              <div id="scr-preview-container" style="display: none; margin-bottom: 0.85rem; background: rgba(0,0,0,0.4); padding: 0.75rem; border-radius: 8px; text-align: center; border: 1px dashed rgba(255,255,255,0.15);">
+                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.4rem; font-weight:700;">PREVIEW</div>
+                <img id="scr-preview-img" src="" alt="Preview" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+                <div id="scr-preview-error" style="display: none; color: #ef4444; font-size: 0.85rem; font-weight: 700; margin-top: 0.4rem;">Image could not be loaded.</div>
+              </div>
+
+              <button type="button" id="add-screenshot-btn" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 700;">
+                + ADD SCREENSHOT
+              </button>
+            </div>
+
+            <!-- List of Screenshots -->
+            <div id="admin-screenshots-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="color:#64748b; font-size:0.85rem;">No screenshots added yet.</div>
+            </div>
+          </div>
+
+
+          <!-- Comments Management Section -->
+          <div id="admin-comments-section" style="display: none;">
+            <div class="form-section-title" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+              <span>8. Manage Comments</span>
+            </div>
+            <div class="glass-panel" style="padding: 1.25rem; border-radius: 12px; margin-bottom: 1.25rem; background: rgba(255,255,255,0.02);">
+              <div id="admin-comments-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="color:#64748b; font-size:0.85rem;">Loading comments...</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="form-msg" style="display: none; padding: 1rem; border-radius: 10px; text-align: center; font-size: 0.95rem; font-weight: 600;"></div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" id="submit-btn" class="btn btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1rem;">
+              Publish Content
+            </button>
+            <a href="/admin/manage-anime.html" class="btn btn-glass" style="padding: 0.85rem 1.5rem;">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { API } from '/js/api.js?v=3';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const animeId = urlParams.get('id');
+
+    const form = document.getElementById('content-editor-form');
+    const msg = document.getElementById('form-msg');
+    const submitBtn = document.getElementById('submit-btn');
+    const pageHeading = document.getElementById('page-heading');
+    const pageSubheading = document.getElementById('page-subheading');
+    const linksContainer = document.getElementById('download-links-container');
+    const addLinkBtn = document.getElementById('add-link-btn');
+
+    let linkIndex = 0;
+
+    function addLinkRow(initial = { host_name: '', label: '', url: '', enabled: true }) {
+      linkIndex++;
+      const div = document.createElement('div');
+      div.className = 'link-row glass-panel';
+      div.style.cssText = 'padding: 0.8rem 1rem; border-radius: 10px; background: rgba(255,255,255,0.03); display: grid; grid-template-columns: 1.2fr 1.2fr 2fr 110px 50px; gap: 0.75rem; align-items: center;';
+
+      div.innerHTML = `
+        <div>
+          <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.2rem;">Host Name</label>
+          <input type="text" class="form-control host-name-input" placeholder="e.g. Server 1" value="${initial.host_name || ''}" required style="padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.2rem;">Link Label</label>
+          <input type="text" class="form-control link-label-input" placeholder="e.g. Fast Mirror" value="${initial.label || 'Download'}" required style="padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.2rem;">Authorized URL</label>
+          <input type="url" class="form-control link-url-input" placeholder="https://..." value="${initial.url || ''}" required style="padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+        </div>
+        <div style="text-align: center;">
+          <label style="font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.2rem;">Status</label>
+          <label style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.8rem; cursor: pointer;">
+            <input type="checkbox" class="link-enabled-input" ${initial.enabled !== false ? 'checked' : ''}> Enabled
+          </label>
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: transparent; display: block; margin-bottom: 0.2rem;">Del</label>
+          <button type="button" class="btn btn-glass remove-link-btn" style="padding: 0.4rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.3); font-size: 0.8rem; width: 100%;">✕</button>
+        </div>
+      `;
+
+      div.querySelector('.remove-link-btn').addEventListener('click', () => {
+        if (linksContainer.querySelectorAll('.link-row').length > 1) {
+          div.remove();
+        } else {
+          alert('At least one download link is required.');
+        }
+      });
+
+      linksContainer.appendChild(div);
+    }
+
+    addLinkBtn.addEventListener('click', () => {
+      addLinkRow({
+        host_name: `Server ${linksContainer.querySelectorAll('.link-row').length + 1}`,
+        label: 'Fast Download',
+        url: '',
+        enabled: true
+      });
+    });
+
+    async function loadContentForEditing() {
+      if (!animeId) {
+        // Initialize default new link rows
+        addLinkRow({ host_name: 'Server 1 (Cloud)', label: 'Direct Fast Mirror', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4', enabled: true });
+        addLinkRow({ host_name: 'Server 2 (Google Drive)', label: 'Backup Cloud Node', url: 'https://drive.google.com', enabled: true });
+        return;
+      }
+
+      pageHeading.innerText = 'Edit Content Record';
+      pageSubheading.innerText = `Updating metadata and download links for content ID: ${animeId}`;
+      submitBtn.innerText = 'Save Changes';
+
+      try {
+        const res = await API.getAdminAnimeById(animeId);
+        if (res.error || !res.anime) {
+          alert('Content record not found: ' + (res.error || 'Invalid ID'));
+          window.location.href = '/admin/manage-anime.html';
+          return;
+        }
+
+        const a = res.anime;
+        document.getElementById('anime-title').value = a.title || '';
+        document.getElementById('anime-type').value = a.type || 'ANIME';
+        document.getElementById('anime-slug').value = a.slug || '';
+        document.getElementById('anime-language').value = a.language || 'Japanese (Sub)';
+        document.getElementById('anime-description').value = a.description || '';
+        document.getElementById('anime-year').value = a.year || 2026;
+        document.getElementById('anime-rating').value = a.rating || 8.0;
+        document.getElementById('anime-status').value = a.status || 'COMPLETED';
+        document.getElementById('anime-duration').value = a.duration || '';
+        document.getElementById('anime-genres').value = Array.isArray(a.genres) ? a.genres.join(', ') : a.genres || '';
+        document.getElementById('anime-featured').checked = !!a.is_featured;
+        document.getElementById('anime-trending').checked = !!a.is_trending;
+        document.getElementById('anime-seo-title').value = a.seo_title || '';
+        document.getElementById('anime-seo-description').value = a.seo_description || '';
+        document.getElementById('anime-seo-keywords').value = a.seo_keywords || '';
+
+        // Populate Poster
+        const currentPoster = a.poster || a.poster_image_url || '';
+        if (animePosterInput) animePosterInput.value = currentPoster;
+        if (currentPoster) {
+          showPosterPreview(currentPoster);
+          if (removePosterBtn) removePosterBtn.style.display = 'inline-flex';
+          if (posterUploadText) posterUploadText.innerText = 'CHANGE POSTER';
+        } else {
+          hidePosterPreview();
+        }
+
+        // Populate Banner
+        const currentBanner = a.banner || a.banner_image_url || '';
+        if (animeBannerInput) animeBannerInput.value = currentBanner;
+        if (currentBanner) {
+          showBannerPreview(currentBanner);
+          if (removeBannerBtn) removeBannerBtn.style.display = 'inline-flex';
+          if (bannerUploadText) bannerUploadText.innerText = 'CHANGE BANNER';
+        } else {
+          hideBannerPreview();
+        }
+
+        // Load Download Links
+        const linksRes = await API.getAdminDownloadLinks(animeId);
+        linksContainer.innerHTML = '';
+        if (linksRes.links && linksRes.links.length > 0) {
+          linksRes.links.forEach(link => addLinkRow(link));
+        } else {
+          addLinkRow({ host_name: 'Server 1 (Cloud)', label: 'Direct Fast Mirror', url: a.video_url || 'https://example.com', enabled: true });
+        }
+
+        // Load Seasons & Episodes
+        await loadSeasonsAndEpisodes();
+
+        // Load Screenshots
+        await loadScreenshots();
+
+      } catch (err) {
+        alert('Failed to load content for editing: ' + err.message);
+      }
+    }
+
+    // --- ANIME POSTER LOGIC ---
+    let pendingPosterContent = '';
+    const posterFileInput = document.getElementById('poster-file-input');
+    const posterUploadText = document.getElementById('poster-upload-text');
+    const removePosterBtn = document.getElementById('remove-poster-btn');
+    const animePosterInput = document.getElementById('anime-poster');
+
+    function showPosterPreview(src) {
+      const box = document.getElementById('poster-preview-box');
+      const img = document.getElementById('poster-preview-img');
+      const err = document.getElementById('poster-preview-error');
+      if (!box || !img) return;
+      box.style.display = 'block';
+      if (err) err.style.display = 'none';
+      img.style.display = 'inline-block';
+      img.src = src;
+      img.onerror = () => { if (err) err.style.display = 'block'; };
+      img.onload = () => { if (err) err.style.display = 'none'; };
+    }
+
+    function hidePosterPreview() {
+      const box = document.getElementById('poster-preview-box');
+      const img = document.getElementById('poster-preview-img');
+      if (box) box.style.display = 'none';
+      if (img) img.src = '';
+      if (removePosterBtn) removePosterBtn.style.display = 'none';
+      if (posterUploadText) posterUploadText.innerText = '+ UPLOAD POSTER';
+    }
+
+    if (posterFileInput) {
+      posterFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            pendingPosterContent = evt.target.result;
+            showPosterPreview(pendingPosterContent);
+            if (removePosterBtn) removePosterBtn.style.display = 'inline-flex';
+            if (posterUploadText) posterUploadText.innerText = 'CHANGE POSTER';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    if (removePosterBtn) {
+      removePosterBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to remove the poster image?')) {
+          pendingPosterContent = '';
+          if (animePosterInput) animePosterInput.value = '';
+          if (posterFileInput) posterFileInput.value = '';
+          hidePosterPreview();
+        }
+      });
+    }
+
+    // --- ANIME BANNER LOGIC ---
+    let pendingBannerContent = '';
+    const bannerFileInput = document.getElementById('banner-file-input');
+    const bannerUploadText = document.getElementById('banner-upload-text');
+    const removeBannerBtn = document.getElementById('remove-banner-btn');
+    const animeBannerInput = document.getElementById('anime-banner');
+
+    function showBannerPreview(src) {
+      const box = document.getElementById('banner-preview-box');
+      const img = document.getElementById('banner-preview-img');
+      const err = document.getElementById('banner-preview-error');
+      if (!box || !img) return;
+      box.style.display = 'block';
+      if (err) err.style.display = 'none';
+      img.style.display = 'inline-block';
+      img.src = src;
+      img.onerror = () => { if (err) err.style.display = 'block'; };
+      img.onload = () => { if (err) err.style.display = 'none'; };
+    }
+
+    function hideBannerPreview() {
+      const box = document.getElementById('banner-preview-box');
+      const img = document.getElementById('banner-preview-img');
+      if (box) box.style.display = 'none';
+      if (img) img.src = '';
+      if (removeBannerBtn) removeBannerBtn.style.display = 'none';
+      if (bannerUploadText) bannerUploadText.innerText = '+ UPLOAD BANNER';
+    }
+
+    if (bannerFileInput) {
+      bannerFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            pendingBannerContent = evt.target.result;
+            showBannerPreview(pendingBannerContent);
+            if (removeBannerBtn) removeBannerBtn.style.display = 'inline-flex';
+            if (bannerUploadText) bannerUploadText.innerText = 'CHANGE BANNER';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    if (removeBannerBtn) {
+      removeBannerBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to remove the banner image?')) {
+          pendingBannerContent = '';
+          if (animeBannerInput) animeBannerInput.value = '';
+          if (bannerFileInput) bannerFileInput.value = '';
+          hideBannerPreview();
+        }
+      });
+    }
+
+    // --- SEASONS & EPISODES LOGIC ---
+    let currentEpisodes = [];
+    let activeEpisodeFormSeason = null; // Season number currently showing episode form
+    let editingEpisode = null; // Episode object being edited (or null for add)
+    let expandedSeasons = {}; // Map of seasonNum -> boolean
+
+    const seasonsContainer = document.getElementById('seasons-container');
+    const addSeasonTopBtn = document.getElementById('add-season-top-btn');
+
+    if (addSeasonTopBtn) {
+      addSeasonTopBtn.addEventListener('click', () => {
+        if (!animeId) {
+          alert('Please save the main content information first before adding seasons.');
+          return;
+        }
+        const seasonNums = Array.from(new Set(currentEpisodes.map(e => e.season_number || 1)));
+        const maxSeason = seasonNums.length > 0 ? Math.max(...seasonNums) : 0;
+        const nextSeason = maxSeason + 1;
+
+        activeEpisodeFormSeason = nextSeason;
+        editingEpisode = null;
+        expandedSeasons[nextSeason] = true;
+        renderSeasonsContainer();
+      });
+    }
+
+    async function loadSeasonsAndEpisodes() {
+      if (!animeId) {
+        if (seasonsContainer) {
+          seasonsContainer.innerHTML = `
+            <div class="glass-panel" style="padding: 1.5rem; text-align: center; color: #94a3b8; font-size: 0.9rem;">
+              Save content details above first to enable Seasons & Episodes management.
+            </div>
+          `;
+        }
+        return;
+      }
+
+      try {
+        const res = await API.getAdminAnimeById(animeId);
+        if (res.episodes) {
+          currentEpisodes = res.episodes;
+        } else {
+          currentEpisodes = [];
+        }
+        renderSeasonsContainer();
+      } catch (err) {
+        console.error('Error loading seasons & episodes:', err);
+        if (seasonsContainer) {
+          seasonsContainer.innerHTML = `<div class="glass-panel" style="padding: 1rem; color: #ef4444;">Failed to load episodes: ${err.message}</div>`;
+        }
+      }
+    }
+
+    function renderSeasonsContainer() {
+      if (!seasonsContainer) return;
+      seasonsContainer.innerHTML = '';
+
+      const seasonSet = new Set(currentEpisodes.map(e => e.season_number || 1));
+      if (activeEpisodeFormSeason) {
+        seasonSet.add(activeEpisodeFormSeason);
+      }
+
+      if (seasonSet.size === 0) {
+        seasonSet.add(1);
+      }
+
+      const seasonNums = Array.from(seasonSet).sort((a, b) => a - b);
+
+      seasonNums.forEach(sNum => {
+        if (expandedSeasons[sNum] === undefined) {
+          expandedSeasons[sNum] = true;
+        }
+
+        const seasonEps = currentEpisodes
+          .filter(e => (e.season_number || 1) === sNum)
+          .sort((a, b) => a.episode_number - b.episode_number);
+
+        const isExpanded = expandedSeasons[sNum];
+
+        const seasonCard = document.createElement('div');
+        seasonCard.className = 'glass-panel';
+        seasonCard.style.cssText = 'padding: 1.25rem; border-radius: 12px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 1rem;';
+
+        const cardHeader = document.createElement('div');
+        cardHeader.style.cssText = 'display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; flex-wrap: wrap; gap: 0.75rem;';
+        cardHeader.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.1rem; font-weight: 800; color: #a855f7;">SEASON ${sNum}</span>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #94a3b8; background: rgba(255, 255, 255, 0.06); padding: 0.2rem 0.65rem; border-radius: 20px;">
+              Episodes: ${seasonEps.length}
+            </span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;" onclick="event.stopPropagation()">
+            <button type="button" class="btn btn-glass add-ep-btn" style="font-size: 0.8rem; font-weight: 700; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); padding: 0.35rem 0.85rem;">
+              + Add Episode
+            </button>
+            <button type="button" class="btn btn-glass delete-season-btn" style="font-size: 0.8rem; font-weight: 700; color: #ef4444; border-color: rgba(239, 68, 68, 0.3); padding: 0.35rem 0.85rem;">
+              🗑 Delete Season
+            </button>
+            <span style="font-size: 0.9rem; color: #94a3b8; margin-left: 0.5rem;">${isExpanded ? '▲' : '▼'}</span>
+          </div>
+        `;
+
+        cardHeader.addEventListener('click', () => {
+          expandedSeasons[sNum] = !expandedSeasons[sNum];
+          renderSeasonsContainer();
+        });
+
+        cardHeader.querySelector('.add-ep-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          activeEpisodeFormSeason = sNum;
+          editingEpisode = null;
+          expandedSeasons[sNum] = true;
+          renderSeasonsContainer();
+        });
+
+        cardHeader.querySelector('.delete-season-btn').addEventListener('click', async (e) => {
+          e.stopPropagation();
+          if (confirm(`Are you sure you want to delete Season ${sNum} and all its ${seasonEps.length} episodes?`)) {
+            for (const ep of seasonEps) {
+              await API.deleteEpisode(ep.id);
+            }
+            if (activeEpisodeFormSeason === sNum) activeEpisodeFormSeason = null;
+            await loadSeasonsAndEpisodes();
+          }
+        });
+
+        seasonCard.appendChild(cardHeader);
+
+        const cardBody = document.createElement('div');
+        cardBody.style.display = isExpanded ? 'block' : 'none';
+        cardBody.style.marginTop = '1rem';
+
+        if (activeEpisodeFormSeason === sNum) {
+          const formBox = document.createElement('div');
+          formBox.style.cssText = 'padding: 1.25rem; border-radius: 10px; background: rgba(0, 0, 0, 0.35); border: 1px dashed rgba(168, 85, 247, 0.5); margin-bottom: 1.25rem;';
+
+          const isEditing = !!editingEpisode;
+          const initialEpNum = isEditing ? editingEpisode.episode_number : (seasonEps.length > 0 ? Math.max(...seasonEps.map(e => e.episode_number)) + 1 : 1);
+          const initialTitle = isEditing ? editingEpisode.title : `Episode ${initialEpNum}`;
+          const initialDuration = isEditing ? (editingEpisode.duration || '24m') : '24m';
+          const initialStatus = isEditing ? (editingEpisode.status || 'PUBLISHED') : 'PUBLISHED';
+          const initialThumb = isEditing ? (editingEpisode.thumbnail || '') : '';
+          const initialVideoUrl = isEditing ? (editingEpisode.video_url || (editingEpisode.drive_file_id ? `https://drive.google.com/file/d/${editingEpisode.drive_file_id}/view` : '')) : '';
+
+          formBox.innerHTML = `
+            <div style="font-size: 0.95rem; font-weight: 800; color: #a855f7; margin-bottom: 1rem;">
+              ${isEditing ? `EDIT EPISODE #${editingEpisode.episode_number}` : `+ ADD NEW EPISODE TO SEASON ${sNum}`}
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label class="form-label">Episode Title *</label>
+                <input type="text" id="form-ep-title" class="form-control" value="${initialTitle}" placeholder="e.g. Solo Leveling Episode 1" required>
+              </div>
+
+              <div>
+                <label class="form-label">Season Number *</label>
+                <input type="number" id="form-ep-season" class="form-control" value="${sNum}" min="1" required>
+              </div>
+
+              <div>
+                <label class="form-label">Episode Number *</label>
+                <input type="number" id="form-ep-number" class="form-control" value="${initialEpNum}" min="1" required>
+              </div>
+
+              <div>
+                <label class="form-label">Duration</label>
+                <input type="text" id="form-ep-duration" class="form-control" value="${initialDuration}" placeholder="e.g. 24m">
+              </div>
+
+              <div>
+                <label class="form-label">Status</label>
+                <select id="form-ep-status" class="form-control">
+                  <option value="PUBLISHED" ${initialStatus === 'PUBLISHED' ? 'selected' : ''}>PUBLISHED</option>
+                  <option value="UNPUBLISHED" ${initialStatus === 'UNPUBLISHED' ? 'selected' : ''}>UNPUBLISHED</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+              <label class="form-label">Thumbnail Image (URL or Browse File)</label>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <input type="text" id="form-ep-thumb" class="form-control" value="${initialThumb}" placeholder="https://... or choose image file">
+                <label class="btn btn-glass" style="cursor: pointer; padding: 0.6rem 1rem; font-size: 0.85rem; white-space: nowrap; margin: 0;">
+                  📁 Browse
+                  <input type="file" id="form-ep-thumb-file" accept="image/*" style="display: none;">
+                </label>
+              </div>
+            </div>
+
+
+            <div style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+              <h4 style="font-size: 1rem; font-weight: 700; color: #f8fafc; margin-bottom: 1rem;">Video Qualities</h4>
+              <div id="form-ep-qualities-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom: 1rem;"></div>
+              <button type="button" id="add-quality-btn" class="btn btn-glass" style="font-size:0.8rem; padding: 0.4rem 0.8rem;">+ Add Quality</button>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+              <label class="form-label">Legacy Google Drive File URL (Optional, kept for backward compatibility)</label>
+              <input type="text" id="form-ep-video" class="form-control" value="${initialVideoUrl}" placeholder="https://drive.google.com/file/d/FILE_ID/view?usp=sharing">
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <button type="button" id="save-ep-btn" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-weight: 800; font-size: 0.85rem;">
+                💾 ${isEditing ? 'Update Episode' : 'Save Episode'}
+              </button>
+              <button type="button" id="cancel-ep-btn" class="btn btn-glass" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                Cancel
+              </button>
+            </div>
+          `;
+
+          const thumbFileInput = formBox.querySelector('#form-ep-thumb-file');
+          const thumbTextInput = formBox.querySelector('#form-ep-thumb');
+          thumbFileInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (evt) => {
+                thumbTextInput.value = evt.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+          formBox.querySelector('#cancel-ep-btn').addEventListener('click', () => {
+            activeEpisodeFormSeason = null;
+            editingEpisode = null;
+            renderSeasonsContainer();
+          });
+
+
+          // Qualities Logic
+          let currentQualities = isEditing && editingEpisode.qualities ? JSON.parse(JSON.stringify(editingEpisode.qualities)) : [];
+          const qualitiesList = formBox.querySelector('#form-ep-qualities-list');
+          
+                    
+          function renderQualities() {
+            qualitiesList.innerHTML = '';
+            currentQualities.forEach((q, idx) => {
+              if (!q.mirrors) q.mirrors = [];
+              const qDiv = document.createElement('div');
+              qDiv.style.cssText = 'background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;';
+              
+              let mirrorsHtml = '';
+              q.mirrors.forEach((m, midx) => {
+                const isEnabled = m.enabled !== false; // default true
+                mirrorsHtml += `
+                  <div class="mirror-row" style="margin-bottom: 0.75rem; padding-left: 1rem; border-left: 2px solid rgba(255,255,255,0.1);">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 0.25rem;">
+                      <label class="form-label" style="font-size:0.8rem; margin:0;">Mirror ${midx + 1}</label>
+                      <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <button type="button" class="btn btn-glass move-m-up" style="padding:0.1rem 0.4rem; font-size:0.7rem;" data-qidx="${idx}" data-midx="${midx}" ${midx===0?'disabled':''}>&uarr;</button>
+                        <button type="button" class="btn btn-glass move-m-down" style="padding:0.1rem 0.4rem; font-size:0.7rem;" data-qidx="${idx}" data-midx="${midx}" ${midx===q.mirrors.length-1?'disabled':''}>&darr;</button>
+                        <label style="font-size: 0.7rem; display: flex; align-items: center; gap: 0.25rem; color: #f8fafc; cursor: pointer;">
+                          <input type="checkbox" class="m-enabled" data-qidx="${idx}" data-midx="${midx}" ${isEnabled ? 'checked' : ''}>
+                          Enabled
+                        </label>
+                        <button type="button" class="btn btn-glass del-m-btn" style="padding:0.1rem 0.4rem; font-size:0.7rem; color:#ef4444;" data-qidx="${idx}" data-midx="${midx}">Delete</button>
+                      </div>
+                    </div>
+                    <input type="text" class="form-control m-name" value="${m.name}" placeholder="Mirror Name (e.g. Google Drive)" data-qidx="${idx}" data-midx="${midx}" style="margin-bottom:0.5rem; font-size:0.85rem;">
+                    <input type="text" class="form-control m-url" value="${m.url}" placeholder="Mirror URL" data-qidx="${idx}" data-midx="${midx}" style="font-size:0.85rem;">
+                  </div>
+                `;
+              });
+
+              qDiv.innerHTML = `
+                <div style="display:flex; justify-content:space-between; margin-bottom: 1rem; align-items: center;">
+                  <strong style="color: #f8fafc; font-size: 1.1rem;">${q.quality || 'New Quality'}</strong>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" class="btn btn-glass move-q-up" style="padding:0.25rem 0.5rem; font-size:0.8rem;" data-idx="${idx}" ${idx===0?'disabled':''}>Move Up</button>
+                    <button type="button" class="btn btn-glass move-q-down" style="padding:0.25rem 0.5rem; font-size:0.8rem;" data-idx="${idx}" ${idx===currentQualities.length-1?'disabled':''}>Move Down</button>
+                    <button type="button" class="btn btn-glass del-q-btn" style="padding:0.25rem 0.75rem; font-size:0.8rem; color:#ef4444;" data-idx="${idx}">Delete Quality</button>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                  <div>
+                    <label class="form-label">Quality Name *</label>
+                    <input type="text" class="form-control q-name" value="${q.quality}" placeholder="e.g. 720p">
+                  </div>
+                  <div>
+                    <label class="form-label">Codec (Optional)</label>
+                    <input type="text" class="form-control q-codec" value="${q.codec || ''}" placeholder="e.g. x264">
+                  </div>
+                  <div>
+                    <label class="form-label">Size (Optional)</label>
+                    <input type="text" class="form-control q-size" value="${q.size || ''}" placeholder="e.g. 190MB">
+                  </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem; display: block;">
+                  <label class="form-label" style="color: #38bdf8;">Watch Online Source (Stream URL)</label>
+                  <input type="text" class="form-control q-url-legacy" value="${q.video_url || ''}" placeholder="URL for the 'Watch Online' player (e.g. Google Drive link)">
+                  <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem;">This video will be played when visitors click "Watch Online". If left blank, it will try to play the first mirror.</div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                  <label class="form-label" style="color:#a855f7; font-weight:700;">Mirrors</label>
+                  <div class="mirrors-list" style="margin-top:0.5rem; margin-bottom:0.5rem;">
+                    ${mirrorsHtml}
+                  </div>
+                  <button type="button" class="btn btn-glass add-m-btn" style="font-size:0.8rem; padding: 0.3rem 0.6rem;" data-idx="${idx}">+ Add Mirror</button>
+                </div>
+              `;
+              
+              qDiv.querySelector('.del-q-btn').addEventListener('click', (e) => {
+                const i = parseInt(e.target.dataset.idx);
+                currentQualities.splice(i, 1);
+                renderQualities();
+              });
+              
+              const qUp = qDiv.querySelector('.move-q-up');
+              if (qUp) qUp.addEventListener('click', (e) => {
+                const i = parseInt(e.target.dataset.idx);
+                if (i > 0) {
+                  [currentQualities[i], currentQualities[i - 1]] = [currentQualities[i - 1], currentQualities[i]];
+                  renderQualities();
+                }
+              });
+              
+              const qDown = qDiv.querySelector('.move-q-down');
+              if (qDown) qDown.addEventListener('click', (e) => {
+                const i = parseInt(e.target.dataset.idx);
+                if (i < currentQualities.length - 1) {
+                  [currentQualities[i], currentQualities[i + 1]] = [currentQualities[i + 1], currentQualities[i]];
+                  renderQualities();
+                }
+              });
+              
+              qDiv.querySelector('.add-m-btn').addEventListener('click', (e) => {
+                const i = parseInt(e.target.dataset.idx);
+                if (!currentQualities[i].mirrors) currentQualities[i].mirrors = [];
+                currentQualities[i].mirrors.push({ id: 'm-' + Date.now(), name: '', url: '', enabled: true });
+                renderQualities();
+              });
+
+              qDiv.querySelectorAll('.del-m-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  currentQualities[qi].mirrors.splice(mi, 1);
+                  renderQualities();
+                });
+              });
+              
+              qDiv.querySelectorAll('.move-m-up').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  if (mi > 0) {
+                    const m = currentQualities[qi].mirrors;
+                    [m[mi], m[mi - 1]] = [m[mi - 1], m[mi]];
+                    renderQualities();
+                  }
+                });
+              });
+              
+              qDiv.querySelectorAll('.move-m-down').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  const m = currentQualities[qi].mirrors;
+                  if (mi < m.length - 1) {
+                    [m[mi], m[mi + 1]] = [m[mi + 1], m[mi]];
+                    renderQualities();
+                  }
+                });
+              });
+              
+              qDiv.querySelectorAll('.m-enabled').forEach(input => {
+                input.addEventListener('change', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  currentQualities[qi].mirrors[mi].enabled = e.target.checked;
+                });
+              });
+              
+              qDiv.querySelector('.q-name').addEventListener('input', (e) => {
+                q.quality = e.target.value;
+                qDiv.querySelector('strong').innerText = q.quality || 'New Quality';
+              });
+              qDiv.querySelector('.q-codec').addEventListener('input', (e) => {
+                q.codec = e.target.value;
+              });
+              qDiv.querySelector('.q-size').addEventListener('input', (e) => {
+                q.size = e.target.value;
+              });
+              const legacyUrl = qDiv.querySelector('.q-url-legacy');
+              if (legacyUrl) {
+                legacyUrl.addEventListener('input', (e) => {
+                  q.video_url = e.target.value;
+                });
+              }
+
+              qDiv.querySelectorAll('.m-name').forEach(input => {
+                input.addEventListener('input', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  currentQualities[qi].mirrors[mi].name = e.target.value;
+                });
+              });
+              qDiv.querySelectorAll('.m-url').forEach(input => {
+                input.addEventListener('input', (e) => {
+                  const qi = parseInt(e.target.dataset.qidx);
+                  const mi = parseInt(e.target.dataset.midx);
+                  currentQualities[qi].mirrors[mi].url = e.target.value;
+                });
+              });
+              
+              qualitiesList.appendChild(qDiv);
+            });
+          }
+
+          formBox.querySelector('#add-quality-btn').addEventListener('click', () => {
+            currentQualities.push({ id: 'q-' + Date.now(), quality: '', video_url: '', status: 'PUBLISHED' });
+            renderQualities();
+          });
+          
+          renderQualities();
+
+          formBox.querySelector('#save-ep-btn').addEventListener('click', async () => {
+            const epTitle = formBox.querySelector('#form-ep-title').value.trim();
+            const epSeason = parseInt(formBox.querySelector('#form-ep-season').value, 10) || sNum;
+            const epNumber = parseInt(formBox.querySelector('#form-ep-number').value, 10);
+            const epDuration = formBox.querySelector('#form-ep-duration').value.trim();
+            const epStatus = formBox.querySelector('#form-ep-status').value;
+            const epThumb = formBox.querySelector('#form-ep-thumb').value.trim();
+            const epVideo = formBox.querySelector('#form-ep-video').value.trim();
+
+            if (!epTitle) {
+              alert('Please enter Episode Title.');
+              return;
+            }
+            if (isNaN(epNumber) || epNumber < 1) {
+              alert('Please enter a valid Episode Number.');
+              return;
+            }
+
+
+            // Validate qualities
+            let validQualities = true;
+            currentQualities.forEach(q => {
+              if (q.video_url && q.video_url.includes('drive.google.com')) {
+                const driveMatch = q.video_url.match(/(?:https?:\/\/)?(?:drive|docs)\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)/);
+                if (!driveMatch || !driveMatch[1]) {
+                  validQualities = false;
+                  alert('Validation Error in Quality ' + (q.quality || 'Unknown') + ': Please enter a valid Google Drive file URL.');
+                }
+              }
+            });
+            if (!validQualities) return;
+
+            if (epVideo && epVideo.includes('drive.google.com')) {
+              const driveMatch = epVideo.match(/(?:https?:\/\/)?(?:drive|docs)\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)/);
+              if (!driveMatch || !driveMatch[1]) {
+                alert('Validation Error: Please enter a valid Google Drive file URL.\n\nExample:\nhttps://drive.google.com/file/d/FILE_ID/view?usp=drivesdk');
+                return;
+              }
+            }
+
+            
+            const isDuplicate = currentEpisodes.some(e =>
+              (e.season_number || 1) === epSeason &&
+              e.episode_number === epNumber &&
+              (!isEditing || e.id !== editingEpisode.id)
+            );
+            if (isDuplicate) {
+              alert(`Validation Error: Episode ${epNumber} already exists in Season ${epSeason}. Please use a unique episode number.`);
+              return;
+            }
+            
+            // Qualities & Mirrors Validation
+            for (let i = 0; i < currentQualities.length; i++) {
+              const q = currentQualities[i];
+              if (!q.quality.trim()) {
+                alert(`Validation Error: Quality name cannot be empty (Quality #${i+1}).`);
+                return;
+              }
+              if (q.mirrors) {
+                for (let j = 0; j < q.mirrors.length; j++) {
+                  const m = q.mirrors[j];
+                  if (!m.name.trim()) {
+                    alert(`Validation Error: Mirror name cannot be empty in quality ${q.quality}.`);
+                    return;
+                  }
+                  if (!m.url.trim()) {
+                    alert(`Validation Error: Mirror URL cannot be empty in quality ${q.quality} (Mirror ${m.name}).`);
+                    return;
+                  }
+                  if (m.name.toLowerCase().includes('google drive')) {
+                     const match = m.url.trim().match(/(?:https?:\/\/)?(?:drive|docs)\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)/);
+                     if (!match || !match[1]) {
+                        alert(`Validation Error: Invalid Google Drive URL in quality ${q.quality} (Mirror ${m.name}). Please provide a valid Google Drive file URL.`);
+                        return;
+                     }
+                  }
+                }
+              }
+            }
+
+
+            const epPayload = {
+              anime_id: animeId,
+              season_number: epSeason,
+              episode_number: epNumber,
+              title: epTitle,
+              duration: epDuration || '24m',
+              thumbnail: epThumb,
+              status: epStatus,
+              is_published: epStatus === 'PUBLISHED',
+              video_url: epVideo,
+              qualities: currentQualities
+            };
+
+            try {
+              let res;
+              if (isEditing) {
+                res = await API.updateEpisode(editingEpisode.id, epPayload);
+              } else {
+                res = await API.addEpisode(epPayload);
+              }
+
+              if (res.error) {
+                alert('Failed to save episode: ' + res.error);
+              } else {
+                alert(isEditing ? 'Episode updated successfully!' : 'Episode added successfully!');
+                activeEpisodeFormSeason = null;
+                editingEpisode = null;
+                await loadSeasonsAndEpisodes();
+              }
+            } catch (err) {
+              alert('Error saving episode: ' + err.message);
+            }
+          });
+
+          cardBody.appendChild(formBox);
+        }
+
+        if (seasonEps.length === 0) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.style.cssText = 'color: #64748b; font-size: 0.85rem; padding: 0.5rem 0;';
+          emptyDiv.innerText = `No episodes added to Season ${sNum} yet. Click "+ Add Episode" above to add one.`;
+          cardBody.appendChild(emptyDiv);
+        } else {
+          const listDiv = document.createElement('div');
+          listDiv.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem;';
+
+          seasonEps.forEach((ep) => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); flex-wrap: wrap;';
+
+            row.innerHTML = `
+              <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 260px;">
+                <img src="${ep.thumbnail || 'https://placehold.co/80x50/1e293b/a855f7?text=Ep+' + ep.episode_number}" alt="${ep.title}" style="width: 70px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);" onerror="this.onerror=null; this.src='https://placehold.co/70x45/1e293b/a855f7?text=No+Thumb';">
+                <div>
+                  <div style="font-weight: 800; font-size: 0.9rem; color: #f8fafc;">
+                    S${ep.season_number || 1} EP ${ep.episode_number} — ${ep.title}
+                  </div>
+                  <div style="font-size: 0.78rem; color: #94a3b8; display: flex; gap: 0.5rem; align-items: center; margin-top: 0.2rem;">
+                    <span>⏱ ${ep.duration || '24m'}</span>
+                    <span>•</span>
+                    <span style="color: ${ep.status === 'PUBLISHED' || ep.is_published !== false ? '#4ade80' : '#f87171'}; font-weight: 700;">
+                      ${ep.status === 'PUBLISHED' || ep.is_published !== false ? 'PUBLISHED' : 'UNPUBLISHED'}
+                    </span>
+                    ${ep.video_url ? `<span style="color:#38bdf8;">• 📁 Google Drive Link Set</span>` : `<span style="color:#ef4444;">• ⚠️ No Drive Link</span>`}
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" class="btn btn-glass edit-ep-btn" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
+                  ✏️ Edit
+                </button>
+                <button type="button" class="btn btn-glass delete-ep-btn" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">
+                  🗑️ Delete
+                </button>
+              </div>
+            `;
+
+            row.querySelector('.edit-ep-btn').addEventListener('click', () => {
+              activeEpisodeFormSeason = sNum;
+              editingEpisode = ep;
+              expandedSeasons[sNum] = true;
+              renderSeasonsContainer();
+            });
+
+            row.querySelector('.delete-ep-btn').addEventListener('click', async () => {
+              if (confirm(`Are you sure you want to delete Episode ${ep.episode_number}: "${ep.title}"?`)) {
+                await API.deleteEpisode(ep.id);
+                await loadSeasonsAndEpisodes();
+              }
+            });
+
+            listDiv.appendChild(row);
+          });
+
+          cardBody.appendChild(listDiv);
+        }
+
+        seasonCard.appendChild(cardBody);
+        seasonsContainer.appendChild(seasonCard);
+      });
+    }
+
+    // --- SCREENSHOT GALLERY LOGIC ---
+    let currentScreenshots = [];
+    let pendingImageContent = '';
+
+    const methodUrlRadio = document.getElementById('scr-method-url');
+    const methodFileRadio = document.getElementById('scr-method-file');
+    const urlBox = document.getElementById('scr-url-box');
+    const fileBox = document.getElementById('scr-file-box');
+    const urlInput = document.getElementById('screenshot-input-url');
+    const fileInput = document.getElementById('screenshot-input-file');
+    const previewContainer = document.getElementById('scr-preview-container');
+    const previewImg = document.getElementById('scr-preview-img');
+    const previewError = document.getElementById('scr-preview-error');
+    const addScreenshotBtn = document.getElementById('add-screenshot-btn');
+    const screenshotsListContainer = document.getElementById('admin-screenshots-list');
+
+    if (methodUrlRadio && methodFileRadio) {
+      methodUrlRadio.addEventListener('change', () => {
+        urlBox.style.display = 'block';
+        fileBox.style.display = 'none';
+        updatePreview();
+      });
+
+      methodFileRadio.addEventListener('change', () => {
+        urlBox.style.display = 'none';
+        fileBox.style.display = 'block';
+        updatePreview();
+      });
+
+      urlInput.addEventListener('input', updatePreview);
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            pendingImageContent = evt.target.result;
+            showPreview(pendingImageContent);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          pendingImageContent = '';
+          previewContainer.style.display = 'none';
+        }
+      });
+    }
+
+    function updatePreview() {
+      if (methodUrlRadio.checked) {
+        const url = urlInput.value.trim();
+        if (url) {
+          pendingImageContent = url;
+          showPreview(url);
+        } else {
+          pendingImageContent = '';
+          previewContainer.style.display = 'none';
+        }
+      } else {
+        if (fileInput.files && fileInput.files[0]) {
+          // handled by file change listener
+        } else {
+          pendingImageContent = '';
+          previewContainer.style.display = 'none';
+        }
+      }
+    }
+
+    function showPreview(src) {
+      previewContainer.style.display = 'block';
+      previewError.style.display = 'none';
+      previewImg.style.display = 'inline-block';
+      previewImg.src = src;
+
+      previewImg.onerror = () => {
+        previewError.style.display = 'block';
+      };
+      previewImg.onload = () => {
+        previewError.style.display = 'none';
+      };
+    }
+
+    addScreenshotBtn.addEventListener('click', async () => {
+      if (!pendingImageContent) {
+        alert('Please provide a valid Image URL or select an image file first.');
+        return;
+      }
+
+      if (animeId) {
+        addScreenshotBtn.disabled = true;
+        addScreenshotBtn.innerText = 'Adding...';
+        const res = await API.addAnimeScreenshot(animeId, {
+          image_url: pendingImageContent,
+          status: 'ENABLED'
+        });
+        addScreenshotBtn.disabled = false;
+        addScreenshotBtn.innerText = '+ ADD SCREENSHOT';
+
+        if (res.error) {
+          alert('Failed to add screenshot: ' + res.error);
+        } else {
+          urlInput.value = '';
+          fileInput.value = '';
+          pendingImageContent = '';
+          previewContainer.style.display = 'none';
+          await loadScreenshots();
+        }
+      } else {
+        currentScreenshots.push({
+          id: 'temp-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+          image_url: pendingImageContent,
+          display_order: currentScreenshots.length + 1,
+          status: 'ENABLED'
+        });
+        urlInput.value = '';
+        fileInput.value = '';
+        pendingImageContent = '';
+        previewContainer.style.display = 'none';
+        renderScreenshotsList();
+      }
+    });
+
+    async function loadScreenshots() {
+      if (!animeId) return;
+      try {
+        const res = await API.getAdminAnimeScreenshots(animeId);
+        if (res.screenshots) {
+          currentScreenshots = res.screenshots;
+          renderScreenshotsList();
+        }
+      } catch (err) {
+        console.error('Error loading screenshots:', err);
+      }
+    }
+
+    function normalizeGoogleDriveUrl(url) {
+      if (!url || typeof url !== 'string') return url || '';
+      const trimmed = url.trim();
+      if (trimmed.includes('drive.google.com') || trimmed.includes('docs.google.com') || trimmed.includes('googleusercontent.com')) {
+        if (trimmed.includes('googleusercontent.com/d/')) return trimmed;
+        const match = trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/) ||
+                      trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+                      trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        }
+      }
+      return trimmed;
+    }
+
+    function renderScreenshotsList() {
+      screenshotsListContainer.innerHTML = '';
+      if (!currentScreenshots || currentScreenshots.length === 0) {
+        screenshotsListContainer.innerHTML = '<div style="color:#64748b; font-size:0.85rem; padding: 0.5rem 0;">No screenshots added yet.</div>';
+        return;
+      }
+
+      currentScreenshots.forEach((scr, index) => {
+        const div = document.createElement('div');
+        div.className = 'glass-panel';
+        div.style.cssText = 'padding: 0.75rem 1rem; border-radius: 10px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;';
+
+        const isEnabled = scr.status === 'ENABLED' || scr.status === undefined;
+        const normalizedUrl = normalizeGoogleDriveUrl(scr.image_url || '');
+
+        div.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 280px;">
+            <div style="font-weight: 800; font-size: 0.9rem; color: #a855f7; width: 24px;">#${index + 1}</div>
+            <img src="${normalizedUrl}" alt="Screenshot ${index + 1}" style="width: 80px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);" onerror="this.onerror=null; this.src='https://placehold.co/80x50/1e293b/a855f7?text=Image+unavailable';">
+            <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              <div style="font-size: 0.8rem; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${scr.image_url}">${scr.image_url}</div>
+              <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.25rem;">
+                <span class="badge" style="font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: ${isEnabled ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; color: ${isEnabled ? '#4ade80' : '#f87171'}; border: 1px solid ${isEnabled ? 'rgba(34, 197, 94, 0.4)' : 'rgba(239, 68, 68, 0.4)'};">
+                  ${isEnabled ? 'ENABLED' : 'DISABLED'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <button type="button" class="btn btn-glass move-up-btn" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" ${index === 0 ? 'disabled' : ''}>⬆</button>
+            <button type="button" class="btn btn-glass move-down-btn" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" ${index === currentScreenshots.length - 1 ? 'disabled' : ''}>⬇</button>
+            <button type="button" class="btn btn-glass toggle-status-btn" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: ${isEnabled ? '#f87171' : '#4ade80'};">
+              ${isEnabled ? 'Disable' : 'Enable'}
+            </button>
+            <button type="button" class="btn btn-glass edit-url-btn" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">✏️ Edit</button>
+            <button type="button" class="btn btn-glass delete-scr-btn" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">🗑️</button>
+          </div>
+        `;
+
+        div.querySelector('.move-up-btn').addEventListener('click', async () => {
+          if (index > 0) {
+            const temp = currentScreenshots[index];
+            currentScreenshots[index] = currentScreenshots[index - 1];
+            currentScreenshots[index - 1] = temp;
+            if (animeId) {
+              await API.reorderAnimeScreenshots(animeId, currentScreenshots.map(s => s.id));
+              await loadScreenshots();
+            } else {
+              renderScreenshotsList();
+            }
+          }
+        });
+
+        div.querySelector('.move-down-btn').addEventListener('click', async () => {
+          if (index < currentScreenshots.length - 1) {
+            const temp = currentScreenshots[index];
+            currentScreenshots[index] = currentScreenshots[index + 1];
+            currentScreenshots[index + 1] = temp;
+            if (animeId) {
+              await API.reorderAnimeScreenshots(animeId, currentScreenshots.map(s => s.id));
+              await loadScreenshots();
+            } else {
+              renderScreenshotsList();
+            }
+          }
+        });
+
+        div.querySelector('.toggle-status-btn').addEventListener('click', async () => {
+          const newStatus = isEnabled ? 'DISABLED' : 'ENABLED';
+          if (animeId) {
+            await API.updateAnimeScreenshot(animeId, scr.id, { status: newStatus });
+            await loadScreenshots();
+          } else {
+            scr.status = newStatus;
+            renderScreenshotsList();
+          }
+        });
+
+        div.querySelector('.edit-url-btn').addEventListener('click', async () => {
+          const newUrl = prompt('Edit Screenshot Image URL:', scr.image_url);
+          if (newUrl && newUrl.trim()) {
+            if (animeId) {
+              await API.updateAnimeScreenshot(animeId, scr.id, { image_url: newUrl.trim() });
+              await loadScreenshots();
+            } else {
+              scr.image_url = newUrl.trim();
+              renderScreenshotsList();
+            }
+          }
+        });
+
+        div.querySelector('.delete-scr-btn').addEventListener('click', async () => {
+          if (confirm('Are you sure you want to delete this screenshot?')) {
+            if (animeId) {
+              const res = await API.deleteAnimeScreenshot(animeId, scr.id); if (res.error) alert(res.error); else
+              await loadScreenshots();
+            } else {
+              currentScreenshots.splice(index, 1);
+              renderScreenshotsList();
+            }
+          }
+        });
+
+        screenshotsListContainer.appendChild(div);
+      });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.style.display = 'none';
+
+      // Automatically save any pending screenshot input before submitting
+      if (pendingImageContent) {
+        if (animeId) {
+          try {
+            await API.addAnimeScreenshot(animeId, { image_url: pendingImageContent, status: 'ENABLED' });
+          } catch (e) {
+            console.error('Error saving pending screenshot:', e);
+          }
+        } else {
+          currentScreenshots.push({
+            id: 'temp-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+            image_url: pendingImageContent,
+            display_order: currentScreenshots.length + 1,
+            status: 'ENABLED'
+          });
+        }
+        pendingImageContent = '';
+        urlInput.value = '';
+        fileInput.value = '';
+        if (previewContainer) previewContainer.style.display = 'none';
+      }
+
+      const linkRows = linksContainer.querySelectorAll('.link-row');
+      const downloadLinks = [];
+      linkRows.forEach((row, idx) => {
+        const host_name = row.querySelector('.host-name-input').value.trim();
+        const label = row.querySelector('.link-label-input').value.trim();
+        const url = row.querySelector('.link-url-input').value.trim();
+        const enabled = row.querySelector('.link-enabled-input').checked;
+        if (host_name && url) {
+          downloadLinks.push({ host_name, label: label || 'Download', url, enabled, order: idx + 1 });
+        }
+      });
+
+      const finalPoster = pendingPosterContent !== '' ? pendingPosterContent : (animePosterInput ? animePosterInput.value : '');
+      const finalBanner = pendingBannerContent !== '' ? pendingBannerContent : (animeBannerInput ? animeBannerInput.value : '');
+
+      const payload = {
+        title: document.getElementById('anime-title').value.trim(),
+        type: document.getElementById('anime-type').value,
+        slug: document.getElementById('anime-slug').value.trim(),
+        language: document.getElementById('anime-language').value.trim(),
+        description: document.getElementById('anime-description').value.trim(),
+        year: parseInt(document.getElementById('anime-year').value),
+        rating: parseFloat(document.getElementById('anime-rating').value),
+        status: document.getElementById('anime-status').value,
+        duration: document.getElementById('anime-duration').value.trim(),
+        genres: document.getElementById('anime-genres').value,
+        poster: finalPoster,
+        poster_image_url: finalPoster,
+        banner: finalBanner,
+        banner_image_url: finalBanner,
+        is_featured: document.getElementById('anime-featured').checked,
+        is_trending: document.getElementById('anime-trending').checked,
+        seo_title: document.getElementById('anime-seo-title').value.trim(),
+        seo_description: document.getElementById('anime-seo-description').value.trim(),
+        seo_keywords: document.getElementById('anime-seo-keywords').value.trim(),
+        download_links: downloadLinks
+      };
+
+      try {
+        let res;
+        if (animeId) {
+          res = await API.updateAnime(animeId, payload);
+          if (!res.error) {
+            if (downloadLinks.length > 0) {
+              await API.saveDownloadLinks(animeId, downloadLinks);
+            }
+            // Save any pending temporary screenshots if present
+            const tempScreenshots = currentScreenshots.filter(s => s.id && String(s.id).startsWith('temp-'));
+            for (const scr of tempScreenshots) {
+              await API.addAnimeScreenshot(animeId, {
+                image_url: scr.image_url,
+                status: scr.status || 'ENABLED'
+              });
+            }
+          }
+        } else {
+          res = await API.createAnime(payload);
+          if (res.anime && res.anime.id) {
+            const targetId = res.anime.id;
+            if (downloadLinks.length > 0) {
+              await API.saveDownloadLinks(targetId, downloadLinks);
+            }
+            if (currentScreenshots.length > 0) {
+              for (const scr of currentScreenshots) {
+                await API.addAnimeScreenshot(targetId, {
+                  image_url: scr.image_url,
+                  status: scr.status || 'ENABLED'
+                });
+              }
+            }
+          }
+        }
+
+        if (res.error) {
+          msg.style.background = 'rgba(239, 68, 68, 0.2)';
+          msg.style.color = '#f87171';
+          msg.innerText = res.error;
+          msg.style.display = 'block';
+        } else {
+          msg.style.background = 'rgba(34, 197, 94, 0.2)';
+          msg.style.color = '#4ade80';
+          msg.innerText = animeId ? 'Content record updated successfully! Redirecting...' : 'New content published successfully! Redirecting...';
+          msg.style.display = 'block';
+          setTimeout(() => {
+            window.location.href = '/admin/manage-anime.html';
+          }, 1000);
+        }
+      } catch (err) {
+        msg.style.background = 'rgba(239, 68, 68, 0.2)';
+        msg.style.color = '#f87171';
+        msg.innerText = 'Error saving content: ' + err.message;
+        msg.style.display = 'block';
+      }
+    });
+
+    loadContentForEditing();
+  </script>
+</body>
+</html>

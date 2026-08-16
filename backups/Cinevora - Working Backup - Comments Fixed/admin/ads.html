@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ads Manager — Cinevora Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .admin-layout { display: flex; min-height: 100vh; background: #0b0f19; color: #f8fafc; }
+    .admin-sidebar { width: 260px; background: #0f172a; border-right: 1px solid rgba(255, 255, 255, 0.08); padding: 1.5rem 1rem; display: flex; flex-direction: column; flex-shrink: 0; }
+    .admin-main { flex: 1; padding: 2rem; overflow-y: auto; }
+    .sidebar-brand { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .sidebar-brand span { color: #9333ea; }
+    .nav-menu { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+    .nav-menu a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 8px; color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; }
+    .nav-menu a:hover, .nav-menu a.active { background: rgba(147, 51, 234, 0.15); color: #c084fc; border-left: 3px solid #9333ea; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .tab-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem; flex-wrap: wrap; }
+    .tab-btn { padding: 0.6rem 1.2rem; border-radius: 8px; background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid transparent; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+    .tab-btn.active { background: #9333ea; color: #fff; border-color: #a855f7; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; }
+    .stat-val { font-size: 1.8rem; font-weight: 800; color: #f8fafc; margin-top: 0.25rem; }
+    .stat-lbl { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+    .ads-table-container { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+    .ads-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .ads-table th, .ads-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .ads-table th { background: rgba(255,255,255,0.03); color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-active { background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+    .badge-inactive { background: rgba(239, 68, 68, 0.15); color: #f87171; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+    .modal-card { background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.35rem; }
+    .form-control { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.65rem 0.9rem; color: #fff; font-size: 0.9rem; }
+    .form-control:focus { outline: none; border-color: #9333ea; background: rgba(255,255,255,0.08); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+    .slot-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .3s; border-radius: 24px; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+    input:checked + .slider { background-color: #9333ea; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    @media (max-width: 768px) {
+      .admin-layout { flex-direction: column !important; width: 100% !important; max-width: 100% !important; overflow-x: hidden !important; }
+      .admin-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; padding: 1rem !important; }
+      .nav-menu { flex-direction: row !important; flex-wrap: wrap !important; gap: 0.35rem 0.5rem !important; }
+      .nav-menu a { padding: 0.4rem 0.75rem !important; font-size: 0.8rem !important; border-left: none !important; border-bottom: 2px solid transparent !important; }
+      .nav-menu a.active { border-left: none !important; border-bottom: 2px solid #9333ea !important; }
+      .admin-main { padding: 1rem !important; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; overflow-x: hidden !important; }
+      .admin-header { flex-direction: column !important; align-items: flex-start !important; gap: 0.75rem !important; }
+      .grid-2 { grid-template-columns: 1fr !important; }
+      .slots-grid { grid-template-columns: 1fr !important; }
+      .ads-table-container { width: 100% !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+      .ads-table { min-width: 580px !important; }
+      .modal-card { padding: 1rem !important; max-height: 92vh; width: 100%; box-sizing: border-box; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="/admin/admin.html" class="sidebar-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#9333ea"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        CINE<span>VORA</span> ADMIN
+      </a>
+      <ul class="nav-menu">
+        <li><a href="/admin/admin.html">Overview</a></li>
+        <li><a href="/admin/manage-anime.html">Manage Anime</a></li>
+        <li><a href="/admin/add-anime.html">Add New Anime</a></li>
+        <li><a href="/admin/manage-users.html">Manage Users</a></li>
+        <li><a href="/admin/ads.html" class="active">Ads Manager</a></li>
+        <li><a href="/admin/activity.html">Admin Activity</a></li>
+        <li><a href="/admin/settings.html">Settings</a></li>
+        <li><a href="/" target="_blank" style="margin-top:2rem; color:#38bdf8;">View Website &rarr;</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <h1 style="font-size: 1.8rem; font-weight: 800;">Ads Manager</h1>
+          <p style="color: #94a3b8; font-size: 0.9rem;">Control advertisements, slots, rotation, frequency & performance analytics.</p>
+        </div>
+        <button id="open-add-ad-modal" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight:700;">
+          + Add New Ad
+        </button>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="tab-all-ads">All Ads</button>
+        <button class="tab-btn" data-tab="tab-slots">Ad Slots</button>
+        <button class="tab-btn" data-tab="tab-settings">Ads Settings</button>
+        <button class="tab-btn" data-tab="tab-analytics">Analytics</button>
+      </div>
+
+      <!-- Tab 1: All Ads -->
+      <div id="tab-all-ads" class="tab-content active">
+        <!-- Filter Controls -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+          <input type="text" id="ad-search-input" class="form-control" placeholder="Search ads by name, slot, or type..." style="max-width: 260px;">
+          <select id="ad-scope-filter" class="form-control" style="max-width: 180px;">
+            <option value="ALL">All Scopes</option>
+            <option value="GLOBAL">Global / Apply to All</option>
+            <option value="ANIME">Specific Anime</option>
+            <option value="EPISODE">Specific Episode</option>
+          </select>
+          <select id="ad-slot-filter" class="form-control" style="max-width: 220px;">
+            <option value="ALL">All Slots</option>
+          </select>
+          <select id="ad-type-filter" class="form-control" style="max-width: 160px;">
+            <option value="ALL">All Types</option>
+            <option value="BANNER">Banner Ad</option>
+            <option value="IMAGE">Image Ad</option>
+            <option value="HTML">HTML Ad</option>
+            <option value="EXTERNAL_URL">External URL</option>
+            <option value="CUSTOM_EMBED">Custom Embed</option>
+          </select>
+          <select id="ad-status-filter" class="form-control" style="max-width: 140px;">
+            <option value="ALL">All Status</option>
+            <option value="ACTIVE">Active</option>
+            <option value="INACTIVE">Inactive</option>
+          </select>
+        </div>
+
+        <div class="ads-table-container">
+          <table class="ads-table">
+            <thead>
+              <tr>
+                <th>Ad Name</th>
+                <th>Scope</th>
+                <th>Type</th>
+                <th>Slot</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Impressions</th>
+                <th>Clicks</th>
+                <th>CTR</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ads-table-body">
+              <tr><td colspan="10" style="text-align:center; padding: 2rem;"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab 2: Ad Slots -->
+      <div id="tab-slots" class="tab-content">
+        <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+          <p style="color: #94a3b8;">Enable or disable individual ad placement slots across Cinevora pages.</p>
+          <button id="save-slots-btn" class="btn btn-primary" style="padding: 0.5rem 1.2rem;">Save Slot Configurations</button>
+        </div>
+        <div id="slots-container" class="slots-grid">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Ads Settings -->
+      <div id="tab-settings" class="tab-content">
+        <div style="max-width: 720px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 2rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem;">Global Ad Configuration</h3>
+          <form id="ad-settings-form">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 8px;">
+              <div>
+                <strong style="color: #f8fafc; font-size: 1rem;">Enable Advertisements Globally</strong>
+                <p style="margin: 0; color: #94a3b8; font-size: 0.85rem;">Turn off to immediately disable all ads across the entire website.</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="global-ads-enabled" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Default Rotation Mode</label>
+                <select id="default-rotation" class="form-control">
+                  <option value="RANDOM">Random Rotation</option>
+                  <option value="PRIORITY">Priority-Based Rotation</option>
+                  <option value="SEQUENTIAL">Sequential Rotation</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Default Frequency Mode</label>
+                <select id="default-frequency" class="form-control">
+                  <option value="PAGE_VIEW">Show Every Page View</option>
+                  <option value="SESSION">Show Once Per Session</option>
+                  <option value="EVERY_X_PAGE_VIEWS">Show Every X Page Views</option>
+                  <option value="EVERY_X_MINUTES">Show Every X Minutes</option>
+                </select>
+              </div>
+            </div>
+
+            <h4 style="font-size: 1rem; font-weight: 700; margin: 1.5rem 0 1rem 0; color: #a855f7;">Section-Wise Ad Visibility</h4>
+            <div id="section-toggles-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <!-- Populated dynamically -->
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 2rem; width: 100%;">Save Global Ads Settings</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab 4: Analytics -->
+      <div id="tab-analytics" class="tab-content">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-lbl">Total Ads</div>
+            <div id="stat-total-ads" class="stat-val">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Active Ads</div>
+            <div id="stat-active-ads" class="stat-val" style="color: #4ade80;">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Total Impressions</div>
+            <div id="stat-total-impressions" class="stat-val" style="color: #38bdf8;">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Total Clicks</div>
+            <div id="stat-total-clicks" class="stat-val" style="color: #a855f7;">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Overall CTR</div>
+            <div id="stat-overall-ctr" class="stat-val" style="color: #f59e0b;">0%</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;">Top Performing Advertisements</h3>
+        <div class="ads-table-container">
+          <table class="ads-table">
+            <thead>
+              <tr>
+                <th>Ad Name</th>
+                <th>Slot</th>
+                <th>Impressions</th>
+                <th>Clicks</th>
+                <th>CTR</th>
+                <th>Last Displayed</th>
+                <th>Last Clicked</th>
+              </tr>
+            </thead>
+            <tbody id="analytics-table-body">
+              <tr><td colspan="7" style="text-align:center; padding: 2rem;"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add / Edit Ad Modal -->
+  <div id="ad-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 id="modal-title" style="font-size: 1.3rem; font-weight: 800;">Add New Advertisement</h3>
+        <button id="close-ad-modal" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="ad-form">
+        <input type="hidden" id="ad-id" value="">
+
+        <div class="form-group">
+          <label>Ad Name *</label>
+          <input type="text" id="ad-name" class="form-control" placeholder="e.g. Cyberpunk Sale Banner" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Ad Scope *</label>
+            <select id="ad-scope" class="form-control" required>
+              <option value="GLOBAL">Global / Apply to All</option>
+              <option value="ANIME">Specific Anime</option>
+              <option value="EPISODE">Specific Episode (Optional)</option>
+            </select>
+            <small style="color:#94a3b8; display:block; margin-top:0.25rem;">
+              Global ads automatically appear across all anime, seasons, episodes, and download pages.
+            </small>
+          </div>
+          <div class="form-group" id="scope-anime-group" style="display: none;">
+            <label>Target Anime</label>
+            <select id="ad-anime-id" class="form-control">
+              <option value="">Select Anime...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Ad Type *</label>
+            <select id="ad-type" class="form-control" required>
+              <option value="BANNER">Banner Ad</option>
+              <option value="IMAGE">Image Ad</option>
+              <option value="HTML">HTML Ad</option>
+              <option value="EXTERNAL_URL">External URL Ad</option>
+              <option value="CUSTOM_EMBED">Custom Embed Ad</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Target Slot *</label>
+            <select id="ad-slot" class="form-control" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Status</label>
+            <select id="ad-status" class="form-control">
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priority (1 = Low, 100 = High)</label>
+            <input type="number" id="ad-priority" class="form-control" value="1" min="1" max="100">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Display Frequency</label>
+            <select id="ad-frequency" class="form-control">
+              <option value="PAGE_VIEW">Every Page View</option>
+              <option value="SESSION">Once Per Session</option>
+              <option value="EVERY_X_PAGE_VIEWS">Every X Page Views</option>
+              <option value="EVERY_X_MINUTES">Every X Minutes</option>
+            </select>
+          </div>
+          <div class="form-group" id="freq-val-group">
+            <label>Frequency Value (X)</label>
+            <input type="number" id="ad-frequency-val" class="form-control" placeholder="e.g. 3" min="1">
+          </div>
+        </div>
+
+        <!-- Dynamic Fields per Ad Type -->
+        <div id="url-fields-container">
+          <div class="form-group">
+            <label>Target URL (Click Destination)</label>
+            <input type="url" id="ad-target-url" class="form-control" placeholder="https://example.com/promo">
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="url" id="ad-image-url" class="form-control" placeholder="https://images.unsplash.com/photo-...">
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Title (Optional)</label>
+              <input type="text" id="ad-title" class="form-control" placeholder="Ad Headline">
+            </div>
+            <div class="form-group">
+              <label>Description (Optional)</label>
+              <input type="text" id="ad-description" class="form-control" placeholder="Short caption or offer details">
+            </div>
+          </div>
+        </div>
+
+        <div id="code-fields-container" style="display: none;">
+          <div class="form-group">
+            <label>HTML / Embed Code *</label>
+            <textarea id="ad-code" class="form-control" rows="5" placeholder="<div style='...'>Your custom ad HTML or iframe script</div>"></textarea>
+            <small style="color:#94a3b8; display:block; margin-top:0.25rem;">Note: Ads run in sandboxed containers for security. Server credentials and cookies are strictly isolated.</small>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Start Date (Optional)</label>
+            <input type="datetime-local" id="ad-start-date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>End Date (Optional)</label>
+            <input type="datetime-local" id="ad-end-date" class="form-control">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+          <button type="button" id="cancel-ad-modal" class="btn btn-glass">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="font-weight:700;">Save Advertisement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+
+    let allAds = [];
+    let allSlots = [];
+    let adSettings = {};
+    let animeList = [];
+
+    // Auth verification
+    async function verifyAuth() {
+      try {
+        const me = await API.me();
+        if (!me.authenticated || (me.user.role !== 'SUPER_ADMIN' && me.user.role !== 'EDITOR')) {
+          window.location.href = '/admin/admin-login.html';
+        }
+      } catch {
+        window.location.href = '/admin/admin-login.html';
+      }
+    }
+
+    // Tabs navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // Toggle Form Input Types
+    const typeSelect = document.getElementById('ad-type');
+    const urlFields = document.getElementById('url-fields-container');
+    const codeFields = document.getElementById('code-fields-container');
+
+    typeSelect.addEventListener('change', () => {
+      const type = typeSelect.value;
+      if (type === 'HTML' || type === 'CUSTOM_EMBED') {
+        urlFields.style.display = 'none';
+        codeFields.style.display = 'block';
+      } else if (type === 'EXTERNAL_URL') {
+        urlFields.style.display = 'block';
+        codeFields.style.display = 'block';
+      } else {
+        urlFields.style.display = 'block';
+        codeFields.style.display = 'none';
+      }
+    });
+
+    // Scope select toggle
+    const scopeSelect = document.getElementById('ad-scope');
+    const animeGroup = document.getElementById('scope-anime-group');
+
+    scopeSelect.addEventListener('change', () => {
+      const scopeVal = scopeSelect.value;
+      if (scopeVal === 'ANIME' || scopeVal === 'EPISODE') {
+        animeGroup.style.display = 'block';
+      } else {
+        animeGroup.style.display = 'none';
+      }
+    });
+
+    // Load All Admin Data
+    async function loadAdminAdsData() {
+      try {
+        const [data, animeRes] = await Promise.all([
+          API.getAdminAds(),
+          API.getAnimeList().catch(() => [])
+        ]);
+        allAds = data.ads || [];
+        allSlots = data.slots || [];
+        adSettings = data.settings || {};
+        animeList = animeRes || [];
+
+        populateSlotAndAnimeDropdowns();
+        renderAdsTable();
+        renderSlotsGrid();
+        renderSettingsForm();
+        renderAnalytics();
+      } catch (err) {
+        alert('Failed to load advertisements data: ' + err.message);
+      }
+    }
+
+    function populateSlotAndAnimeDropdowns() {
+      const filterSelect = document.getElementById('ad-slot-filter');
+      const modalSelect = document.getElementById('ad-slot');
+      const animeSelect = document.getElementById('ad-anime-id');
+
+      let filterHTML = '<option value="ALL">All Slots</option>';
+      let modalHTML = '';
+
+      allSlots.forEach(s => {
+        filterHTML += `<option value="${s.slot}">${s.name} (${s.slot})</option>`;
+        modalHTML += `<option value="${s.slot}">${s.name} (${s.slot})</option>`;
+      });
+
+      filterSelect.innerHTML = filterHTML;
+      modalSelect.innerHTML = modalHTML;
+
+      let animeHTML = '<option value="">Select Anime...</option>';
+      animeList.forEach(a => {
+        animeHTML += `<option value="${a.id}">${a.title}</option>`;
+      });
+      animeSelect.innerHTML = animeHTML;
+    }
+
+    // Render Table
+    function renderAdsTable() {
+      const tbody = document.getElementById('ads-table-body');
+      const search = document.getElementById('ad-search-input').value.toLowerCase().trim();
+      const scopeFilter = document.getElementById('ad-scope-filter').value;
+      const slotFilter = document.getElementById('ad-slot-filter').value;
+      const typeFilter = document.getElementById('ad-type-filter').value;
+      const statusFilter = document.getElementById('ad-status-filter').value;
+
+      const filtered = allAds.filter(ad => {
+        const adScope = ad.scope || 'GLOBAL';
+        if (scopeFilter !== 'ALL' && adScope !== scopeFilter) return false;
+        if (slotFilter !== 'ALL' && ad.slot !== slotFilter) return false;
+        if (typeFilter !== 'ALL' && ad.type !== typeFilter) return false;
+        if (statusFilter !== 'ALL' && ad.status !== statusFilter) return false;
+        if (search) {
+          const matchName = ad.name.toLowerCase().includes(search);
+          const matchSlot = ad.slot.toLowerCase().includes(search);
+          const matchType = ad.type.toLowerCase().includes(search);
+          if (!matchName && !matchSlot && !matchType) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding: 2rem; color:#94a3b8;">No advertisements matching filter criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(ad => {
+        const ctr = ad.impressions > 0 ? ((ad.clicks / ad.impressions) * 100).toFixed(1) + '%' : '0.0%';
+        const adScope = ad.scope || 'GLOBAL';
+        let scopeBadge = `<span class="badge" style="background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3);">Global (All)</span>`;
+        if (adScope === 'ANIME') {
+          scopeBadge = `<span class="badge badge-blue">Anime Specific</span>`;
+        } else if (adScope === 'EPISODE') {
+          scopeBadge = `<span class="badge badge-purple">Episode Specific</span>`;
+        }
+
+        return `
+          <tr>
+            <td>
+              <strong style="color:#f8fafc;">${ad.name}</strong>
+              ${ad.title ? `<div style="font-size:0.78rem; color:#94a3b8;">${ad.title}</div>` : ''}
+            </td>
+            <td>${scopeBadge}</td>
+            <td><span class="badge badge-purple">${ad.type}</span></td>
+            <td><code style="background:rgba(255,255,255,0.05); padding:0.2rem 0.4rem; border-radius:4px; font-size:0.8rem;">${ad.slot}</code></td>
+            <td>${ad.priority || 1}</td>
+            <td><span class="${ad.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive'}">${ad.status}</span></td>
+            <td>${(ad.impressions || 0).toLocaleString()}</td>
+            <td>${(ad.clicks || 0).toLocaleString()}</td>
+            <td><strong style="color:#f59e0b;">${ctr}</strong></td>
+            <td>
+              <div style="display:flex; gap:0.4rem;">
+                <button class="btn btn-glass edit-btn" data-id="${ad.id}" style="padding:0.3rem 0.6rem; font-size:0.75rem;">Edit</button>
+                <button class="btn btn-glass toggle-btn" data-id="${ad.id}" style="padding:0.3rem 0.6rem; font-size:0.75rem;">${ad.status === 'ACTIVE' ? 'Deactivate' : 'Activate'}</button>
+                <button class="btn btn-glass dup-btn" data-id="${ad.id}" style="padding:0.3rem 0.6rem; font-size:0.75rem;">Duplicate</button>
+                <button class="btn btn-glass del-btn" data-id="${ad.id}" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#ef4444;">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Event Listeners for actions
+      tbody.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => openAdModal(btn.getAttribute('data-id')));
+      });
+      tbody.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          await API.toggleAd(btn.getAttribute('data-id'));
+          loadAdminAdsData();
+        });
+      });
+      tbody.querySelectorAll('.dup-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          await API.duplicateAd(btn.getAttribute('data-id'));
+          loadAdminAdsData();
+        });
+      });
+      tbody.querySelectorAll('.del-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (confirm('Are you sure you want to delete this ad?')) {
+            await API.deleteAd(btn.getAttribute('data-id'));
+            loadAdminAdsData();
+          }
+        });
+      });
+    }
+
+    // Filter listeners
+    document.getElementById('ad-search-input').addEventListener('input', renderAdsTable);
+    document.getElementById('ad-scope-filter').addEventListener('change', renderAdsTable);
+    document.getElementById('ad-slot-filter').addEventListener('change', renderAdsTable);
+    document.getElementById('ad-type-filter').addEventListener('change', renderAdsTable);
+    document.getElementById('ad-status-filter').addEventListener('change', renderAdsTable);
+
+    // Modal Control
+    const modal = document.getElementById('ad-modal');
+    document.getElementById('open-add-ad-modal').addEventListener('click', () => openAdModal());
+    document.getElementById('close-ad-modal').addEventListener('click', () => modal.style.display = 'none');
+    document.getElementById('cancel-ad-modal').addEventListener('click', () => modal.style.display = 'none');
+
+    function openAdModal(adId = null) {
+      document.getElementById('ad-form').reset();
+      document.getElementById('ad-id').value = '';
+
+      if (adId) {
+        const ad = allAds.find(a => a.id === adId);
+        if (ad) {
+          document.getElementById('modal-title').innerText = 'Edit Advertisement';
+          document.getElementById('ad-id').value = ad.id;
+          document.getElementById('ad-name').value = ad.name || '';
+          document.getElementById('ad-scope').value = ad.scope || 'GLOBAL';
+          document.getElementById('ad-anime-id').value = ad.anime_id || '';
+          document.getElementById('ad-type').value = ad.type || 'BANNER';
+          document.getElementById('ad-slot').value = ad.slot || 'DOWNLOAD_PAGE_TOP';
+          document.getElementById('ad-status').value = ad.status || 'ACTIVE';
+          document.getElementById('ad-priority').value = ad.priority || 1;
+          document.getElementById('ad-frequency').value = ad.frequency || 'PAGE_VIEW';
+          document.getElementById('ad-frequency-val').value = ad.frequency_value || '';
+          document.getElementById('ad-target-url').value = ad.target_url || '';
+          document.getElementById('ad-image-url').value = ad.image_url || '';
+          document.getElementById('ad-title').value = ad.title || '';
+          document.getElementById('ad-description').value = ad.description || '';
+          document.getElementById('ad-code').value = ad.code || '';
+          document.getElementById('ad-start-date').value = ad.start_date ? ad.start_date.substring(0, 16) : '';
+          document.getElementById('ad-end-date').value = ad.end_date ? ad.end_date.substring(0, 16) : '';
+        }
+      } else {
+        document.getElementById('modal-title').innerText = 'Add New Advertisement';
+        document.getElementById('ad-scope').value = 'GLOBAL';
+        document.getElementById('ad-anime-id').value = '';
+      }
+
+      scopeSelect.dispatchEvent(new Event('change'));
+      typeSelect.dispatchEvent(new Event('change'));
+      modal.style.display = 'flex';
+    }
+
+    // Form Submit
+    document.getElementById('ad-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('ad-id').value;
+      const adData = {
+        name: document.getElementById('ad-name').value,
+        type: document.getElementById('ad-type').value,
+        scope: document.getElementById('ad-scope').value || 'GLOBAL',
+        anime_id: document.getElementById('ad-anime-id').value || undefined,
+        slot: document.getElementById('ad-slot').value,
+        status: document.getElementById('ad-status').value,
+        priority: Number(document.getElementById('ad-priority').value) || 1,
+        frequency: document.getElementById('ad-frequency').value,
+        frequency_value: document.getElementById('ad-frequency-val').value ? Number(document.getElementById('ad-frequency-val').value) : undefined,
+        target_url: document.getElementById('ad-target-url').value,
+        image_url: document.getElementById('ad-image-url').value,
+        title: document.getElementById('ad-title').value,
+        description: document.getElementById('ad-description').value,
+        code: document.getElementById('ad-code').value,
+        start_date: document.getElementById('ad-start-date').value || undefined,
+        end_date: document.getElementById('ad-end-date').value || undefined,
+      };
+
+      try {
+        if (id) {
+          await API.updateAd(id, adData);
+        } else {
+          await API.createAd(adData);
+        }
+        modal.style.display = 'none';
+        loadAdminAdsData();
+      } catch (err) {
+        alert('Error saving ad: ' + err.message);
+      }
+    });
+
+    // Render Slots Grid
+    function renderSlotsGrid() {
+      const container = document.getElementById('slots-container');
+      container.innerHTML = allSlots.map((s, idx) => `
+        <div class="slot-card">
+          <div>
+            <strong style="color:#f8fafc; font-size:0.95rem; display:block;">${s.name}</strong>
+            <code style="font-size:0.75rem; color:#94a3b8;">${s.slot}</code>
+            <span class="badge badge-purple" style="font-size:0.65rem; margin-left:0.5rem;">${s.section}</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" class="slot-toggle" data-index="${idx}" ${s.enabled ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('save-slots-btn').addEventListener('click', async () => {
+      const toggles = document.querySelectorAll('.slot-toggle');
+      toggles.forEach(t => {
+        const idx = Number(t.getAttribute('data-index'));
+        if (allSlots[idx]) {
+          allSlots[idx].enabled = t.checked;
+        }
+      });
+      try {
+        await API.updateAdSlots(allSlots);
+        alert('Slot configurations saved successfully!');
+      } catch (err) {
+        alert('Failed to save slot configs: ' + err.message);
+      }
+    });
+
+    // Render Settings Form
+    function renderSettingsForm() {
+      document.getElementById('global-ads-enabled').checked = adSettings.enabled !== false;
+      document.getElementById('default-rotation').value = adSettings.default_rotation || 'RANDOM';
+      document.getElementById('default-frequency').value = adSettings.default_frequency || 'PAGE_VIEW';
+
+      const secContainer = document.getElementById('section-toggles-grid');
+      const sections = ['HOME', 'ANIME', 'MOVIE', 'SERIES', 'DETAILS', 'WATCH', 'DOWNLOAD_GATEWAY', 'SEARCH'];
+      const secState = adSettings.section_enabled || {};
+
+      secContainer.innerHTML = sections.map(sec => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); padding:0.75rem; border-radius:8px;">
+          <span style="font-weight:600; color:#e2e8f0; font-size:0.85rem;">${sec} Section</span>
+          <label class="switch">
+            <input type="checkbox" class="sec-toggle" data-section="${sec}" ${secState[sec] !== false ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('ad-settings-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const secToggles = document.querySelectorAll('.sec-toggle');
+      const section_enabled = {};
+      secToggles.forEach(t => {
+        section_enabled[t.getAttribute('data-section')] = t.checked;
+      });
+
+      const updated = {
+        enabled: document.getElementById('global-ads-enabled').checked,
+        default_rotation: document.getElementById('default-rotation').value,
+        default_frequency: document.getElementById('default-frequency').value,
+        section_enabled
+      };
+
+      try {
+        await API.updateAdSettings(updated);
+        alert('Global ad settings saved successfully!');
+        loadAdminAdsData();
+      } catch (err) {
+        alert('Failed to save settings: ' + err.message);
+      }
+    });
+
+    // Render Analytics
+    function renderAnalytics() {
+      const totalAds = allAds.length;
+      const activeAds = allAds.filter(a => a.status === 'ACTIVE').length;
+      let totalImp = 0;
+      let totalClicks = 0;
+
+      allAds.forEach(a => {
+        totalImp += (a.impressions || 0);
+        totalClicks += (a.clicks || 0);
+      });
+
+      const overallCtr = totalImp > 0 ? ((totalClicks / totalImp) * 100).toFixed(1) + '%' : '0.0%';
+
+      document.getElementById('stat-total-ads').innerText = totalAds;
+      document.getElementById('stat-active-ads').innerText = activeAds;
+      document.getElementById('stat-total-impressions').innerText = totalImp.toLocaleString();
+      document.getElementById('stat-total-clicks').innerText = totalClicks.toLocaleString();
+      document.getElementById('stat-overall-ctr').innerText = overallCtr;
+
+      const topAds = [...allAds].sort((a, b) => (b.impressions || 0) - (a.impressions || 0));
+      const tbody = document.getElementById('analytics-table-body');
+
+      if (topAds.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem; color:#94a3b8;">No analytics data available yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = topAds.map(ad => {
+        const ctr = ad.impressions > 0 ? ((ad.clicks / ad.impressions) * 100).toFixed(1) + '%' : '0.0%';
+        return `
+          <tr>
+            <td><strong style="color:#f8fafc;">${ad.name}</strong></td>
+            <td><code style="background:rgba(255,255,255,0.05); padding:0.2rem 0.4rem; border-radius:4px; font-size:0.8rem;">${ad.slot}</code></td>
+            <td>${(ad.impressions || 0).toLocaleString()}</td>
+            <td>${(ad.clicks || 0).toLocaleString()}</td>
+            <td><strong style="color:#f59e0b;">${ctr}</strong></td>
+            <td style="font-size:0.8rem; color:#94a3b8;">${ad.last_displayed ? new Date(ad.last_displayed).toLocaleString() : 'Never'}</td>
+            <td style="font-size:0.8rem; color:#94a3b8;">${ad.last_clicked ? new Date(ad.last_clicked).toLocaleString() : 'Never'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Init
+    verifyAuth().then(() => {
+      loadAdminAdsData();
+    });
+  </script>
+</body>
+</html>

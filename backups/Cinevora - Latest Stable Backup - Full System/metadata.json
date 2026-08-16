@@ -1,0 +1,6 @@
+{
+  "name": "Cinevora",
+  "description": "Premium futuristic anime streaming and discovery platform with real backend, authentication, anime/movie/series catalog, interactive player, search, and admin management dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

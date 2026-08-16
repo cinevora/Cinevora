@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Stage Page Settings — Cinevora Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .admin-sidebar { background: rgba(10, 13, 26, 0.95); border-right: 1px solid var(--border-glass); padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+    .admin-nav { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .admin-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; border-radius: var(--radius-sm); }
+    .admin-nav a:hover, .admin-nav a.active { background: rgba(147, 51, 234, 0.15); color: #fff; border-left: 3px solid var(--accent-purple); }
+    .admin-main { padding: 2.5rem; min-width: 0; }
+    .stage-tab { padding: 0.75rem 1.25rem; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; cursor: pointer; transition: all 0.2s ease; }
+    .stage-tab.active { background: rgba(168,85,247,0.2); border-color: #a855f7; color: #fff; }
+    .form-section-heading { font-size: 1.1rem; font-weight: 800; color: #a855f7; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(168,85,247,0.2); }
+
+    @media (max-width: 768px) {
+      .admin-layout { display: flex; flex-direction: column; width: 100%; max-width: 100%; overflow-x: hidden; }
+      .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-glass); padding: 1rem; gap: 0.75rem; }
+      .admin-nav { flex-direction: row; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+      .admin-nav a { padding: 0.4rem 0.75rem; font-size: 0.8rem; border-left: none; border-bottom: 2px solid transparent; }
+      .admin-nav a.active { border-left: none; border-bottom: 2px solid var(--accent-purple); }
+      .admin-main { padding: 1rem; width: 100%; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+      .admin-main > div:first-child { flex-direction: column; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem; }
+      .admin-main h1 { font-size: 1.5rem !important; }
+      .glass-panel { padding: 1rem !important; border-radius: 12px !important; width: 100% !important; box-sizing: border-box !important; }
+      .admin-main [style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 0.85rem !important; }
+      .stage-tab { padding: 0.5rem 0.85rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        CINE<span>VORA</span>
+      </a>
+      <ul class="admin-nav">
+        <li><a href="/admin/admin.html">📊 Dashboard Overview</a></li>
+        <li><a href="/admin/add-anime.html">➕ Add Content</a></li>
+        <li><a href="/admin/manage-anime.html">🎬 Manage Content</a></li>
+        <li><a href="/admin/manage-users.html">👥 User Management</a></li>
+        <li><a href="/admin/ads.html">📢 Ads Manager</a></li>
+        <li><a href="/admin/activity.html">📜 Audit Logs</a></li>
+        <li><a href="/admin/comments.html">💬 Manage Comments</a></li>
+        <li><a href="/admin/settings.html" class="active">⚙️ Settings</a></li>
+      </ul>
+    </aside>
+
+    <main class="admin-main">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; font-weight: 800;">Download Stage Page Settings</h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Customize titles, headings, countdown durations, background styling, and ad slots across all download gateway stages.</p>
+      </div>
+
+      <!-- Stage Selector Tabs -->
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        <button type="button" class="stage-tab active" data-stage="download_step1">1. Download Step 1</button>
+        <button type="button" class="stage-tab" data-stage="episode_selection">2. Episode Selection</button>
+        <button type="button" class="stage-tab" data-stage="episode_download">3. Episode Download Gate</button>
+        <button type="button" class="stage-tab" data-stage="final_download_links">4. Final Download Links</button>
+      </div>
+
+      <div class="glass-panel" style="padding: 2.5rem; border-radius: 20px; max-width: 860px;">
+        <form id="page-settings-form" style="display: flex; flex-direction: column; gap: 1.75rem;">
+          <input type="hidden" id="active-stage" value="download_step1">
+
+          <div class="form-section-heading" id="current-stage-title">Stage 1: Download Step 1 Settings</div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Page Title (Browser Tab) *</label>
+              <input type="text" id="stg-title" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Main Heading Text *</label>
+              <input type="text" id="stg-heading" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Page Subheading / Description *</label>
+            <textarea id="stg-description" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Button Action Label</label>
+              <input type="text" id="stg-button-text" class="form-control" placeholder="CLICK HERE TO CONTINUE">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Countdown Duration (Seconds) *</label>
+              <input type="number" id="stg-countdown" class="form-control" min="0" max="120" value="10" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Custom Note / Subtext</label>
+            <input type="text" id="stg-custom-text" class="form-control" placeholder="Optional information or disclaimers...">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+            <div class="form-group">
+              <label class="form-label">Background Image URL</label>
+              <input type="url" id="stg-bg-image" class="form-control" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Background Color Code</label>
+              <input type="text" id="stg-bg-color" class="form-control" value="#080a18" placeholder="#080a18">
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; margin-top: 0.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <h4 style="font-size: 1rem; font-weight: 700; color: #38bdf8; margin: 0;">ADVERTISEMENTS & SLOTS</h4>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;">
+                <input type="checkbox" id="stg-ads-enabled" style="width: 18px; height: 18px;"> Enable Ads for this stage
+              </label>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Top Banner Slot</label>
+                <select id="stg-top-ad" class="form-control">
+                  <option value="DOWNLOAD_GATEWAY_TOP">DOWNLOAD_GATEWAY_TOP</option>
+                  <option value="HOME_TOP">HOME_TOP</option>
+                  <option value="ANIME_TOP">ANIME_TOP</option>
+                  <option value="">None</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Middle Slot</label>
+                <select id="stg-middle-ad" class="form-control">
+                  <option value="DOWNLOAD_GATEWAY_MIDDLE">DOWNLOAD_GATEWAY_MIDDLE</option>
+                  <option value="HOME_MIDDLE">HOME_MIDDLE</option>
+                  <option value="ANIME_MIDDLE">ANIME_MIDDLE</option>
+                  <option value="">None</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bottom Footer Slot</label>
+                <select id="stg-bottom-ad" class="form-control">
+                  <option value="DOWNLOAD_GATEWAY_BOTTOM">DOWNLOAD_GATEWAY_BOTTOM</option>
+                  <option value="HOME_BOTTOM">HOME_BOTTOM</option>
+                  <option value="ANIME_BOTTOM">ANIME_BOTTOM</option>
+                  <option value="">None</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="save-msg" style="display: none; padding: 1rem; border-radius: 10px; text-align: center; font-size: 0.95rem; font-weight: 600;"></div>
+
+          <button type="submit" class="btn btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1rem; align-self: flex-start; margin-top: 1rem;">
+            Save All Stage Settings
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+
+    let pageSettings = null;
+    let activeStageKey = 'download_step1';
+
+    const stageTitles = {
+      download_step1: 'Stage 1: Download Step 1 Settings',
+      episode_selection: 'Stage 2: Episode Selection Settings',
+      episode_download: 'Stage 3: Episode Download Gateway Settings',
+      final_download_links: 'Stage 4: Final Download Links Settings'
+    };
+
+    const tabs = document.querySelectorAll('.stage-tab');
+    const form = document.getElementById('page-settings-form');
+    const saveMsg = document.getElementById('save-msg');
+
+    async function initPageSettings() {
+      try {
+        pageSettings = await API.getAdminPageSettings();
+        populateStageForm(activeStageKey);
+      } catch (err) {
+        alert('Failed to load page settings: ' + err.message);
+      }
+    }
+
+    function populateStageForm(stageKey) {
+      if (!pageSettings || !pageSettings[stageKey]) return;
+      const stg = pageSettings[stageKey];
+
+      document.getElementById('current-stage-title').innerText = stageTitles[stageKey] || stageKey;
+      document.getElementById('active-stage').value = stageKey;
+
+      document.getElementById('stg-title').value = stg.title || '';
+      document.getElementById('stg-heading').value = stg.heading || '';
+      document.getElementById('stg-description').value = stg.description || '';
+      document.getElementById('stg-button-text').value = stg.button_text || '';
+      document.getElementById('stg-countdown').value = stg.countdown_seconds !== undefined ? stg.countdown_seconds : 10;
+      document.getElementById('stg-custom-text').value = stg.custom_text || '';
+      document.getElementById('stg-bg-image').value = stg.bg_image_url || '';
+      document.getElementById('stg-bg-color').value = stg.bg_color || '#080a18';
+      document.getElementById('stg-ads-enabled').checked = stg.ads_enabled !== false;
+      document.getElementById('stg-top-ad').value = stg.top_ad_slot || 'DOWNLOAD_GATEWAY_TOP';
+      document.getElementById('stg-middle-ad').value = stg.middle_ad_slot || 'DOWNLOAD_GATEWAY_MIDDLE';
+      document.getElementById('stg-bottom-ad').value = stg.bottom_ad_slot || 'DOWNLOAD_GATEWAY_BOTTOM';
+    }
+
+    function saveCurrentStageFromInputs() {
+      if (!pageSettings) return;
+      const stageKey = document.getElementById('active-stage').value;
+
+      pageSettings[stageKey] = {
+        ...pageSettings[stageKey],
+        title: document.getElementById('stg-title').value.trim(),
+        heading: document.getElementById('stg-heading').value.trim(),
+        description: document.getElementById('stg-description').value.trim(),
+        button_text: document.getElementById('stg-button-text').value.trim(),
+        countdown_seconds: parseInt(document.getElementById('stg-countdown').value) || 0,
+        custom_text: document.getElementById('stg-custom-text').value.trim(),
+        bg_image_url: document.getElementById('stg-bg-image').value.trim(),
+        bg_color: document.getElementById('stg-bg-color').value.trim(),
+        ads_enabled: document.getElementById('stg-ads-enabled').checked,
+        top_ad_slot: document.getElementById('stg-top-ad').value,
+        middle_ad_slot: document.getElementById('stg-middle-ad').value,
+        bottom_ad_slot: document.getElementById('stg-bottom-ad').value
+      };
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        saveCurrentStageFromInputs();
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeStageKey = tab.dataset.stage;
+        populateStageForm(activeStageKey);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      saveMsg.style.display = 'none';
+      saveCurrentStageFromInputs();
+
+      try {
+        const res = await API.updatePageSettings(pageSettings);
+        if (res.error) {
+          saveMsg.style.background = 'rgba(239, 68, 68, 0.2)';
+          saveMsg.style.color = '#f87171';
+          saveMsg.innerText = res.error;
+          saveMsg.style.display = 'block';
+        } else {
+          pageSettings = res.settings;
+          saveMsg.style.background = 'rgba(34, 197, 94, 0.2)';
+          saveMsg.style.color = '#4ade80';
+          saveMsg.innerText = 'Page settings saved successfully across all download stages!';
+          saveMsg.style.display = 'block';
+          setTimeout(() => { saveMsg.style.display = 'none'; }, 3000);
+        }
+      } catch (err) {
+        saveMsg.style.background = 'rgba(239, 68, 68, 0.2)';
+        saveMsg.style.color = '#f87171';
+        saveMsg.innerText = 'Failed to save settings: ' + err.message;
+        saveMsg.style.display = 'block';
+      }
+    });
+
+    initPageSettings();
+  </script>
+</body>
+</html>

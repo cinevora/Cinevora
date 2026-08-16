@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Portal Login — Cinevora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+  <div class="ambient-bg"></div>
+
+  <div class="glass-panel auth-box" style="width: 100%; max-width: 440px;">
+    <div style="text-align: center;">
+      <a href="/" class="brand-logo" style="justify-content: center; margin-bottom: 1rem;">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff;">Admin Portal Authentication</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.35rem;">
+        Server-verified session credentials required
+      </p>
+    </div>
+
+    <form id="admin-login-form" style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem;">
+      <div class="form-group">
+        <label class="form-label">Admin Email</label>
+        <input type="email" id="admin-email" class="form-control" placeholder="admin@cinevora.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="admin-password" class="form-control" placeholder="••••••••" required>
+      </div>
+
+      <div id="admin-error-msg" style="display: none; color: #ef4444; font-size: 0.85rem; text-align: center; background: rgba(239, 68, 68, 0.1); padding: 0.65rem; border-radius: 8px;"></div>
+
+      <button type="submit" id="admin-submit-btn" class="btn btn-primary" style="padding: 0.85rem; font-size: 1rem;">
+        Authenticate Admin
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1rem;">
+      <a href="/" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">← Return to Public Site</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+
+    // Auto-check if already logged in as admin
+    async function checkExistingAdminSession() {
+      try {
+        const data = await API.me();
+        if (data.authenticated && data.user && (data.user.role === 'SUPER_ADMIN' || data.user.role === 'EDITOR')) {
+          window.location.href = '/admin/admin.html';
+        }
+      } catch {}
+    }
+    checkExistingAdminSession();
+
+    const form = document.getElementById('admin-login-form');
+    const emailInput = document.getElementById('admin-email');
+    const passwordInput = document.getElementById('admin-password');
+    const errorMsg = document.getElementById('admin-error-msg');
+    const submitBtn = document.getElementById('admin-submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying with Server...';
+
+      try {
+        const res = await API.adminLogin(emailInput.value.trim(), passwordInput.value);
+        if (res.error) {
+          errorMsg.textContent = res.error;
+          errorMsg.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Authenticate Admin';
+        } else {
+          window.location.href = '/admin/admin.html';
+        }
+      } catch (err) {
+        errorMsg.textContent = err.message || 'Connection failed. Please check backend server.';
+        errorMsg.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Authenticate Admin';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Health & Protection — Cinevora Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+    .admin-sidebar {
+      background: rgba(10, 13, 26, 0.95);
+      border-right: 1px solid var(--border-glass);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .admin-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .admin-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .admin-nav a:hover, .admin-nav a.active {
+      background: rgba(147, 51, 234, 0.15);
+      color: #fff;
+      border-left: 3px solid var(--accent-purple);
+    }
+    .admin-main {
+      padding: 2.5rem;
+    }
+    .status-banner {
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-glass);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .status-banner.healthy {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.3));
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .status-banner.warning {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(120, 53, 15, 0.3));
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    .status-banner.critical {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(127, 29, 29, 0.3));
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    .status-indicator-lg {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .status-dot-lg {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 15px currentColor;
+    }
+    .status-dot-lg.healthy { background: #10b981; color: #10b981; }
+    .status-dot-lg.warning { background: #f59e0b; color: #f59e0b; }
+    .status-dot-lg.critical { background: #ef4444; color: #ef4444; }
+
+    .health-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .health-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      padding: 1.25rem;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .health-card-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .health-card-lbl {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-glass);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+    }
+    .tab-btn.active {
+      color: #fff;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+
+    .health-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .health-table th, .health-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .health-table th {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .badge-status.working { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-status.warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-status.failed { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .badge-status.disabled { background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.4); }
+
+    @media (max-width: 768px) {
+      .admin-layout { display: flex; flex-direction: column; }
+      .admin-sidebar { width: 100%; }
+      .admin-main { padding: 1rem; }
+      .status-banner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+
+      <div id="admin-user-badge" class="glass-panel" style="padding: 0.75rem; border-radius: 10px;">
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Signed in as:</div>
+        <div id="admin-username-display" style="font-weight: 700; color: #fff; margin-top: 0.2rem;">...</div>
+        <span class="badge badge-purple" id="admin-role-display" style="margin-top: 0.35rem;">ADMIN</span>
+      </div>
+
+      <ul class="admin-nav">
+        <li><a href="/admin/admin.html">📊 Dashboard Overview</a></li>
+        <li><a href="/admin/health.html" class="active">🛡️ System Health & Protection</a></li>
+        <li><a href="/admin/add-anime.html">➕ Add Content</a></li>
+        <li><a href="/admin/manage-anime.html">🎬 Manage Anime</a></li>
+        <li><a href="/admin/manage-users.html">👥 User Management</a></li>
+        <li><a href="/admin/ads.html">📢 Ads Manager</a></li>
+        <li><a href="/admin/activity.html">📜 Audit Logs</a></li>
+        <li><a href="/admin/comments.html">💬 Manage Comments</a></li>
+        <li><a href="/admin/settings.html">⚙️ Settings</a></li>
+        <li><a href="/" target="_blank">🌐 View Public Website</a></li>
+      </ul>
+
+      <div style="margin-top: auto;">
+        <button id="admin-logout-btn" class="btn btn-glass" style="width: 100%; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);">
+          Logout Admin
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 1.8rem; font-weight: 800;">System Health & Auto-Protection</h1>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">Real-time diagnostics, circuit breakers, and automatic safe recovery monitoring</p>
+        </div>
+        <button id="run-health-check-btn" class="btn btn-primary" style="padding: 0.65rem 1.25rem; font-weight: 800; gap: 0.5rem; display: flex; align-items: center;">
+          ⚡ Run Health Check Now
+        </button>
+      </div>
+
+      <!-- Top Status Banner -->
+      <div id="status-banner" class="status-banner healthy">
+        <div class="status-indicator-lg">
+          <div id="status-dot" class="status-dot-lg healthy"></div>
+          <div>
+            <div id="status-title" style="font-size: 1.4rem; font-weight: 800; color: #fff;">🟢 SYSTEM HEALTHY</div>
+            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">
+              Last Check: <span id="last-check-display">Just now</span> &bull; Server Uptime: <span id="uptime-display">0m</span>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted);">
+          <div>Auto-Protection Engine: <strong style="color: #34d399;">ACTIVE</strong></div>
+          <div style="margin-top: 0.2rem;">Isolated Circuit Breakers: <strong id="cb-count-display">0 Active</strong></div>
+        </div>
+      </div>
+
+      <!-- Key Health Cards -->
+      <div class="health-grid">
+        <div class="health-card">
+          <div class="health-card-lbl">Active System Errors</div>
+          <div id="card-active-errors" class="health-card-val" style="color: #38bdf8;">0</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Requires resolution</div>
+        </div>
+        <div class="health-card">
+          <div class="health-card-lbl">System Warnings</div>
+          <div id="card-warnings" class="health-card-val" style="color: #fbbf24;">0</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Threshold alerts</div>
+        </div>
+        <div class="health-card">
+          <div class="health-card-lbl">Protected / Disabled Features</div>
+          <div id="card-protected-features" class="health-card-val" style="color: #a855f7;">0</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Isolated circuit breakers</div>
+        </div>
+        <div class="health-card">
+          <div class="health-card-lbl">Last Recovery Action</div>
+          <div id="card-last-recovery" style="font-size: 0.9rem; font-weight: 700; color: #fff; margin-top: 0.3rem;">
+            None required
+          </div>
+          <div id="card-last-recovery-time" style="font-size: 0.75rem; color: var(--text-muted);">System operating normally</div>
+        </div>
+      </div>
+
+      <!-- Tab Navigation Bar -->
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="tab-server">📊 Server & System</button>
+        <button class="tab-btn" data-tab="tab-security">🔒 Security & Threat Protection</button>
+        <button class="tab-btn" data-tab="tab-apis">⚡ API & Database</button>
+        <button class="tab-btn" data-tab="tab-features">🛡️ Feature Controls</button>
+        <button class="tab-btn" data-tab="tab-links">🔗 Link Monitor</button>
+        <button class="tab-btn" data-tab="tab-errors">⚠️ Error Monitor</button>
+        <button class="tab-btn" data-tab="tab-alerts">🚨 Alerts</button>
+        <button class="tab-btn" data-tab="tab-recovery">📜 Recovery History</button>
+        <button class="tab-btn" data-tab="tab-logs">📋 System Logs</button>
+      </div>
+
+      <!-- Tab Content 1: Server Health -->
+      <div id="tab-server" class="tab-content">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Server Hardware & Hosting Environment Metrics</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">CPU Usage & Server Load</div>
+                <span id="cpu-status-badge" class="badge-status working">🟢 NORMAL</span>
+              </div>
+              <div id="server-cpu-val" style="font-size: 1.35rem; font-weight: 800; margin-top: 0.5rem; color: #38bdf8;">
+                Loading CPU Metrics...
+              </div>
+              <div id="cpu-details-box" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.3rem; border-top: 1px solid var(--border-glass); padding-top: 0.5rem;">
+                <div><strong>CPU Cores:</strong> <span id="cpu-cores-val" style="color: #fff;">--</span></div>
+                <div><strong>Load Average:</strong> <span id="cpu-loadavg-val" style="color: #fff;">--</span></div>
+                <div><strong>Measured Scope:</strong> <span id="cpu-scope-val" style="color: #cbd5e1;">--</span></div>
+                <div><strong>Last checked:</strong> <span id="cpu-lastcheck-val" style="color: #38bdf8;">--</span></div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem; border-top: 1px dashed var(--border-glass); padding-top: 0.35rem;">
+                Thresholds: 0-70% NORMAL | 70-85% WARNING | 85%+ CRITICAL
+              </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">Node.js RAM Memory Usage</div>
+              <div id="server-mem-val" style="font-size: 1.25rem; font-weight: 800; margin-top: 0.5rem; color: #34d399;">
+                Loading...
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Heap Used / Allocated Memory</div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">Storage / Disk Space</div>
+              <div id="server-storage-val" style="font-size: 1rem; font-weight: 700; margin-top: 0.5rem; color: #cbd5e1;">
+                Metric unavailable on current hosting environment
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Cloud Run Container Storage</div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <div style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">Total Process Requests & Error Rate</div>
+              <div id="server-requests-val" style="font-size: 1.25rem; font-weight: 800; margin-top: 0.5rem; color: #a855f7;">
+                Loading...
+              </div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Recorded API executions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: API & Database -->
+      <div id="tab-apis" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Core API Endpoints Health Monitor</h2>
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>API Endpoint</th>
+                  <th>Method</th>
+                  <th>Status</th>
+                  <th>Avg Response Time</th>
+                  <th>Last Success</th>
+                  <th>Failures</th>
+                </tr>
+              </thead>
+              <tbody id="api-health-tbody">
+                <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading API health stats...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Database & Storage Health</h2>
+          <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Connection Status</div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: #34d399; margin-top: 0.2rem;">🟢 CONNECTED (JSON Storage Engine)</div>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Avg Query Latency</div>
+              <div id="db-latency-val" style="font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: 0.2rem;">2 ms</div>
+            </div>
+            <div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Last Successful Read/Write</div>
+              <div id="db-last-op-val" style="font-size: 0.9rem; font-weight: 700; color: #cbd5e1; margin-top: 0.2rem;">Just now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Feature Controls -->
+      <div id="tab-features" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h2 style="font-size: 1.1rem; font-weight: 800;">Isolated Feature Protection & Circuit Breakers</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">If a feature repeatedly fails, the circuit breaker protects the application core while keeping all other features fully operational.</p>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Category</th>
+                  <th>Health Status</th>
+                  <th>Circuit Breaker Mode</th>
+                  <th>Failure Count</th>
+                  <th>Last Error</th>
+                  <th>Manual Actions</th>
+                </tr>
+              </thead>
+              <tbody id="features-tbody">
+                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading feature states...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Broken Link Monitor -->
+      <div id="tab-links" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h2 style="font-size: 1.1rem; font-weight: 800;">Link & Mirror Monitor</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">Safe, rate-limited checks for Anime poster images, video streams, download links, and Google Drive embeds.</p>
+            </div>
+            <button id="scan-links-btn" class="btn btn-glass" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+              🔍 Scan Links Now
+            </button>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Content Title</th>
+                  <th>Type / Mirror</th>
+                  <th>URL</th>
+                  <th>HTTP Status</th>
+                  <th>Last Checked</th>
+                  <th>Accessibility</th>
+                </tr>
+              </thead>
+              <tbody id="links-tbody">
+                <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading link scan results...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 5: Error Monitor -->
+      <div id="tab-errors" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+            <h2 style="font-size: 1.1rem; font-weight: 800;">Centralized System Error Log</h2>
+            <div style="display: flex; gap: 0.5rem;">
+              <select id="error-status-filter" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                <option value="">All Statuses</option>
+                <option value="NEW">NEW</option>
+                <option value="INVESTIGATING">INVESTIGATING</option>
+                <option value="RECOVERED">RECOVERED</option>
+                <option value="RESOLVED">RESOLVED</option>
+                <option value="IGNORED">IGNORED</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Error ID / Time</th>
+                  <th>Feature</th>
+                  <th>Error Type & Message</th>
+                  <th>Endpoint</th>
+                  <th>Count</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="errors-tbody">
+                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading error logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 6: Alerts -->
+      <div id="tab-alerts" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Admin System Alerts & Notifications</h2>
+          <div id="alerts-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="color: var(--text-muted); font-size: 0.9rem;">Loading alerts...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 7: Recovery History -->
+      <div id="tab-recovery" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">Automated & Manual Recovery Timeline</h2>
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Feature</th>
+                  <th>Problem Identified</th>
+                  <th>Recovery Action Taken</th>
+                  <th>Trigger Mode</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody id="recovery-tbody">
+                <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading recovery log...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 8: System Logs -->
+      <div id="tab-logs" class="tab-content" style="display: none;">
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <h2 style="font-size: 1.1rem; font-weight: 800;">Sanitized System Activity Logs</h2>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="text" id="system-log-search" class="form-control" placeholder="Search logs..." style="width: 200px; padding: 0.4rem 0.8rem; font-size: 0.85rem;" />
+              <select id="system-log-level" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                <option value="">All Levels</option>
+                <option value="INFO">INFO</option>
+                <option value="WARN">WARN</option>
+                <option value="ERROR">ERROR</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="background: #090d16; padding: 1rem; border-radius: 10px; border: 1px solid var(--border-glass); font-family: monospace; font-size: 0.82rem; max-height: 450px; overflow-y: auto;" id="system-logs-container">
+            Loading system logs...
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Security & Threat Protection -->
+      <div id="tab-security" class="tab-content" style="display: none;">
+        <!-- Top Status Banner for Security -->
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid var(--border-glass);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span id="sec-status-badge" class="badge-status working" style="font-size: 1.1rem; padding: 0.4rem 0.85rem;">🟢 NORMAL</span>
+                <h2 style="font-size: 1.3rem; font-weight: 800; color: #fff;">Real-Time Security & Threat Protection Engine</h2>
+              </div>
+              <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.35rem;">
+                Automated rate limiting, brute-force guard, endpoint isolation, and sanitized threat monitoring.
+              </p>
+            </div>
+            <div style="text-align: right; font-size: 0.82rem; color: var(--text-muted);">
+              <div>Last Security Scan: <strong id="sec-last-check-display" style="color: #38bdf8;">Just now</strong></div>
+              <div style="margin-top: 0.2rem; color: #fbbf24;">🛡️ Malware Scanning: <span>Malware scanning unavailable on current hosting environment</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real Security Metrics Grid -->
+        <div class="health-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+          <div class="health-card">
+            <div class="health-card-lbl">Failed Login Attempts</div>
+            <div id="sec-card-failed-logins" class="health-card-val" style="color: #f87171;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Brute-force protection</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Blocked Requests</div>
+            <div id="sec-card-blocked-requests" class="health-card-val" style="color: #fbbf24;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Rate-limit & IP throttles</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Rate-Limited Requests (429)</div>
+            <div id="sec-card-rate-limited" class="health-card-val" style="color: #a855f7;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">HTTP 429 responses</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Suspicious Requests</div>
+            <div id="sec-card-suspicious" class="health-card-val" style="color: #38bdf8;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Malformed/Probing traffic</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Active Security Incidents</div>
+            <div id="sec-card-incidents" class="health-card-val" style="color: #ef4444;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Requires admin attention</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Temporarily Blocked IPs</div>
+            <div id="sec-card-blocked-ips" class="health-card-val" style="color: #f43f5e;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Temporary source cooldowns</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Protected Features</div>
+            <div id="sec-card-protected-features" class="health-card-val" style="color: #34d399;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Circuit-broken APIs</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">Upload Security Events</div>
+            <div id="sec-card-upload-events" class="health-card-val" style="color: #60a5fa;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">MIME & size validations</div>
+          </div>
+          <div class="health-card">
+            <div class="health-card-lbl">API Abuse Events</div>
+            <div id="sec-card-api-abuse" class="health-card-val" style="color: #c084fc;">0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Excessive endpoint traffic</div>
+          </div>
+        </div>
+
+        <!-- Section 1: Active Security Incidents -->
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; margin-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h2 style="font-size: 1.1rem; font-weight: 800;">🚨 Security Incidents</h2>
+            <select id="sec-incident-status-filter" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+              <option value="ALL">All Statuses</option>
+              <option value="NEW">New</option>
+              <option value="MONITORING">Monitoring</option>
+              <option value="MITIGATED">Mitigated</option>
+              <option value="RESOLVED">Resolved</option>
+            </select>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Feature</th>
+                  <th>Severity</th>
+                  <th>Reason</th>
+                  <th>Source</th>
+                  <th>Action Taken</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sec-incidents-tbody">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Loading security incidents...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 2: Temporarily Blocked / Rate-Limited Sources -->
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">🛡️ Temporarily Blocked Sources</h2>
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Client / IP Identifier</th>
+                  <th>Reason</th>
+                  <th>Target Endpoint</th>
+                  <th>Start Time</th>
+                  <th>Expiry Time</th>
+                  <th>Violations</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="sec-blocked-sources-tbody">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No temporarily blocked sources.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Searchable Security Logs -->
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h2 style="font-size: 1.1rem; font-weight: 800;">📜 Searchable Security Logs</h2>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;">
+                Sanitized real-time security events. Passwords, API keys, tokens, and cookies are strictly scrubbed.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="sec-log-search" class="form-control" placeholder="Search security logs..." style="width: 180px; padding: 0.4rem 0.8rem; font-size: 0.85rem;" />
+              <select id="sec-log-severity" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                <option value="ALL">All Severities</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="WARNING">Warning</option>
+                <option value="INFO">Info</option>
+              </select>
+              <select id="sec-log-event-type" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                <option value="ALL">All Event Types</option>
+                <option value="RATE_LIMITED">Rate Limited</option>
+                <option value="FAILED_LOGIN">Failed Login</option>
+                <option value="SUSPICIOUS_REQUEST">Suspicious Request</option>
+                <option value="UPLOAD_BLOCKED">Upload Blocked</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="health-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Event Type</th>
+                  <th>Severity</th>
+                  <th>Endpoint</th>
+                  <th>Client IP</th>
+                  <th>Reason</th>
+                  <th>Action Taken</th>
+                </tr>
+              </thead>
+              <tbody id="sec-logs-tbody">
+                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Loading security logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 4: Admin Security Settings -->
+        <div class="glass-panel" style="padding: 1.5rem; border-radius: 12px;">
+          <h2 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem;">⚙️ Admin Security Settings</h2>
+          <form id="sec-settings-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <label style="font-weight: 700; color: #fff; font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Rate Limiting Engine</label>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <input type="checkbox" id="sec-set-ratelimit-enabled" style="width: 18px; height: 18px; accent-color: var(--accent-purple);" />
+                <span style="font-size: 0.88rem; color: #cbd5e1;">Enable Rate Limiting</span>
+              </div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Default API Limit (Requests per min per IP)</label>
+              <input type="number" id="sec-set-ratelimit-rpm" class="form-control" value="120" min="10" max="1000" />
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <label style="font-weight: 700; color: #fff; font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Admin Login Brute-Force Guard</label>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <input type="checkbox" id="sec-set-login-enabled" style="width: 18px; height: 18px; accent-color: var(--accent-purple);" />
+                <span style="font-size: 0.88rem; color: #cbd5e1;">Enable Login Protection</span>
+              </div>
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Max Failed Attempts Before Cooldown</label>
+              <input type="number" id="sec-set-login-max" class="form-control" value="5" min="3" max="20" style="margin-bottom: 0.5rem;" />
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Cooldown Duration (Minutes)</label>
+              <input type="number" id="sec-set-login-cooldown" class="form-control" value="10" min="1" max="60" />
+            </div>
+
+            <div style="background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-glass);">
+              <label style="font-weight: 700; color: #fff; font-size: 0.9rem; display: block; margin-bottom: 0.5rem;">Upload & Alert Protection</label>
+              <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Screenshot Upload Max Size (MB)</label>
+              <input type="number" id="sec-set-upload-max" class="form-control" value="5" min="1" max="20" style="margin-bottom: 0.75rem;" />
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="sec-set-alerts-enabled" style="width: 18px; height: 18px; accent-color: var(--accent-purple);" />
+                <span style="font-size: 0.88rem; color: #cbd5e1;">Enable Security Alerts in Dashboard</span>
+              </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; text-align: right; margin-top: 0.5rem;">
+              <button type="submit" class="btn btn-primary" style="padding: 0.7rem 1.75rem; font-weight: 800;">
+                💾 Save Security Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Manual Disable Confirmation Modal -->
+  <div id="disable-feature-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="glass-panel" style="background: rgba(12, 16, 32, 0.95); border: 1px solid var(--border-glass); border-radius: 16px; padding: 2rem; max-width: 440px; width: 100%; text-align: center;">
+      <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem;">Disable Feature Confirmation</div>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.75rem;" id="disable-modal-text">
+        Are you sure you want to manually disable this feature?
+      </p>
+      <div style="display: flex; gap: 0.85rem; justify-content: center;">
+        <button type="button" id="disable-modal-cancel-btn" class="btn btn-glass" style="padding: 0.65rem 1.5rem; flex: 1;">Cancel</button>
+        <button type="button" id="disable-modal-confirm-btn" class="btn" style="padding: 0.65rem 1.5rem; background: #ef4444; color: #fff; border: none; font-weight: 800; cursor: pointer; border-radius: var(--radius-md); flex: 1;">Disable Feature</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Details Modal -->
+  <div id="error-details-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 1rem;">
+    <div class="glass-panel" style="background: rgba(12, 16, 32, 0.95); border: 1px solid var(--border-glass); border-radius: 16px; padding: 2rem; max-width: 600px; width: 100%;">
+      <div style="font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">System Error Log Details</div>
+      <div id="error-modal-body" style="font-size: 0.88rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 0.75rem; max-height: 400px; overflow-y: auto;">
+      </div>
+      <div style="margin-top: 1.5rem; text-align: right;">
+        <button type="button" id="close-error-modal-btn" class="btn btn-glass" style="padding: 0.5rem 1.25rem;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { API } from '/js/api.js';
+
+    let currentSummaryData = null;
+    let pendingDisableFeatureId = null;
+
+    async function initAdminAuth() {
+      try {
+        const data = await API.me();
+        if (!data || !data.authenticated || !data.user || (data.user.role !== 'SUPER_ADMIN' && data.user.role !== 'EDITOR')) {
+          console.warn('Unauthorized or unauthenticated admin access attempt to health dashboard');
+          window.location.href = '/admin/admin-login.html';
+          return;
+        }
+        const userEl = document.getElementById('admin-username-display');
+        const roleEl = document.getElementById('admin-role-display');
+        if (userEl) userEl.innerText = data.user.username;
+        if (roleEl) roleEl.innerText = data.user.role;
+      } catch (err) {
+        console.error('Auth error in health dashboard:', err);
+        window.location.href = '/admin/admin-login.html';
+      }
+    }
+
+    document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
+      await API.adminLogout();
+      window.location.href = '/admin/admin-login.html';
+    });
+
+    // Tab Navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        const tabEl = document.getElementById(tabId);
+        if (tabEl) tabEl.style.display = 'block';
+
+        if (tabId === 'tab-errors') loadErrorLogs();
+        if (tabId === 'tab-links') loadBrokenLinks();
+        if (tabId === 'tab-alerts') loadAlerts();
+        if (tabId === 'tab-recovery') loadRecoveryHistory();
+        if (tabId === 'tab-logs') loadSystemLogs();
+        if (tabId === 'tab-security') loadSecurityDashboard();
+      });
+    });
+
+    // Format Uptime
+    function formatUptime(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      if (h > 0) return `${h}h ${m}m ${s}s`;
+      return `${m}m ${s}s`;
+    }
+
+    // Load Main Health Summary
+    async function loadHealthSummary() {
+      try {
+        const summary = await API.getHealthSummary();
+        currentSummaryData = summary;
+
+        // Banner Status
+        const banner = document.getElementById('status-banner');
+        const dot = document.getElementById('status-dot');
+        const title = document.getElementById('status-title');
+
+        banner.className = 'status-banner ' + summary.overallStatus.toLowerCase();
+        dot.className = 'status-dot-lg ' + summary.overallStatus.toLowerCase();
+
+        if (summary.overallStatus === 'HEALTHY') title.innerText = '🟢 SYSTEM HEALTHY';
+        else if (summary.overallStatus === 'WARNING') title.innerText = '🟡 SYSTEM WARNING';
+        else if (summary.overallStatus === 'CRITICAL') title.innerText = '🔴 SYSTEM CRITICAL';
+        else title.innerText = '⚫ SYSTEM OFFLINE';
+
+        document.getElementById('last-check-display').innerText = new Date(summary.lastHealthCheck).toLocaleTimeString();
+        document.getElementById('uptime-display').innerText = formatUptime(summary.uptimeSeconds);
+        document.getElementById('cb-count-display').innerText = `${summary.protectedFeaturesCount} Active`;
+
+        // Metric Cards
+        document.getElementById('card-active-errors').innerText = summary.activeErrorsCount;
+        document.getElementById('card-warnings').innerText = summary.warningsCount;
+        document.getElementById('card-protected-features').innerText = summary.protectedFeaturesCount;
+
+        if (summary.lastRecoveryAction) {
+          document.getElementById('card-last-recovery').innerText = `${summary.lastRecoveryAction.featureName}: ${summary.lastRecoveryAction.result}`;
+          document.getElementById('card-last-recovery-time').innerText = new Date(summary.lastRecoveryAction.timestamp).toLocaleTimeString();
+        }
+
+        // Server Tab Values - CPU Metrics
+        const cpu = summary.server;
+        const cpuValEl = document.getElementById('server-cpu-val');
+        const cpuBadgeEl = document.getElementById('cpu-status-badge');
+
+        if (typeof cpu.cpuUsagePercent === 'number' && !isNaN(cpu.cpuUsagePercent)) {
+          cpuValEl.innerHTML = `CPU Usage: <span style="color: #38bdf8;">${cpu.cpuUsagePercent.toFixed(1)}%</span>`;
+        } else if (typeof cpu.cpuUsagePercent === 'string' && cpu.cpuUsagePercent.trim() !== '') {
+          cpuValEl.innerText = cpu.cpuUsagePercent;
+        } else {
+          cpuValEl.innerText = 'CPU percentage unavailable on this hosting environment';
+        }
+
+        if (cpuBadgeEl) {
+          const st = cpu.cpuStatus || 'NORMAL';
+          if (st === 'CRITICAL') {
+            cpuBadgeEl.className = 'badge-status failed';
+            cpuBadgeEl.innerText = '🔴 CRITICAL';
+          } else if (st === 'WARNING') {
+            cpuBadgeEl.className = 'badge-status warning';
+            cpuBadgeEl.innerText = '🟡 WARNING';
+          } else {
+            cpuBadgeEl.className = 'badge-status working';
+            cpuBadgeEl.innerText = '🟢 NORMAL';
+          }
+        }
+
+        const coresEl = document.getElementById('cpu-cores-val');
+        if (coresEl) {
+          coresEl.innerText = cpu.cpuCores ? `${cpu.cpuCores} Cores` : 'Unavailable';
+        }
+
+        const loadEl = document.getElementById('cpu-loadavg-val');
+        if (loadEl) {
+          if (cpu.loadAvg && (cpu.loadAvg.oneMin !== null || cpu.loadAvg.fiveMin !== null || cpu.loadAvg.fifteenMin !== null)) {
+            loadEl.innerText = `1m: ${cpu.loadAvg.oneMin ?? 'N/A'}, 5m: ${cpu.loadAvg.fiveMin ?? 'N/A'}, 15m: ${cpu.loadAvg.fifteenMin ?? 'N/A'}`;
+          } else {
+            loadEl.innerText = 'Load Average unavailable on this hosting environment';
+          }
+        }
+
+        const scopeEl = document.getElementById('cpu-scope-val');
+        if (scopeEl) {
+          scopeEl.innerText = cpu.cpuMetricScope || 'Server Process & Container OS';
+        }
+
+        const cpuLastCheckEl = document.getElementById('cpu-lastcheck-val');
+        if (cpuLastCheckEl) {
+          const t = cpu.cpuLastChecked ? new Date(cpu.cpuLastChecked) : new Date();
+          cpuLastCheckEl.innerText = t.toLocaleTimeString();
+        }
+
+        document.getElementById('server-mem-val').innerText = `${summary.server.memoryUsageMb} MB / ${summary.server.totalMemoryMb} MB (RSS: ${summary.server.rssMb} MB)`;
+        document.getElementById('server-storage-val').innerText = summary.server.storageUsagePercent;
+        document.getElementById('server-requests-val').innerText = `${summary.server.totalRequests} reqs (Error Rate: ${summary.server.errorRatePercent}%)`;
+
+        // Database
+        document.getElementById('db-latency-val').innerText = `${summary.database.responseTimeMs} ms`;
+        document.getElementById('db-last-op-val').innerText = new Date(summary.database.lastSuccessfulOp).toLocaleTimeString();
+
+        // Render APIs
+        renderApisTable(summary.apis);
+        // Render Features
+        renderFeaturesTable(summary.features);
+
+      } catch (err) {
+        console.error('Error loading health summary:', err);
+      }
+    }
+
+    // Render API Table
+    function renderApisTable(apis) {
+      const tbody = document.getElementById('api-health-tbody');
+      tbody.innerHTML = '';
+      if (!apis || apis.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No API endpoints monitored.</td></tr>';
+        return;
+      }
+
+      apis.forEach(api => {
+        const tr = document.createElement('tr');
+        const badgeClass = api.status === 'HEALTHY' ? 'working' : (api.status === 'WARNING' ? 'warning' : 'failed');
+        tr.innerHTML = `
+          <td><strong>${api.name}</strong><br><span style="color:var(--text-muted); font-size:0.78rem;">${api.endpoint}</span></td>
+          <td><span class="badge badge-glass">${api.method}</span></td>
+          <td><span class="badge-status ${badgeClass}">${api.status}</span></td>
+          <td>${api.responseTimeMs} ms</td>
+          <td>${api.lastSuccessfulRequest ? new Date(api.lastSuccessfulRequest).toLocaleTimeString() : 'N/A'}</td>
+          <td><strong style="color:${api.consecutiveFailures > 0 ? '#ef4444' : '#94a3b8'};">${api.consecutiveFailures}</strong></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render Features Table
+    function renderFeaturesTable(features) {
+      const tbody = document.getElementById('features-tbody');
+      tbody.innerHTML = '';
+      if (!features || features.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No features tracked.</td></tr>';
+        return;
+      }
+
+      features.forEach(feat => {
+        const tr = document.createElement('tr');
+        const statusClass = feat.status.toLowerCase();
+        const cbBadge = feat.circuitBreaker === 'PROTECTED' ? '<span class="badge badge-purple">PROTECTED</span>' : (feat.circuitBreaker === 'DISABLED' ? '<span class="badge badge-red">DISABLED</span>' : '<span class="badge badge-glass">NORMAL</span>');
+
+        tr.innerHTML = `
+          <td><strong>${feat.name}</strong></td>
+          <td><span class="badge badge-glass">${feat.category}</span></td>
+          <td><span class="badge-status ${statusClass}">${feat.status}</span></td>
+          <td>${cbBadge}</td>
+          <td><strong style="color:${feat.failureCount > 0 ? '#f59e0b' : '#94a3b8'};">${feat.failureCount}</strong></td>
+          <td><span style="font-size:0.8rem; color:var(--text-muted);">${feat.lastError || 'None'}</span></td>
+          <td>
+            <div style="display:flex; gap:0.35rem;">
+              ${feat.status === 'DISABLED' || feat.manuallyDisabled ? 
+                `<button type="button" class="btn btn-glass feat-enable-btn" data-id="${feat.id}" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#34d399;">Enable</button>` :
+                `<button type="button" class="btn btn-glass feat-disable-btn" data-id="${feat.id}" data-name="${feat.name}" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#f87171;">Disable</button>`
+              }
+              ${feat.circuitBreaker === 'PROTECTED' ?
+                `<button type="button" class="btn btn-glass feat-reset-btn" data-id="${feat.id}" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#38bdf8;">Reset CB</button>` : ''
+              }
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Attach event listeners
+      tbody.querySelectorAll('.feat-enable-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          await API.controlFeature(btn.getAttribute('data-id'), 'ENABLE');
+          await loadHealthSummary();
+        });
+      });
+
+      tbody.querySelectorAll('.feat-disable-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          pendingDisableFeatureId = btn.getAttribute('data-id');
+          const name = btn.getAttribute('data-name');
+          document.getElementById('disable-modal-text').innerText = `Are you sure you want to manually disable "${name}"? This will restrict public access to this specific module while keeping the rest of the application active.`;
+          document.getElementById('disable-feature-modal').style.display = 'flex';
+        });
+      });
+
+      tbody.querySelectorAll('.feat-reset-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          await API.controlFeature(btn.getAttribute('data-id'), 'RESET_PROTECTION');
+          await loadHealthSummary();
+        });
+      });
+    }
+
+    document.getElementById('disable-modal-cancel-btn')?.addEventListener('click', () => {
+      pendingDisableFeatureId = null;
+      document.getElementById('disable-feature-modal').style.display = 'none';
+    });
+
+    document.getElementById('disable-modal-confirm-btn')?.addEventListener('click', async () => {
+      if (pendingDisableFeatureId) {
+        await API.controlFeature(pendingDisableFeatureId, 'DISABLE');
+        pendingDisableFeatureId = null;
+        document.getElementById('disable-feature-modal').style.display = 'none';
+        await loadHealthSummary();
+      }
+    });
+
+    // Run Manual Health Check
+    document.getElementById('run-health-check-btn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('run-health-check-btn');
+      btn.disabled = true;
+      btn.innerText = '⚡ Checking System...';
+      try {
+        await API.runHealthCheckNow();
+        await loadHealthSummary();
+      } catch (err) {
+        alert('Health check error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '⚡ Run Health Check Now';
+      }
+    });
+
+    // Load Broken Links
+    async function loadBrokenLinks() {
+      try {
+        const res = await API.getBrokenLinks();
+        const tbody = document.getElementById('links-tbody');
+        tbody.innerHTML = '';
+
+        if (!res.links || res.links.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No links scanned yet. Click "Scan Links Now".</td></tr>';
+          return;
+        }
+
+        res.links.forEach(l => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${l.contentTitle}</strong></td>
+            <td><span class="badge badge-glass">${l.mirrorName}</span></td>
+            <td><a href="${l.url}" target="_blank" style="color:#38bdf8; font-size:0.8rem;">${l.url.substring(0, 40)}...</a></td>
+            <td><span class="badge ${l.isAccessible ? 'badge-purple' : 'badge-red'}">${l.status}</span></td>
+            <td>${new Date(l.lastChecked).toLocaleTimeString()}</td>
+            <td>${l.isAccessible ? '🟢 Accessible' : '🔴 Unreachable'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    document.getElementById('scan-links-btn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('scan-links-btn');
+      btn.disabled = true;
+      btn.innerText = 'Scanning...';
+      await API.scanBrokenLinks();
+      await loadBrokenLinks();
+      btn.disabled = false;
+      btn.innerText = '🔍 Scan Links Now';
+    });
+
+    // Load Centralized Error Logs
+    async function loadErrorLogs() {
+      try {
+        const status = document.getElementById('error-status-filter').value;
+        const res = await API.getHealthErrors(status);
+        const tbody = document.getElementById('errors-tbody');
+        tbody.innerHTML = '';
+
+        if (!res.errors || res.errors.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No errors recorded.</td></tr>';
+          return;
+        }
+
+        res.errors.forEach(err => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${err.id}</strong><br><span style="color:var(--text-muted); font-size:0.75rem;">${new Date(err.timestamp).toLocaleString()}</span></td>
+            <td><span class="badge badge-glass">${err.feature}</span></td>
+            <td><strong style="color:#f87171;">${err.errorType}</strong>: ${err.message.substring(0, 50)}...</td>
+            <td><span style="font-size:0.78rem; font-family:monospace;">${err.endpoint || 'N/A'}</span></td>
+            <td><strong>${err.frequency}</strong></td>
+            <td><span class="badge badge-purple">${err.status}</span></td>
+            <td>
+              <div style="display:flex; gap:0.25rem;">
+                <button type="button" class="btn btn-glass view-err-btn" style="padding:0.25rem 0.45rem; font-size:0.75rem;">Details</button>
+                <button type="button" class="btn btn-glass resolve-err-btn" style="padding:0.25rem 0.45rem; font-size:0.75rem; color:#34d399;">Resolve</button>
+              </div>
+            </td>
+          `;
+
+          tr.querySelector('.view-err-btn').addEventListener('click', () => showErrModal(err));
+          tr.querySelector('.resolve-err-btn').addEventListener('click', async () => {
+            await API.updateErrorStatus(err.id, 'RESOLVED');
+            loadErrorLogs();
+          });
+
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    document.getElementById('error-status-filter')?.addEventListener('change', loadErrorLogs);
+
+    function showErrModal(err) {
+      const body = document.getElementById('error-modal-body');
+      body.innerHTML = `
+        <div><strong>Error ID:</strong> ${err.id}</div>
+        <div><strong>Timestamp:</strong> ${new Date(err.timestamp).toLocaleString()}</div>
+        <div><strong>Feature:</strong> ${err.feature}</div>
+        <div><strong>Page:</strong> ${err.page}</div>
+        <div><strong>Type:</strong> ${err.errorType}</div>
+        <div><strong>Message:</strong> ${err.message}</div>
+        <div><strong>Endpoint:</strong> ${err.endpoint || 'N/A'}</div>
+        <div><strong>Occurrences:</strong> ${err.frequency}</div>
+        <div><strong>Stack Trace:</strong></div>
+        <pre style="background:rgba(0,0,0,0.5); padding:0.75rem; border-radius:8px; font-size:0.78rem; overflow-x:auto;">${err.stack || 'No stack trace recorded.'}</pre>
+      `;
+      document.getElementById('error-details-modal').style.display = 'flex';
+    }
+
+    document.getElementById('close-error-modal-btn')?.addEventListener('click', () => {
+      document.getElementById('error-details-modal').style.display = 'none';
+    });
+
+    // Load Alerts
+    async function loadAlerts() {
+      try {
+        const res = await API.getAlerts();
+        const list = document.getElementById('alerts-list');
+        list.innerHTML = '';
+
+        if (!res.alerts || res.alerts.length === 0) {
+          list.innerHTML = '<div style="color:var(--text-muted);">No active system alerts.</div>';
+          return;
+        }
+
+        res.alerts.forEach(a => {
+          const div = document.createElement('div');
+          div.className = 'glass-panel';
+          div.style.padding = '1rem';
+          div.style.borderRadius = '10px';
+          div.style.display = 'flex';
+          div.style.justifyContent = 'space-between';
+          div.style.alignItems = 'center';
+
+          div.innerHTML = `
+            <div>
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span class="badge ${a.severity === 'CRITICAL' ? 'badge-red' : (a.severity === 'WARNING' ? 'badge-purple' : 'badge-glass')}">${a.severity}</span>
+                <strong style="color:#fff;">${a.title}</strong>
+              </div>
+              <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.35rem;">${a.message}</p>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">${new Date(a.timestamp).toLocaleString()}</div>
+            </div>
+            <div>
+              ${!a.resolved ? `<button type="button" class="btn btn-glass mark-alert-btn" style="padding:0.35rem 0.75rem; font-size:0.75rem;">Mark Resolved</button>` : '<span style="color:#34d399; font-size:0.8rem; font-weight:700;">✓ Resolved</span>'}
+            </div>
+          `;
+
+          div.querySelector('.mark-alert-btn')?.addEventListener('click', async () => {
+            await API.markAlert(a.id, 'RESOLVE');
+            loadAlerts();
+          });
+
+          list.appendChild(div);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Load Recovery History
+    async function loadRecoveryHistory() {
+      try {
+        const res = await API.getRecoveryHistory();
+        const tbody = document.getElementById('recovery-tbody');
+        tbody.innerHTML = '';
+
+        if (!res.history || res.history.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No recovery events logged yet.</td></tr>';
+          return;
+        }
+
+        res.history.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${new Date(r.timestamp).toLocaleString()}</td>
+            <td><strong>${r.featureName}</strong></td>
+            <td><span style="color:#f87171;">${r.problem}</span></td>
+            <td>${r.actionTaken}</td>
+            <td><span class="badge badge-glass">${r.mode}</span></td>
+            <td><span class="badge ${r.result === 'RECOVERED' ? 'badge-purple' : 'badge-red'}">${r.result}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Load System Logs
+    async function loadSystemLogs() {
+      try {
+        const q = document.getElementById('system-log-search').value;
+        const level = document.getElementById('system-log-level').value;
+        const res = await API.getSystemLogs(q, level);
+        const container = document.getElementById('system-logs-container');
+
+        if (!res.logs || res.logs.length === 0) {
+          container.innerText = 'No log entries found matching criteria.';
+          return;
+        }
+
+        container.innerHTML = res.logs.map(l => {
+          const color = l.level === 'ERROR' ? '#f87171' : (l.level === 'WARN' ? '#fbbf24' : '#38bdf8');
+          return `<div>[${new Date(l.timestamp).toISOString()}] <span style="color:${color}; font-weight:bold;">[${l.level}]</span> [${l.feature}] ${l.message}</div>`;
+        }).join('');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    document.getElementById('system-log-search')?.addEventListener('input', loadSystemLogs);
+    document.getElementById('system-log-level')?.addEventListener('change', loadSystemLogs);
+
+    // ==========================================
+    // SECURITY DASHBOARD LOGIC
+    // ==========================================
+
+    async function loadSecurityDashboard() {
+      await Promise.all([
+        loadSecuritySummary(),
+        loadSecurityIncidents(),
+        loadBlockedSources(),
+        loadSecurityLogs(),
+        loadSecuritySettings()
+      ]);
+    }
+
+    async function loadSecuritySummary() {
+      try {
+        const summary = await API.getSecuritySummary();
+        if (!summary) return;
+
+        const badge = document.getElementById('sec-status-badge');
+        if (badge) {
+          badge.className = 'badge-status ' + (summary.securityStatus === 'NORMAL' ? 'working' : (summary.securityStatus === 'WARNING' ? 'warning' : 'disabled'));
+          badge.innerText = summary.securityStatus === 'NORMAL' ? '🟢 NORMAL' : (summary.securityStatus === 'WARNING' ? '🟡 WARNING' : '🔴 CRITICAL');
+        }
+
+        document.getElementById('sec-last-check-display').innerText = new Date(summary.lastCheckTime).toLocaleTimeString();
+
+        const metrics = summary.metrics || {};
+        document.getElementById('sec-card-failed-logins').innerText = metrics.failedLoginAttempts || 0;
+        document.getElementById('sec-card-blocked-requests').innerText = metrics.blockedRequests || 0;
+        document.getElementById('sec-card-rate-limited').innerText = metrics.rateLimitedRequests || 0;
+        document.getElementById('sec-card-suspicious').innerText = metrics.suspiciousRequests || 0;
+        document.getElementById('sec-card-incidents').innerText = metrics.activeSecurityIncidents || 0;
+        document.getElementById('sec-card-blocked-ips').innerText = metrics.blockedIpCount || 0;
+        document.getElementById('sec-card-protected-features').innerText = summary.protectedFeaturesCount || 0;
+        document.getElementById('sec-card-upload-events').innerText = metrics.uploadEvents || 0;
+        document.getElementById('sec-card-api-abuse').innerText = metrics.apiAbuseEvents || 0;
+      } catch (err) {
+        console.error('Error loading security summary:', err);
+      }
+    }
+
+    async function loadSecurityIncidents() {
+      try {
+        const filter = document.getElementById('sec-incident-status-filter')?.value || 'ALL';
+        const res = await API.getSecurityIncidents(filter === 'ALL' ? '' : filter);
+        const tbody = document.getElementById('sec-incidents-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (!res.incidents || res.incidents.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No security incidents logged.</td></tr>';
+          return;
+        }
+
+        res.incidents.forEach(inc => {
+          const tr = document.createElement('tr');
+          const statusClass = inc.status === 'NEW' ? 'badge-red' : (inc.status === 'MONITORING' ? 'badge-purple' : 'badge-glass');
+          tr.innerHTML = `
+            <td style="font-size:0.78rem;">${new Date(inc.timestamp).toLocaleString()}</td>
+            <td><strong>${inc.feature}</strong></td>
+            <td><span class="badge ${inc.severity === 'CRITICAL' ? 'badge-red' : 'badge-purple'}">${inc.severity}</span></td>
+            <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${inc.reason}</td>
+            <td><span style="font-family:monospace; font-size:0.78rem;">${inc.sourceIp || 'Internal'}</span></td>
+            <td style="font-size:0.8rem;">${inc.actionTaken}</td>
+            <td><span class="badge ${statusClass}">${inc.status}</span></td>
+            <td>
+              <select class="form-control change-inc-status" data-id="${inc.id}" style="padding:0.2rem 0.4rem; font-size:0.75rem;">
+                <option value="NEW" ${inc.status === 'NEW' ? 'selected' : ''}>NEW</option>
+                <option value="MONITORING" ${inc.status === 'MONITORING' ? 'selected' : ''}>MONITORING</option>
+                <option value="MITIGATED" ${inc.status === 'MITIGATED' ? 'selected' : ''}>MITIGATED</option>
+                <option value="RESOLVED" ${inc.status === 'RESOLVED' ? 'selected' : ''}>RESOLVED</option>
+              </select>
+            </td>
+          `;
+
+          tr.querySelector('.change-inc-status')?.addEventListener('change', async (e) => {
+            const newStatus = e.target.value;
+            await API.updateSecurityIncidentStatus(inc.id, newStatus);
+            loadSecurityIncidents();
+            loadSecuritySummary();
+          });
+
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Error loading security incidents:', err);
+      }
+    }
+
+    async function loadBlockedSources() {
+      try {
+        const res = await API.getBlockedSources();
+        const tbody = document.getElementById('sec-blocked-sources-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (!res.blockedSources || res.blockedSources.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No active temporary blocks.</td></tr>';
+          return;
+        }
+
+        res.blockedSources.forEach(b => {
+          const tr = document.createElement('tr');
+          const isExpired = b.isExpired || new Date(b.expiresAt) <= new Date();
+          tr.innerHTML = `
+            <td><strong style="font-family:monospace; color:#38bdf8;">${b.ip}</strong></td>
+            <td style="font-size:0.82rem;">${b.reason}</td>
+            <td><span style="font-family:monospace; font-size:0.78rem;">${b.endpoint || 'Global'}</span></td>
+            <td style="font-size:0.78rem;">${new Date(b.blockedAt).toLocaleTimeString()}</td>
+            <td style="font-size:0.78rem;">${new Date(b.expiresAt).toLocaleTimeString()}</td>
+            <td><strong style="color:#f87171;">${b.violationsCount}</strong></td>
+            <td><span class="badge ${isExpired ? 'badge-glass' : 'badge-red'}">${isExpired ? 'EXPIRED' : 'ACTIVE COOLDOWN'}</span></td>
+            <td>
+              <button type="button" class="btn btn-glass unblock-btn" data-id="${b.id}" style="padding:0.25rem 0.5rem; font-size:0.75rem; color:#34d399;">Clear Block</button>
+            </td>
+          `;
+
+          tr.querySelector('.unblock-btn')?.addEventListener('click', async () => {
+            await API.clearBlockedSource(b.id);
+            loadBlockedSources();
+            loadSecuritySummary();
+          });
+
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Error loading blocked sources:', err);
+      }
+    }
+
+    async function loadSecurityLogs() {
+      try {
+        const search = document.getElementById('sec-log-search')?.value || '';
+        const severity = document.getElementById('sec-log-severity')?.value || 'ALL';
+        const eventType = document.getElementById('sec-log-event-type')?.value || 'ALL';
+
+        const res = await API.getSecurityLogs(search, severity === 'ALL' ? '' : severity, eventType === 'ALL' ? '' : eventType);
+        const tbody = document.getElementById('sec-logs-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (!res.logs || res.logs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No security logs found matching search criteria.</td></tr>';
+          return;
+        }
+
+        res.logs.forEach(l => {
+          const tr = document.createElement('tr');
+          const sevClass = l.severity === 'CRITICAL' ? 'badge-red' : (l.severity === 'WARNING' ? 'badge-purple' : 'badge-glass');
+          tr.innerHTML = `
+            <td style="font-size:0.78rem;">${new Date(l.timestamp).toLocaleString()}</td>
+            <td><strong>${l.eventType}</strong></td>
+            <td><span class="badge ${sevClass}">${l.severity}</span></td>
+            <td><span style="font-family:monospace; font-size:0.78rem;">${l.endpoint || 'N/A'}</span></td>
+            <td><span style="font-family:monospace; font-size:0.78rem;">${l.clientIp || 'N/A'}</span></td>
+            <td style="font-size:0.82rem; max-width:250px; overflow:hidden; text-overflow:ellipsis;">${l.reason}</td>
+            <td style="font-size:0.8rem; color:#cbd5e1;">${l.actionTaken}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Error loading security logs:', err);
+      }
+    }
+
+    async function loadSecuritySettings() {
+      try {
+        const res = await API.getSecuritySettings();
+        if (!res || !res.settings) return;
+        const s = res.settings;
+
+        document.getElementById('sec-set-ratelimit-enabled').checked = s.rateLimitingEnabled;
+        document.getElementById('sec-set-ratelimit-rpm').value = s.defaultMaxRequestsPerMinute;
+        document.getElementById('sec-set-login-enabled').checked = s.loginProtectionEnabled;
+        document.getElementById('sec-set-login-max').value = s.loginMaxFailedAttempts;
+        document.getElementById('sec-set-login-cooldown').value = s.loginCooldownMinutes;
+        document.getElementById('sec-set-upload-max').value = Math.round(s.uploadMaxFileSizeBytes / (1024 * 1024));
+        document.getElementById('sec-set-alerts-enabled').checked = s.alertsEnabled;
+      } catch (err) {
+        console.error('Error loading security settings:', err);
+      }
+    }
+
+    document.getElementById('sec-settings-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const updated = {
+          rateLimitingEnabled: document.getElementById('sec-set-ratelimit-enabled').checked,
+          defaultMaxRequestsPerMinute: parseInt(document.getElementById('sec-set-ratelimit-rpm').value, 10) || 120,
+          loginProtectionEnabled: document.getElementById('sec-set-login-enabled').checked,
+          loginMaxFailedAttempts: parseInt(document.getElementById('sec-set-login-max').value, 10) || 5,
+          loginCooldownMinutes: parseInt(document.getElementById('sec-set-login-cooldown').value, 10) || 10,
+          uploadMaxFileSizeBytes: (parseInt(document.getElementById('sec-set-upload-max').value, 10) || 5) * 1024 * 1024,
+          alertsEnabled: document.getElementById('sec-set-alerts-enabled').checked
+        };
+        const res = await API.updateSecuritySettings(updated);
+        alert(res.message || 'Security settings saved.');
+        loadSecuritySettings();
+      } catch (err) {
+        alert('Error saving security settings: ' + err.message);
+      }
+    });
+
+    document.getElementById('sec-incident-status-filter')?.addEventListener('change', loadSecurityIncidents);
+    document.getElementById('sec-log-search')?.addEventListener('input', loadSecurityLogs);
+    document.getElementById('sec-log-severity')?.addEventListener('change', loadSecurityLogs);
+    document.getElementById('sec-log-event-type')?.addEventListener('change', loadSecurityLogs);
+
+    // Initial Startup
+    initAdminAuth();
+    loadHealthSummary();
+
+    // Auto Refresh every 10 seconds
+    setInterval(loadHealthSummary, 10000);
+  </script>
+</body>
+</html>
