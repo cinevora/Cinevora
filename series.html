@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime Series — Cinevora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <script type="module" src="/js/ads.js"></script>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="site-header scrolled">
+    <div class="container header-inner">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        CINE<span>VORA</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/anime.html">Anime</a></li>
+        <li><a href="/movies.html">Movies</a></li>
+        <li><a href="/series.html" class="active">Series</a></li>
+        <li><a href="/search.html">Search</a></li>
+      </ul>
+
+      <div class="header-actions">
+        <button class="search-trigger">Search...</button>
+        <div id="header-user-actions"></div>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top: 7rem; margin-bottom: 4rem;">
+    <!-- Ad Slot SERIES_TOP -->
+    <div data-ad-slot="SERIES_TOP"></div>
+
+    <div class="section-header">
+      <h1 class="section-title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        Anime Series Catalog
+      </h1>
+      <span style="color: var(--text-muted); font-size: 0.9rem;" id="series-count">Loading series...</span>
+    </div>
+
+    <!-- Ad Slot SERIES_MIDDLE -->
+    <div data-ad-slot="SERIES_MIDDLE"></div>
+
+    <div class="anime-grid" id="series-grid">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Ad Slot SERIES_BOTTOM -->
+    <div data-ad-slot="SERIES_BOTTOM"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Cinevora. Legal Anime Streaming.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { API } from '/js/api.js?v=3';
+    import { createAnimeCard } from '/js/app.js';
+
+    async function loadSeries() {
+      const grid = document.getElementById('series-grid');
+      try {
+        const data = await API.getAnime({ type: 'SERIES' });
+        document.getElementById('series-count').textContent = `${data.count} series available`;
+        grid.innerHTML = data.anime.map(item => createAnimeCard(item)).join('');
+      } catch (err) {
+        grid.innerHTML = `<div class="state-box" style="grid-column: 1 / -1; color: #ef4444;">Failed to load series.</div>`;
+      }
+    }
+
+    loadSeries();
+  </script>
+</body>
+</html>
