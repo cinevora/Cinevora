@@ -1,8 +1,5 @@
 {
-  "version": 2,
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs22.x"
-    }
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public"
 }
